@@ -1,31 +1,50 @@
 
 // CLASSES
-function SprintIndicator(name, value) {
-  this.lable = ko.observable(name);
-  this.value = ko.observable(value);
-  return this;
-}
-
 function Sprint() {
-  // NOT SURE ABOUT THIS OBJ
-  // this.status = {
-  //   readyForQA: ko.observable(),
-  //   toDo: ko.observable();
-  //   done: ko.observable();
-  //   readyForSignOff: ko.observable();
-  //   inDev: ko.observable();
-  //   codeReview: ko.observable();
-  //   inQA: ko.observable();
-  //   deskCheck: ko.observable();
-  // }
   var self = this;
-  self.indicators = ko.observableArray([]);
-  self.progress = ko.computed(function() {
-    // TODO:
-  });
-  self.updateSprintIndicators = function(jsonStr) {
-    // TODO:
+
+  self._getStageInfluence = function(factor){
+    // there are 8 stages
+      return ((100/8)*factor);
   }
+  self._stages = {
+    'To Do': {complexityPoints: ko.observable(), weight: self._getStageInfluence(1)},
+    'In Dev': {complexityPoints: ko.observable(), weight: self._getStageInfluence(2)},
+    'Code Review': {complexityPoints: ko.observable(), weight: self._getStageInfluence(3)},
+    'Desk Check': {complexityPoints: ko.observable(), weight: self._getStageInfluence(4)},
+    'Ready for QA': {complexityPoints: ko.observable(), weight: self._getStageInfluence(5)},
+    'In QA': {complexityPoints: ko.observable(), weight: self._getStageInfluence(6)},
+    'Ready for Sign Off': {complexityPoints: ko.observable(), weight: self._getStageInfluence(7)},
+    'Done': {complexityPoints: ko.observable(), weight: self._getStageInfluence(8)}
+  }
+
+  // html template loops through this array to display them all
+  self.indicators = ko.observableArray([]);
+  for (var stageName in self._stages) {
+    self.indicators.push({label: stageName, value: self._stages[stageName].complexityPoints});
+  }
+
+  // returns a value from 0 to 100, representing the progress status of the Sprint
+  self.progress = ko.computed(function() {
+    var progress = 0;
+    var totalPoints = 0;
+    for (var stage in self._stages) {
+      var s = self._stages[stage];
+      progress += s.complexityPoints() * s.weight;
+      totalPoints += s.complexityPoints();
+    }
+    return totalPoints != 0 ? progress/totalPoints : 0;
+  });
+
+  self.updateIndicators = function(jsonStr) {
+    var obj = JSON.parse(jsonStr);
+    for (var label in obj.statusCount) {
+      var newValue = obj.statusCount[label];
+      self._stages[label].complexityPoints(newValue);
+    }
+  }
+
+  return self;
 }
 
 
@@ -33,34 +52,8 @@ function Sprint() {
 
 // KNOCKOUT VIEW MODEL
 var LocationsViewModel = function() {
-  var self = this;
-
   // DATA OBJECTS
-  // TODO: Encapsulate all sprint-related things in its own class
-  self.sprintIndicators = ko.observableArray([new SprintIndicator('loading','...')]); // placeholder
-  self.sprintProgress = ko.observable(0);
-  // BEHAVIOUR
-  self.updateSprintIndicators = function(jsonStr) {
-    self.sprintIndicators.removeAll();
-
-    var obj = JSON.parse(jsonStr);
-    for (var label in obj.statusCount) {
-      var value = obj.statusCount[label];
-      self.sprintIndicators.push(new SprintIndicator(label, value));
-    }
-
-    self.sprintProgress(90); // TODO: create function to calculate real progress
-  }
-
-  self.getSprintStatus = ko.computed(function(){
-    if (self.sprintProgress() < 25)
-      return 1;
-    if (self.sprintProgress() < 50)
-      return 2;
-    if (self.sprintProgress() < 75)
-      return 3;
-    return 4;
-  });
+  this.sprint = new Sprint();
 
 
 };
@@ -68,8 +61,23 @@ var LocationsViewModel = function() {
 var viewModel = new LocationsViewModel();
 ko.applyBindings(viewModel);
 
-viewModel.updateSprintIndicators(theJsonFile);
+viewModel.sprint.updateIndicators(theJsonFile);
  // setInterval(function(){
  //   console.log(theJsonFile);
  //   viewModel.updateSprintIndicators(theJsonFile);
  // }, 100); // TODO: Increase time to reasonable production value
+
+// TODO: Implement 'snapshots'
+// TODO: Color progress bar according to spring date. Will receive 'total days' ad 'days left' in JSON.
+//       At first, bar is monochromatic.
+//       The less the days left, the more likely the bar is colored badly if % is below an expected range.
+//         ideal: over expected; ok: expected - 10%; bad: ok - 15%; danger-zone: >bad; 
+// TODO: Implement 'short view' of sprint. It should consist of:
+         // NOT STARTED: 10 complexityPoints - (show if > 0)
+         // DONE: 0 - (includes RSO and Done)
+         // Almost there: 8 - (includes RQA and IQA)
+         // Out of / TOTAL: 22
+         // Progress bar
+         // OR
+         // SPRING COMPLETION: 45%
+         // DAYS LEFT: 4

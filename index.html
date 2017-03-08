@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body data-bind="css: {failed: sprintProgress() < 25, danger: sprintProgress() < 50, ok: sprintProgress() <= 75, success: sprintProgress() > 75 }" class="sprint-status">
+<body data-bind="css: {failed: sprint.progress() < 25, danger: sprint.progress() < 50, ok: sprint.progress() <= 75, success: sprint.progress() > 75 }" class="sprint-status">
   <header>
     <img src="img/logo-official.jpg" alt="Southwest" class="logo">
     <!-- TODO: add team name to 'Team Board' -->
@@ -23,8 +23,8 @@
         <div class="panel-body">
 
           <!-- KO template to show a description list -->
-          <dl class="dl-horizontal" data-bind="foreach: sprintIndicators">
-            <dt data-bind="text: $data.lable"></dt>
+          <dl class="dl-horizontal" data-bind="foreach: sprint.indicators">
+            <dt data-bind="text: $data.label"></dt>
             <dd data-bind="text: $data.value"></dd>
           </dl>
         </div>
@@ -32,7 +32,7 @@
         <div class="progress">
           <div class="progress-bar" role="progressbar" aria-valuenow="100"
             aria-valuemin="0" aria-valuemax="100"
-              data-bind="text: sprintProgress() + '%', style: { minWidth: sprintProgress() + '%' }">
+              data-bind="text: sprint.progress() + '%', style: { minWidth: sprint.progress() + '%' }">
             <!-- 100% -->
           </div>
         </div>
