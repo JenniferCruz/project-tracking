@@ -24,6 +24,8 @@ function Sprint() {
     self.indicators.push({label: stageName, value: self._stages[stageName].complexityPoints});
   }
 
+  self.daysLeft = ko.observable();
+
   // returns a value from 0 to 100, representing the progress status of the Sprint
   self.progress = ko.computed(function() {
     var progress = 0;
@@ -33,11 +35,13 @@ function Sprint() {
       progress += s.complexityPoints() * s.weight;
       totalPoints += s.complexityPoints();
     }
+    // TODO: limit number of decimals
     return totalPoints != 0 ? progress/totalPoints : 0;
   });
 
-  self.updateIndicators = function(jsonStr) {
+  self.update = function(jsonStr) {
     var obj = JSON.parse(jsonStr);
+    self.daysLeft(obj.daysLeft);
     for (var label in obj.statusCount) {
       var newValue = obj.statusCount[label];
       self._stages[label].complexityPoints(newValue);
@@ -61,7 +65,7 @@ var LocationsViewModel = function() {
 var viewModel = new LocationsViewModel();
 ko.applyBindings(viewModel);
 
-viewModel.sprint.updateIndicators(theJsonFile);
+viewModel.sprint.update(theJsonFile);
  // setInterval(function(){
  //   console.log(theJsonFile);
  //   viewModel.updateSprintIndicators(theJsonFile);
@@ -71,7 +75,7 @@ viewModel.sprint.updateIndicators(theJsonFile);
 // TODO: Color progress bar according to spring date. Will receive 'total days' ad 'days left' in JSON.
 //       At first, bar is monochromatic.
 //       The less the days left, the more likely the bar is colored badly if % is below an expected range.
-//         ideal: over expected; ok: expected - 10%; bad: ok - 15%; danger-zone: >bad; 
+//         ideal: over expected; ok: expected - 10%; bad: ok - 15%; danger-zone: >bad;
 // TODO: Implement 'short view' of sprint. It should consist of:
          // NOT STARTED: 10 complexityPoints - (show if > 0)
          // DONE: 0 - (includes RSO and Done)

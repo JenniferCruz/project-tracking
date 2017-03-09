@@ -1,5 +1,5 @@
-var theJsonFile = '{"committedPoints":28,' +
-  '"statusCount":{"To Do":5,"In Dev":0,"Code Review":0,"Desk Check":0,"Ready for QA":0,"In QA":0,"Ready for Sign Off":0,"Done":5},'+
+var theJsonFile = '{"committedPoints":28,' + '"daysLeft":10,' +
+  '"statusCount":{"To Do":20,"In Dev":0,"Code Review":0,"Desk Check":0,"Ready for QA":0,"In QA":0,"Ready for Sign Off":0,"Done":0},'+
   '"currentSprint":9,"stories":[{"summary":"[QMO] - APU - Incorrect Log format in Service Alert Logs","status":"Done","complexity":0,"type":"Defect"},'+
   '{"summary":"Parts Transfer - Login and Logout","status":"In Dev","complexity":8,"type":"Story"},'+
   '{"summary":"Parts Transfer - Expiration Session ","status":"In Dev","complexity":5,"type":"Story"},'+

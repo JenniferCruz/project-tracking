@@ -28,3 +28,19 @@ header {
 .failed {
   background-image: url("../img/fork-lightning.jpg");
 }
+
+.progress-big {
+  height: 80px;
+}
+
+.progressBarBig {
+  padding-top: 25px;
+  font-size: 25px;
+  color: black;
+  padding-left: 10px;
+}
+
+.days-left {
+  text-align: center;
+  font-size: 30px;
+}
