@@ -41,17 +41,35 @@ function Sprint() {
 
   self.update = function(jsonStr) {
     var obj = JSON.parse(jsonStr);
-    self.daysLeft(obj.daysLeft);
+    // self.daysLeft(obj.daysLeft);
+    self._updateDaysLeft(obj.dueDate); // TODO: work with JSON
     for (var label in obj.statusCount) {
       var newValue = obj.statusCount[label];
       self._stages[label].complexityPoints(newValue);
     }
   }
 
+  self._updateDaysLeft = function(dueDate) {
+    if (!dueDate) {
+      // TODO: Is this default ok?
+      self.daysLeft(0);
+      return;
+    }
+    var now = Date.now();
+    var timeLeftMiliseconds = dueDate.getTime() - now;
+    var daysLeft = timeLeftMiliseconds;
+    self.daysLeft(daysLeft);
+  }
+
   return self;
 }
 
-
+var getDaysUntil = function(date) {
+  var now = Date.now();
+  var then = date.getTime();
+  // TODO: Do you wanna have 'decimal' days?
+  return Math.round(Math.abs((then - now) / (1000 * 60 * 60 * 24)));
+}
 //
 
 // KNOCKOUT VIEW MODEL
@@ -67,6 +85,7 @@ ko.applyBindings(viewModel);
 
 viewModel.sprint.update(theJsonFile);
  // setInterval(function(){
+//    $.get('...', function(){...});
  //   console.log(theJsonFile);
  //   viewModel.updateSprintIndicators(theJsonFile);
  // }, 100); // TODO: Increase time to reasonable production value
@@ -76,6 +95,7 @@ viewModel.sprint.update(theJsonFile);
 //       At first, bar is monochromatic.
 //       The less the days left, the more likely the bar is colored badly if % is below an expected range.
 //         ideal: over expected; ok: expected - 10%; bad: ok - 15%; danger-zone: >bad;
+//         so for example, if a sprint is almost done and % is low, should look warm
 // TODO: Implement 'short view' of sprint. It should consist of:
          // NOT STARTED: 10 complexityPoints - (show if > 0)
          // DONE: 0 - (includes RSO and Done)
@@ -84,4 +104,5 @@ viewModel.sprint.update(theJsonFile);
          // Progress bar
          // OR
          // SPRING COMPLETION: 45%
-         // DAYS LEFT: 4
+         // DAYS LEFT: 4e
+// TODO: Background imag should be displayed according to an avrg of all boards, not just sprint's
