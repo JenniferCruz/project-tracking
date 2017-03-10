@@ -3,14 +3,7 @@
 function Sprint() {
   var self = this;
 
-  self._getStageInfluence = function(factor){
-    // there are 8 stages
-      return ((100/8)*factor);
-  }
-  self._stages = ko.observableArray([]);;
-
-  // html template loops through this array to display them all
-  self.indicators = ko.observableArray([]);
+  self.stages = ko.observableArray([]);;
 
   self.daysLeft = ko.observable();
 
@@ -18,8 +11,8 @@ function Sprint() {
   self.progress = ko.computed(function() {
     var progress = 0;
     var totalPoints = 0;
-    for (var i=0; i<self._stages().length; i++) {
-      var s = self._stages()[i];
+    for (var i=0; i<self.stages().length; i++) {
+      var s = self.stages()[i];
       progress += s.complexityPoints() * s.weight;
       totalPoints += s.complexityPoints();
     }
@@ -37,26 +30,18 @@ function Sprint() {
 
   self._createStages = function(status) {
     // assumes status list comes in chronological order
-    if (self._stages().length == 0) {
+    if (self.stages().length == 0) {
       for (var i = 0; i < status.length; i++) {
-        self._stages.push(
+        self.stages.push(
           {label: status[i], complexityPoints: ko.observable(), weight: self._getStageInfluence(i+1)});
       }
-      self._registerIndicators();
-    }
-  }
-
-  self._registerIndicators = function() {
-    for (var i = 0; i < self._stages().length; i++) {
-      var obj = self._stages()[i];
-      self.indicators.push({label: obj.label, value: obj.complexityPoints});
     }
   }
 
   self._updateComplexityPointsInStages = function(pointsPerState) {
-    for (var i = 0; i < self._stages().length; i++) {
-      var newValue = pointsPerState[self._stages()[i].label];
-      self._stages()[i].complexityPoints(newValue);
+    for (var i = 0; i < self.stages().length; i++) {
+      var newValue = pointsPerState[self.stages()[i].label];
+      self.stages()[i].complexityPoints(newValue);
     }
   }
 
@@ -68,6 +53,12 @@ function Sprint() {
     }
     self.daysLeft(getDaysUntil(dueDate));
   }
+
+  self._getStageInfluence = function(factor){
+    var stagesNumber = 8;
+    return ((100/stagesNumber)*factor);
+  }
+
 
   return self;
 }

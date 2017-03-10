@@ -23,9 +23,9 @@
         <div class="panel-body">
 
           <!-- KO template to show a description list -->
-          <dl class="dl-horizontal" data-bind="foreach: sprint.indicators">
+          <dl class="dl-horizontal" data-bind="foreach: sprint.stages">
             <dt data-bind="text: $data.label"></dt>
-            <dd data-bind="text: $data.value"></dd>
+            <dd data-bind="text: $data.complexityPoints"></dd>
           </dl>
         </div>
 
