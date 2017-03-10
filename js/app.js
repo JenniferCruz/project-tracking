@@ -7,22 +7,10 @@ function Sprint() {
     // there are 8 stages
       return ((100/8)*factor);
   }
-  self._stages = {
-    'To Do': {complexityPoints: ko.observable(), weight: self._getStageInfluence(1)},
-    'In Dev': {complexityPoints: ko.observable(), weight: self._getStageInfluence(2)},
-    'Code Review': {complexityPoints: ko.observable(), weight: self._getStageInfluence(3)},
-    'Desk Check': {complexityPoints: ko.observable(), weight: self._getStageInfluence(4)},
-    'Ready for QA': {complexityPoints: ko.observable(), weight: self._getStageInfluence(5)},
-    'In QA': {complexityPoints: ko.observable(), weight: self._getStageInfluence(6)},
-    'Ready for Sign Off': {complexityPoints: ko.observable(), weight: self._getStageInfluence(7)},
-    'Done': {complexityPoints: ko.observable(), weight: self._getStageInfluence(8)}
-  }
+  self._stages;
 
   // html template loops through this array to display them all
   self.indicators = ko.observableArray([]);
-  for (var stageName in self._stages) {
-    self.indicators.push({label: stageName, value: self._stages[stageName].complexityPoints});
-  }
 
   self.daysLeft = ko.observable();
 
@@ -42,10 +30,29 @@ function Sprint() {
 
   self.update = function(jsonStr) {
     var obj = JSON.parse(jsonStr);
+    self._createStages(obj.allStatus);
     self._updateDaysLeft(obj.endDate);
     for (var label in obj.statusCount) {
       var newValue = obj.statusCount[label];
       self._stages[label].complexityPoints(newValue);
+    }
+  }
+
+  self._createStages = function(status) {
+    // assumes status list comes in chronological order
+    if (!self._stages) {
+      self._stages = {};
+      for (var i = 0; i < status.length; i++) {
+        self._stages[status[i]] =
+          {complexityPoints: ko.observable(), weight: self._getStageInfluence(i+1)}
+      }
+      self._registerIndicators();
+    }
+  }
+
+  self._registerIndicators = function() {
+    for (var stageName in self._stages) {
+      self.indicators.push({label: stageName, value: self._stages[stageName].complexityPoints});
     }
   }
 
