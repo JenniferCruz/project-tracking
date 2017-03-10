@@ -36,13 +36,13 @@ function Sprint() {
       totalPoints += s.complexityPoints();
     }
     // TODO: limit number of decimals
-    return totalPoints != 0 ? progress/totalPoints : 0;
+    var result = totalPoints != 0 ? progress/totalPoints : 0;
+    return result;
   });
 
   self.update = function(jsonStr) {
     var obj = JSON.parse(jsonStr);
-    // self.daysLeft(obj.daysLeft);
-    self._updateDaysLeft(obj.dueDate); // TODO: work with JSON
+    self._updateDaysLeft(obj.endDate);
     for (var label in obj.statusCount) {
       var newValue = obj.statusCount[label];
       self._stages[label].complexityPoints(newValue);
@@ -55,10 +55,7 @@ function Sprint() {
       self.daysLeft(0);
       return;
     }
-    var now = Date.now();
-    var timeLeftMiliseconds = dueDate.getTime() - now;
-    var daysLeft = timeLeftMiliseconds;
-    self.daysLeft(daysLeft);
+    self.daysLeft(getDaysUntil(dueDate));
   }
 
   return self;
@@ -66,9 +63,8 @@ function Sprint() {
 
 var getDaysUntil = function(date) {
   var now = Date.now();
-  var then = date.getTime();
   // TODO: Do you wanna have 'decimal' days?
-  return Math.round(Math.abs((then - now) / (1000 * 60 * 60 * 24)));
+  return Math.round(Math.abs((date - now) / (1000 * 60 * 60 * 24)));
 }
 //
 
@@ -83,7 +79,7 @@ var LocationsViewModel = function() {
 var viewModel = new LocationsViewModel();
 ko.applyBindings(viewModel);
 
-viewModel.sprint.update(theJsonFile);
+viewModel.sprint.update(jsonSprint);
  // setInterval(function(){
 //    $.get('...', function(){...});
  //   console.log(theJsonFile);

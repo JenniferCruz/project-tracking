@@ -49,3 +49,14 @@ header {
   text-align: center;
   font-size: 30px;
 }
+
+.health-top {
+  font-size: 30px;
+  color: green;
+  font-weight: bold;
+}
+
+.health-bottom {
+  font-size: 20px;
+  font-weight: bold;
+}
