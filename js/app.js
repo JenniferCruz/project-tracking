@@ -59,51 +59,6 @@ function Sprint() {
     return ((100/stagesNumber)*factor);
   }
 
-  // measures progress in relation to current date
-  // helps determines progress bar color
-  self.progressChecker = {
-    // TODO: Color progress bar according to spring date. Will receive 'total days' and 'days left' in JSON.
-    //       At first, bar is monochromatic.
-    //       The less the days left, the more likely the bar is colored badly if % is below an expected range.
-    //         ideal: over expected; ok: expected - 10%; bad: ok - 15%; danger-zone: >bad;
-    //         so for example, if a sprint is almost done and % is low, should look warm
-
-    // status should be in range [1, 4],
-    // where 1: In danger; 2: bad; 3: ok; 4 ideal;
-    // 0 is default, to indicate is still too early to estimate
-    status: ko.observable(0),
-    check: function(startDate, dueDate){
-      var expected = this._getExpectedProgress(startDate, dueDate); // is scope right?
-      if(this._isNotTooEarly())
-        this._updateStatus(sprint.progress() - expected); // TODO: progress access is not right
-    },
-    _updateStatus: function(progressDiff){
-      if (progressDiff >= 0) { // TODO: progress access is not right
-          this.status(4);
-      } else {
-        progressDiff = Math.abs(progressDiff);
-        if (progressDiff < 10)
-          this.status(3); // TODO
-        else if (progressDiff < 25)
-          this.status(2); // TODO
-        else
-          this.status(1); // TODO
-      }
-    },
-    _getExpectedProgress: function(startDate, endDate) {
-      var sprintLength = getDaysBetween(startDate, dueDate);
-      var remainingDays = getDaysBetween(Date.now(), dueDate);
-      return (sprintLength - remainingDays) / sprintLength;
-    },
-    _isNotTooEarly: function(startDate, endDate) {
-      var sprintLength = getDaysBetween(startDate, dueDate);
-      var daysPassed = getDaysBetween(startDate, Date.now());
-      return (daysPassed/sprintLength) > 0.25;
-    }
-
-  }
-
-
   return self;
 }
 
@@ -113,11 +68,74 @@ var getDaysBetween = function(fromDate, toDate) {
   return Math.round(Math.abs((toDate - fromDate) / miliSecMinDaysProduct));
 }
 
+// measures progress in relation to current date
+// helps determines progress bar color
+function SprintChecker(sprint) {
+  // TODO: Color progress bar according to spring date. Will receive 'total days' and 'days left' in JSON.
+  //       At first, bar is monochromatic.
+  //       The less the days left, the more likely the bar is colored badly if % is below an expected range.
+  //         ideal: over expected; ok: expected - 10%; bad: ok - 15%; danger-zone: >bad;
+  //         so for example, if a sprint is almost done and % is low, should look warm
+  var self = this;
+  // status should be in range [1, 4],
+  // where 1: In danger; 2: bad; 3: ok; 4 ideal;
+  // 0 is default, to indicate is still too early to estimate
+  self._status = ko.observable(0);
+  self.isAsExpected = ko.computed(function() {
+    return self._status() == 4;
+  });
+  self.isOK = ko.computed(function() {
+    return self._status() == 3;
+  });
+  self.isBad = ko.computed(function() {
+    return self._status() == 2;
+  });
+  self.isInDanger = ko.computed(function() {
+    return self._status() == 1;
+  });
+
+  self.check = function(startDate, dueDate){
+    var expected = self._getExpectedProgress(startDate, dueDate); // is scope right?
+    if(self._isNotTooEarly())
+      self._updateStatus(sprint.progress() - expected);
+  };
+
+  self._updateStatus = function(progressDiff){
+    if (progressDiff >= 0) {
+        self._status(4);
+    } else {
+      // TODO: Is this convention convenient for project management?
+      progressDiff = Math.abs(progressDiff);
+      if (progressDiff < 10)
+        self._status(3);
+      else if (progressDiff < 25)
+        self._status(2);
+      else
+        this._status(1);
+    }
+  };
+
+  self._getExpectedProgress = function(startDate, endDate) {
+    var sprintLength = getDaysBetween(startDate, dueDate);
+    var remainingDays = getDaysBetween(Date.now(), dueDate);
+    return (sprintLength - remainingDays) / sprintLength;
+  };
+
+  self._isNotTooEarly = function(startDate, endDate) {
+    var sprintLength = getDaysBetween(startDate, dueDate);
+    var daysPassed = getDaysBetween(startDate, Date.now());
+    return (daysPassed/sprintLength) > 0.25;
+  }
+
+  return self;
+}
+
 
 // KNOCKOUT VIEW MODEL
 var LocationsViewModel = function() {
   // DATA OBJECTS
   this.sprint = new Sprint();
+  this.sprintChecker = new SprintChecker(this.sprint);
 
 
 };
