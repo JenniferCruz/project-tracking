@@ -62,20 +62,43 @@ function Sprint() {
   // measures progress in relation to current date
   // helps determines progress bar color
   self.progressChecker = {
-    // TODO: Color progress bar according to spring date. Will receive 'total days' ad 'days left' in JSON.
+    // TODO: Color progress bar according to spring date. Will receive 'total days' and 'days left' in JSON.
     //       At first, bar is monochromatic.
     //       The less the days left, the more likely the bar is colored badly if % is below an expected range.
     //         ideal: over expected; ok: expected - 10%; bad: ok - 15%; danger-zone: >bad;
     //         so for example, if a sprint is almost done and % is low, should look warm
 
-    range: {},
-    color: {},
+    // status should be in range [1, 4],
+    // where 1: In danger; 2: bad; 3: ok; 4 ideal;
+    // 0 is default, to indicate is still too early to estimate
+    status: ko.observable(0),
     check: function(startDate, dueDate){
+      var expected = this._getExpectedProgress(startDate, dueDate); // is scope right?
+      if(this._isNotTooEarly())
+        this._updateStatus(sprint.progress() - expected); // TODO: progress access is not right
+    },
+    _updateStatus: function(progressDiff){
+      if (progressDiff >= 0) { // TODO: progress access is not right
+          this.status(4);
+      } else {
+        progressDiff = Math.abs(progressDiff);
+        if (progressDiff < 10)
+          this.status(3); // TODO
+        else if (progressDiff < 25)
+          this.status(2); // TODO
+        else
+          this.status(1); // TODO
+      }
+    },
+    _getExpectedProgress: function(startDate, endDate) {
       var sprintLength = getDaysBetween(startDate, dueDate);
       var remainingDays = getDaysBetween(Date.now(), dueDate);
-      var expected = (sprintLength - remainingDays) / sprintLength;
-      var progress = sprint.progress(); // TODO: not right
-      var difference = progress - expected;
+      return (sprintLength - remainingDays) / sprintLength;
+    },
+    _isNotTooEarly: function(startDate, endDate) {
+      var sprintLength = getDaysBetween(startDate, dueDate);
+      var daysPassed = getDaysBetween(startDate, Date.now());
+      return (daysPassed/sprintLength) > 0.25;
     }
 
   }

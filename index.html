@@ -45,7 +45,7 @@
             <div class="progress-bar" role="progressbar" aria-valuenow="100"
               aria-valuemin="0" aria-valuemax="100"
                 data-bind="text: sprint.progress() + '% completed',
-                  style: { minWidth: sprint.progress() + '%' }, css: {progressBarBig: true}">
+                  style: { minWidth: sprint.progress() + '%' }, css: {progressBarBig: true, badProgress: true}">
             </div>
           </div>
           <div class="days-left" data-bind="text: sprint.daysLeft() + ' days left'"></div>
