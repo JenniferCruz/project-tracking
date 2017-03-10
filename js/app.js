@@ -1,9 +1,9 @@
 
 // CLASSES
-function Sprint() {
+function Sprint(checker) {
   var self = this;
-
   // DATA
+  self._checker = checker;
   self.stages = ko.observableArray([]);;
   self.daysLeft = ko.observable();
 
@@ -27,7 +27,22 @@ function Sprint() {
     self._createStages(obj.allStatus);
     self._updateDaysLeft(obj.endDate);
     self._updateComplexityPointsInStages(obj.pointsPerState);
+    self._checker.updateStatus(obj.startDate, obj.endDate, self.progress());
   }
+
+  self.isExpectedProgress = ko.computed(function() {
+    return self._checker.status() == 4;
+  });
+  self.isOKProgress = ko.computed(function() {
+    return self._checker.status() == 3;
+  });
+  self.isBadProgress = ko.computed(function() {
+    return self._checker.status() == 2;
+  });
+  self.isInDangerProgress = ko.computed(function() {
+    return self._checker.status() == 1;
+  });
+
 
   self._createStages = function(status) {
     // assumes status list comes in chronological order
@@ -70,7 +85,7 @@ var getDaysBetween = function(fromDate, toDate) {
 
 // measures progress in relation to current date
 // helps determines progress bar color
-function SprintChecker(sprint) {
+function SprintChecker() {
   // TODO: Color progress bar according to spring date. Will receive 'total days' and 'days left' in JSON.
   //       At first, bar is monochromatic.
   //       The less the days left, the more likely the bar is colored badly if % is below an expected range.
@@ -80,48 +95,36 @@ function SprintChecker(sprint) {
   // status should be in range [1, 4],
   // where 1: In danger; 2: bad; 3: ok; 4 ideal;
   // 0 is default, to indicate is still too early to estimate
-  self._status = ko.observable(0);
-  self.isAsExpected = ko.computed(function() {
-    return self._status() == 4;
-  });
-  self.isOK = ko.computed(function() {
-    return self._status() == 3;
-  });
-  self.isBad = ko.computed(function() {
-    return self._status() == 2;
-  });
-  self.isInDanger = ko.computed(function() {
-    return self._status() == 1;
-  });
+  self.status = ko.observable(0);
 
-  self.check = function(startDate, dueDate){
+  self.updateStatus = function(startDate, dueDate, progress){
     var expected = self._getExpectedProgress(startDate, dueDate); // is scope right?
-    if(self._isNotTooEarly())
-      self._updateStatus(sprint.progress() - expected);
+    if(self._isNotTooEarly(startDate, dueDate))
+      self._updateStatus(progress - expected);
   };
 
   self._updateStatus = function(progressDiff){
     if (progressDiff >= 0) {
-        self._status(4);
+        self.status(4);
     } else {
       // TODO: Is this convention convenient for project management?
       progressDiff = Math.abs(progressDiff);
       if (progressDiff < 10)
-        self._status(3);
+        self.status(3);
       else if (progressDiff < 25)
-        self._status(2);
+        self.status(2);
       else
-        this._status(1);
+        this.status(1);
     }
   };
 
-  self._getExpectedProgress = function(startDate, endDate) {
+  self._getExpectedProgress = function(startDate, dueDate) {
     var sprintLength = getDaysBetween(startDate, dueDate);
     var remainingDays = getDaysBetween(Date.now(), dueDate);
     return (sprintLength - remainingDays) / sprintLength;
   };
 
-  self._isNotTooEarly = function(startDate, endDate) {
+  self._isNotTooEarly = function(startDate, dueDate) {
     var sprintLength = getDaysBetween(startDate, dueDate);
     var daysPassed = getDaysBetween(startDate, Date.now());
     return (daysPassed/sprintLength) > 0.25;
@@ -134,8 +137,8 @@ function SprintChecker(sprint) {
 // KNOCKOUT VIEW MODEL
 var LocationsViewModel = function() {
   // DATA OBJECTS
-  this.sprint = new Sprint();
-  this.sprintChecker = new SprintChecker(this.sprint);
+  this.sprintCheck = new SprintChecker();
+  this.sprint = new Sprint(this.sprintCheck);
 
 
 };
