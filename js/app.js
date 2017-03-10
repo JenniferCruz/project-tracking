@@ -3,8 +3,8 @@
 function Sprint() {
   var self = this;
 
+  // DATA
   self.stages = ko.observableArray([]);;
-
   self.daysLeft = ko.observable();
 
   // returns a value from 0 to 100, representing the progress status of the Sprint
@@ -21,6 +21,7 @@ function Sprint() {
     return result;
   });
 
+  // BEHAVIOR
   self.update = function(jsonStr) {
     var obj = JSON.parse(jsonStr);
     self._createStages(obj.allStatus);
@@ -30,35 +31,33 @@ function Sprint() {
 
   self._createStages = function(status) {
     // assumes status list comes in chronological order
-    if (self.stages().length == 0) {
-      for (var i = 0; i < status.length; i++) {
-        self.stages.push(
-          {label: status[i], complexityPoints: ko.observable(), weight: self._getStageInfluence(i+1)});
-      }
-    }
-  }
-
-  self._updateComplexityPointsInStages = function(pointsPerState) {
-    for (var i = 0; i < self.stages().length; i++) {
-      var newValue = pointsPerState[self.stages()[i].label];
-      self.stages()[i].complexityPoints(newValue);
-    }
+    if (self.stages().length == 0)
+      for (var i = 0; i < status.length; i++)
+        self.stages.push({label: status[i],
+                          complexityPoints: ko.observable(),
+                          weight: self._getStageInfluence(i+1)});
   }
 
   self._updateDaysLeft = function(dueDate) {
     if (!dueDate) {
-      // TODO: Is this default ok?
-      self.daysLeft(0);
+      self.daysLeft(0); // TODO: Is this default ok?
       return;
     }
     self.daysLeft(getDaysUntil(dueDate));
+  }
+
+  self._updateComplexityPointsInStages = function(pointsPerState) {
+    for (var i = 0; i < self.stages().length; i++) {
+      var stage = self.stages()[i];
+      var newValue = pointsPerState[stage.label];
+      stage.complexityPoints(newValue);
+    }
   }
 
   self._getStageInfluence = function(factor){
     var stagesNumber = 8;
     return ((100/stagesNumber)*factor);
   }
-
 
   return self;
 }
