@@ -38,6 +38,10 @@ header {
   height: 80px;
 }
 
+.progress-bar {
+  color: black;
+}
+
 .progressBarBig {
   padding-top: 25px;
   font-size: 25px;

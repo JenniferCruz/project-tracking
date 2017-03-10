@@ -32,10 +32,7 @@ function Sprint() {
     var obj = JSON.parse(jsonStr);
     self._createStages(obj.allStatus);
     self._updateDaysLeft(obj.endDate);
-    for (var label in obj.statusCount) {
-      var newValue = obj.statusCount[label];
-      self._stages[label].complexityPoints(newValue);
-    }
+    self._updateComplexityPointsInStages(obj.pointsPerState);
   }
 
   self._createStages = function(status) {
@@ -53,6 +50,13 @@ function Sprint() {
   self._registerIndicators = function() {
     for (var stageName in self._stages) {
       self.indicators.push({label: stageName, value: self._stages[stageName].complexityPoints});
+    }
+  }
+
+  self._updateComplexityPointsInStages = function(pointsPerState) {
+    for (var label in pointsPerState) {
+      var newValue = pointsPerState[label];
+      self._stages[label].complexityPoints(newValue);
     }
   }
 
