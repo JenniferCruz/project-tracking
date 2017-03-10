@@ -1,9 +1,9 @@
 
 // CLASSES
-function Sprint(checker) {
+function Sprint(statusManager) {
   var self = this;
   // DATA
-  self._checker = checker;
+  self._statusManager = statusManager;
   self.stages = ko.observableArray([]);;
   self.daysLeft = ko.observable();
 
@@ -27,20 +27,20 @@ function Sprint(checker) {
     self._createStages(obj.allStatus);
     self._updateDaysLeft(obj.endDate);
     self._updateComplexityPointsInStages(obj.pointsPerState);
-    self._checker.updateStatus(obj.startDate, obj.endDate, self.progress());
+    self._statusManager.update(obj.startDate, obj.endDate, self.progress());
   }
 
   self.isExpectedProgress = ko.computed(function() {
-    return self._checker.status() == 4;
+    return self._statusManager.status() == 4;
   });
   self.isOKProgress = ko.computed(function() {
-    return self._checker.status() == 3;
+    return self._statusManager.status() == 3;
   });
   self.isBadProgress = ko.computed(function() {
-    return self._checker.status() == 2;
+    return self._statusManager.status() == 2;
   });
   self.isInDangerProgress = ko.computed(function() {
-    return self._checker.status() == 1;
+    return self._statusManager.status() == 1;
   });
 
 
@@ -83,21 +83,24 @@ var getDaysBetween = function(fromDate, toDate) {
   return Math.round(Math.abs((toDate - fromDate) / miliSecMinDaysProduct));
 }
 
-// measures progress in relation to current date
-// helps determines progress bar color
-function SprintChecker() {
-  // TODO: Color progress bar according to spring date. Will receive 'total days' and 'days left' in JSON.
-  //       At first, bar is monochromatic.
-  //       The less the days left, the more likely the bar is colored badly if % is below an expected range.
-  //         ideal: over expected; ok: expected - 10%; bad: ok - 15%; danger-zone: >bad;
-  //         so for example, if a sprint is almost done and % is low, should look warm
+function SprintStatusManager() {
+  // Helper Class to keep track of a sprint status:
+  //  0: is too early to tell
+  //  1: sprint is in danger
+  //  2: sprint is progressing at slower pace than expected
+  //  3: sprint is at an acceptable progress
+  //  4: sprint progresses as expected or better
+  // The status is updated according to current date, sprint duration, and sprint progress
+  // This status will be the base to determine progress bar colors
+
+  // TODO: Make bar a default color
   var self = this;
   // status should be in range [1, 4],
   // where 1: In danger; 2: bad; 3: ok; 4 ideal;
   // 0 is default, to indicate is still too early to estimate
   self.status = ko.observable(0);
 
-  self.updateStatus = function(startDate, dueDate, progress){
+  self.update = function(startDate, dueDate, progress){
     var expected = self._getExpectedProgress(startDate, dueDate); // is scope right?
     if(self._isNotTooEarly(startDate, dueDate))
       self._updateStatus(progress - expected);
@@ -121,7 +124,7 @@ function SprintChecker() {
   self._getExpectedProgress = function(startDate, dueDate) {
     var sprintLength = getDaysBetween(startDate, dueDate);
     var remainingDays = getDaysBetween(Date.now(), dueDate);
-    return (sprintLength - remainingDays) / sprintLength;
+    return ((sprintLength - remainingDays) / sprintLength) * 100;
   };
 
   self._isNotTooEarly = function(startDate, dueDate) {
@@ -137,8 +140,8 @@ function SprintChecker() {
 // KNOCKOUT VIEW MODEL
 var LocationsViewModel = function() {
   // DATA OBJECTS
-  this.sprintCheck = new SprintChecker();
-  this.sprint = new Sprint(this.sprintCheck);
+  this.sprintStatusManager = new SprintStatusManager();
+  this.sprint = new Sprint(this.sprintStatusManager);
 
 
 };
