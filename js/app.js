@@ -43,7 +43,7 @@ function Sprint() {
       self.daysLeft(0); // TODO: Is this default ok?
       return;
     }
-    self.daysLeft(getDaysUntil(dueDate));
+    self.daysLeft(getDaysBetween(Date.now(), dueDate));
   }
 
   self._updateComplexityPointsInStages = function(pointsPerState) {
@@ -62,12 +62,28 @@ function Sprint() {
   return self;
 }
 
-var getDaysUntil = function(date) {
-  var now = Date.now();
+var getDaysBetween = function(fromDate, toDate) {
   // TODO: Do you wanna have 'decimal' days?
-  return Math.round(Math.abs((date - now) / (1000 * 60 * 60 * 24)));
+  var miliSecMinDaysProduct = (1000 * 60 * 60 * 24);
+  return Math.round(Math.abs((toDate - fromDate) / miliSecMinDaysProduct));
 }
-//
+
+// measures progress in relation to current date
+// helps determines progress bar color
+var progressChecker = {
+  // TODO: Color progress bar according to spring date. Will receive 'total days' ad 'days left' in JSON.
+  //       At first, bar is monochromatic.
+  //       The less the days left, the more likely the bar is colored badly if % is below an expected range.
+  //         ideal: over expected; ok: expected - 10%; bad: ok - 15%; danger-zone: >bad;
+  //         so for example, if a sprint is almost done and % is low, should look warm
+
+  expectation: {},
+  color: {},
+  check: function(startDate, dueDate){
+
+  }
+
+}
 
 // KNOCKOUT VIEW MODEL
 var LocationsViewModel = function() {
@@ -88,11 +104,6 @@ viewModel.sprint.update(jsonSprint);
  // }, 100); // TODO: Increase time to reasonable production value
 
 // TODO: Implement 'snapshots'
-// TODO: Color progress bar according to spring date. Will receive 'total days' ad 'days left' in JSON.
-//       At first, bar is monochromatic.
-//       The less the days left, the more likely the bar is colored badly if % is below an expected range.
-//         ideal: over expected; ok: expected - 10%; bad: ok - 15%; danger-zone: >bad;
-//         so for example, if a sprint is almost done and % is low, should look warm
 // TODO: Implement 'short view' of sprint. It should consist of:
          // NOT STARTED: 10 complexityPoints - (show if > 0)
          // DONE: 0 - (includes RSO and Done)
