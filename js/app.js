@@ -7,7 +7,7 @@ function Sprint() {
     // there are 8 stages
       return ((100/8)*factor);
   }
-  self._stages;
+  self._stages = ko.observableArray([]);;
 
   // html template loops through this array to display them all
   self.indicators = ko.observableArray([]);
@@ -18,8 +18,8 @@ function Sprint() {
   self.progress = ko.computed(function() {
     var progress = 0;
     var totalPoints = 0;
-    for (var stage in self._stages) {
-      var s = self._stages[stage];
+    for (var i=0; i<self._stages().length; i++) {
+      var s = self._stages()[i];
       progress += s.complexityPoints() * s.weight;
       totalPoints += s.complexityPoints();
     }
@@ -37,26 +37,26 @@ function Sprint() {
 
   self._createStages = function(status) {
     // assumes status list comes in chronological order
-    if (!self._stages) {
-      self._stages = {};
+    if (self._stages().length == 0) {
       for (var i = 0; i < status.length; i++) {
-        self._stages[status[i]] =
-          {complexityPoints: ko.observable(), weight: self._getStageInfluence(i+1)}
+        self._stages.push(
+          {label: status[i], complexityPoints: ko.observable(), weight: self._getStageInfluence(i+1)});
       }
       self._registerIndicators();
     }
   }
 
   self._registerIndicators = function() {
-    for (var stageName in self._stages) {
-      self.indicators.push({label: stageName, value: self._stages[stageName].complexityPoints});
+    for (var i = 0; i < self._stages().length; i++) {
+      var obj = self._stages()[i];
+      self.indicators.push({label: obj.label, value: obj.complexityPoints});
     }
   }
 
   self._updateComplexityPointsInStages = function(pointsPerState) {
-    for (var label in pointsPerState) {
-      var newValue = pointsPerState[label];
-      self._stages[label].complexityPoints(newValue);
+    for (var i = 0; i < self._stages().length; i++) {
+      var newValue = pointsPerState[self._stages()[i].label];
+      self._stages()[i].complexityPoints(newValue);
     }
   }
 
