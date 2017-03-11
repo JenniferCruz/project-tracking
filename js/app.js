@@ -1,11 +1,19 @@
 
 // CLASSES
-function Sprint(statusManager) {
+function Sprint() {
   var self = this;
   // DATA
-  self._statusManager = statusManager;
   self.stages = ko.observableArray([]);;
   self.daysLeft = ko.observable();
+// sprint status:
+    //  0: is too early to tell
+    //  1: sprint is in danger
+    //  2: sprint is progressing at slower pace than expected
+    //  3: sprint is at an acceptable progress
+    //  4: sprint progresses as expected or better
+    // The status is updated according to current date, sprint duration, and sprint progress
+    // This status will be the base to determine progress bar colors
+  self.status = 0;
   self._calendar;
 
   // returns a value from 0 to 100, representing the progress status of the Sprint
@@ -30,20 +38,20 @@ function Sprint(statusManager) {
     self._createStages(obj.allStatus);
     self._updateDaysLeft(obj.endDate);
     self._updateComplexityPointsInStages(obj.pointsPerState);
-    self._statusManager.update(self._calendar, self.progress());
+    self.updateStatus(self._calendar, self.progress());
   };
 
   self.isExpectedProgress = ko.computed(function() {
-    return self._statusManager.status() == 4;
+    return self.status == 4;
   });
   self.isOKProgress = ko.computed(function() {
-    return self._statusManager.status() == 3;
+    return self.status == 3;
   });
   self.isBadProgress = ko.computed(function() {
-    return self._statusManager.status() == 2;
+    return self.status == 2;
   });
   self.isInDangerProgress = ko.computed(function() {
-    return self._statusManager.status() == 1;
+    return self.status == 1;
   });
 
 
@@ -70,21 +78,36 @@ function Sprint(statusManager) {
       var newValue = pointsPerState[stage.label];
       stage.complexityPoints(newValue);
     }
-  }
+  };
 
   self._getStageInfluence = function(factor){
     var stagesNumber = 8;
     return ((100/stagesNumber)*factor);
-  }
+  };
 
-  return self;
+    self.updateStatus = function(calendar, progress){
+        var expected = calendar.progress(); // is scope right?
+        if(calendar.isNotTooEarly())
+            self._updateStatus(progress - expected);
+    };
+
+    self._updateStatus = function(progressDiff){
+        if (progressDiff >= 0) {
+            self.status = 4;
+        } else {
+            // TODO: Is this convention convenient for project management?
+            progressDiff = Math.abs(progressDiff);
+            if (progressDiff < 10)
+                self.status = 3;
+            else if (progressDiff < 25)
+                self.status = 2;
+            else
+                this.status = 1;
+        }
+    };
+
+    return self;
 }
-
-// var getDaysBetween = function(fromDate, toDate) {
-//   // TODO: Do you wanna have 'decimal' days?
-//   var miliSecMinDaysProduct = (1000 * 60 * 60 * 24);
-//   return Math.round(Math.abs((toDate - fromDate) / miliSecMinDaysProduct));
-// };
 
 function Calendar(from, to) {
   var self = this;
@@ -97,60 +120,18 @@ function Calendar(from, to) {
         toDate = toDate? toDate: to;
         fromDate = fromDate ? fromDate : fromDate;
         return Math.round(Math.abs((toDate - fromDate) / miliSecMinDaysProduct));
-    };
-
-  return self;
-};
-
-function SprintStatusManager() {
-  // TODO: Calendar class
-  // Helper Class to keep track of a sprint status:
-  //  0: is too early to tell
-  //  1: sprint is in danger
-  //  2: sprint is progressing at slower pace than expected
-  //  3: sprint is at an acceptable progress
-  //  4: sprint progresses as expected or better
-  // The status is updated according to current date, sprint duration, and sprint progress
-  // This status will be the base to determine progress bar colors
-
-  // TODO: Make bar a default color
-  var self = this;
-  // status should be in range [1, 4],
-  // where 1: In danger; 2: bad; 3: ok; 4 ideal;
-  // 0 is default, to indicate is still too early to estimate
-  self.status = ko.observable(0);
-
-  self.update = function(calendar, progress){
-    var expected = self._getExpectedProgress(calendar); // is scope right?
-    if(self._isNotTooEarly(calendar))
-      self._updateStatus(progress - expected);
   };
 
-  self._updateStatus = function(progressDiff){
-    if (progressDiff >= 0) {
-        self.status(4);
-    } else {
-      // TODO: Is this convention convenient for project management?
-      progressDiff = Math.abs(progressDiff);
-      if (progressDiff < 10)
-        self.status(3);
-      else if (progressDiff < 25)
-        self.status(2);
-      else
-        this.status(1);
-    }
+  self.isNotTooEarly = function() {
+      var sprintLength = self.getDaysBetween(self._start, self._end);
+      var daysPassed = self.getDaysBetween(self._start, Date.now());
+      return (daysPassed/sprintLength) > 0.25;
   };
 
-  self._getExpectedProgress = function(calendar) {
-    var sprintLength = calendar.getDaysBetween(calendar._start, calendar._end);
-    var remainingDays = calendar.getDaysBetween(Date.now(), calendar._end);
-    return ((sprintLength - remainingDays) / sprintLength) * 100;
-  };
-
-  self._isNotTooEarly = function(calendar) {
-    var sprintLength = calendar.getDaysBetween(calendar._start, calendar._end);
-    var daysPassed = calendar.getDaysBetween(calendar._start, Date.now());
-    return (daysPassed/sprintLength) > 0.25;
+  self.progress = function () {
+      var sprintLength = self.getDaysBetween(self._start, self._end);
+      var remainingDays = self.getDaysBetween(Date.now(), self._end);
+      return ((sprintLength - remainingDays) / sprintLength) * 100;
   };
 
   return self;
@@ -160,8 +141,7 @@ function SprintStatusManager() {
 // KNOCKOUT VIEW MODEL
 var LocationsViewModel = function() {
   // DATA OBJECTS
-  this.sprintStatusManager = new SprintStatusManager();
-  this.sprint = new Sprint(this.sprintStatusManager);
+  this.sprint = new Sprint();
 
 
 };
