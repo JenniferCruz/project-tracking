@@ -38,7 +38,7 @@ function Sprint() {
     self._createStages(obj.allStatus);
     self._updateDaysLeft(obj.endDate);
     self._updateComplexityPointsInStages(obj.pointsPerState);
-    self.updateStatus(self._calendar, self.progress());
+    self._updateStatus();
   };
 
   self.isExpectedProgress = ko.computed(function() {
@@ -85,28 +85,29 @@ function Sprint() {
     return ((100/stagesNumber)*factor);
   };
 
-    self.updateStatus = function(calendar, progress){
-        var expected = calendar.progress(); // is scope right?
-        if(calendar.isNotTooEarly())
-            self._updateStatus(progress - expected);
-    };
+  self._updateStatus = function(){
+      if(self._calendar.isNotTooEarly()) {
+          var expected = self._calendar.progress();
+          self._changeStatus(self.progress() - expected);
+      }
+  };
 
-    self._updateStatus = function(progressDiff){
-        if (progressDiff >= 0) {
-            self.status = 4;
-        } else {
-            // TODO: Is this convention convenient for project management?
-            progressDiff = Math.abs(progressDiff);
-            if (progressDiff < 10)
-                self.status = 3;
-            else if (progressDiff < 25)
-                self.status = 2;
-            else
-                this.status = 1;
-        }
-    };
+  self._changeStatus = function(progressDiff){
+      if (progressDiff >= 0) {
+          self.status = 4;
+      } else {
+          // TODO: Is this convention convenient for project management?
+          progressDiff = Math.abs(progressDiff);
+          if (progressDiff < 10)
+              self.status = 3;
+          else if (progressDiff < 25)
+              self.status = 2;
+          else
+              this.status = 1;
+      }
+  };
 
-    return self;
+  return self;
 }
 
 function Calendar(from, to) {
@@ -114,6 +115,7 @@ function Calendar(from, to) {
 
   self._start = from;
   self._end = to;
+
   self.getDaysBetween = function(fromDate, toDate) {
         // TODO: Do you wanna have 'decimal' days?
         var miliSecMinDaysProduct = (1000 * 60 * 60 * 24);
