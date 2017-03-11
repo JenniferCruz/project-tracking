@@ -6,6 +6,7 @@ function Sprint(statusManager) {
   self._statusManager = statusManager;
   self.stages = ko.observableArray([]);;
   self.daysLeft = ko.observable();
+  self._calendar;
 
   // returns a value from 0 to 100, representing the progress status of the Sprint
   self.progress = ko.computed(function() {
@@ -24,11 +25,13 @@ function Sprint(statusManager) {
   // BEHAVIOR
   self.update = function(jsonStr) {
     var obj = JSON.parse(jsonStr);
+    if (!self._calendar)
+      self._calendar = new Calendar(obj.startDate, obj.endDate);
     self._createStages(obj.allStatus);
     self._updateDaysLeft(obj.endDate);
     self._updateComplexityPointsInStages(obj.pointsPerState);
-    self._statusManager.update(obj.startDate, obj.endDate, self.progress());
-  }
+    self._statusManager.update(self._calendar, self.progress());
+  };
 
   self.isExpectedProgress = ko.computed(function() {
     return self._statusManager.status() == 4;
@@ -51,15 +54,15 @@ function Sprint(statusManager) {
         self.stages.push({label: status[i],
                           complexityPoints: ko.observable(),
                           weight: self._getStageInfluence(i+1)});
-  }
+  };
 
   self._updateDaysLeft = function(dueDate) {
     if (!dueDate) {
       self.daysLeft(0); // TODO: Is this default ok?
       return;
     }
-    self.daysLeft(getDaysBetween(Date.now(), dueDate));
-  }
+    self.daysLeft(self._calendar.getDaysBetween(self._calendar._start, self._calendar._end));
+  };
 
   self._updateComplexityPointsInStages = function(pointsPerState) {
     for (var i = 0; i < self.stages().length; i++) {
@@ -77,13 +80,30 @@ function Sprint(statusManager) {
   return self;
 }
 
-var getDaysBetween = function(fromDate, toDate) {
-  // TODO: Do you wanna have 'decimal' days?
-  var miliSecMinDaysProduct = (1000 * 60 * 60 * 24);
-  return Math.round(Math.abs((toDate - fromDate) / miliSecMinDaysProduct));
-}
+// var getDaysBetween = function(fromDate, toDate) {
+//   // TODO: Do you wanna have 'decimal' days?
+//   var miliSecMinDaysProduct = (1000 * 60 * 60 * 24);
+//   return Math.round(Math.abs((toDate - fromDate) / miliSecMinDaysProduct));
+// };
+
+function Calendar(from, to) {
+  var self = this;
+
+  self._start = from;
+  self._end = to;
+  self.getDaysBetween = function(fromDate, toDate) {
+        // TODO: Do you wanna have 'decimal' days?
+        var miliSecMinDaysProduct = (1000 * 60 * 60 * 24);
+        toDate = toDate? toDate: to;
+        fromDate = fromDate ? fromDate : fromDate;
+        return Math.round(Math.abs((toDate - fromDate) / miliSecMinDaysProduct));
+    };
+
+  return self;
+};
 
 function SprintStatusManager() {
+  // TODO: Calendar class
   // Helper Class to keep track of a sprint status:
   //  0: is too early to tell
   //  1: sprint is in danger
@@ -100,9 +120,9 @@ function SprintStatusManager() {
   // 0 is default, to indicate is still too early to estimate
   self.status = ko.observable(0);
 
-  self.update = function(startDate, dueDate, progress){
-    var expected = self._getExpectedProgress(startDate, dueDate); // is scope right?
-    if(self._isNotTooEarly(startDate, dueDate))
+  self.update = function(calendar, progress){
+    var expected = self._getExpectedProgress(calendar); // is scope right?
+    if(self._isNotTooEarly(calendar))
       self._updateStatus(progress - expected);
   };
 
@@ -121,17 +141,17 @@ function SprintStatusManager() {
     }
   };
 
-  self._getExpectedProgress = function(startDate, dueDate) {
-    var sprintLength = getDaysBetween(startDate, dueDate);
-    var remainingDays = getDaysBetween(Date.now(), dueDate);
+  self._getExpectedProgress = function(calendar) {
+    var sprintLength = calendar.getDaysBetween(calendar._start, calendar._end);
+    var remainingDays = calendar.getDaysBetween(Date.now(), calendar._end);
     return ((sprintLength - remainingDays) / sprintLength) * 100;
   };
 
-  self._isNotTooEarly = function(startDate, dueDate) {
-    var sprintLength = getDaysBetween(startDate, dueDate);
-    var daysPassed = getDaysBetween(startDate, Date.now());
+  self._isNotTooEarly = function(calendar) {
+    var sprintLength = calendar.getDaysBetween(calendar._start, calendar._end);
+    var daysPassed = calendar.getDaysBetween(calendar._start, Date.now());
     return (daysPassed/sprintLength) > 0.25;
-  }
+  };
 
   return self;
 }
