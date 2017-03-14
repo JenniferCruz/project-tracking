@@ -141,4 +141,18 @@ header {
   position: absolute;
 }
 
+.analysis-content {
+  text-align: center;
+}
 
+.analysis-glyphicon {
+  font-size: 4em;
+}
+
+.okColor {
+  color: #2e8b57;
+}
+
+.dangerColor {
+  color: #ac2925;
+}

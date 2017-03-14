@@ -16,11 +16,12 @@
     <!-- TODO: add team name to 'Team Board' -->
     <h2 class="header-content">Team Board</h2>
   </header>
+
   <section class="container">
     <div class="row">
 
       <div id="" class="panel panel-default col-lg-5 col-md-5">
-        <h2 class="panel-heading">Sprint</h2>
+        <h2 class="panel-heading">Sprint Board</h2>
         <div class="panel-body">
           <div id="flip" class="flip-container">
             <div class="flipper">
@@ -62,13 +63,17 @@
 
 
 
-      <div id="release" class="panel panel-default col-lg-5 col-md-5">
-        <h2 class="panel-heading">Release</h2>
-        <div class="panel-body">
+      <div id="analysis" class="panel panel-default col-lg-5 col-md-5">
+        <h2 class="panel-heading">Analysis Board</h2>
+        <div class="panel-body analysis-content">
           <h3>Backlog health:</h3>
-          <p> <em class="health-top">40</em><em class="health-bottom">/50</em> estimated stories</p>
+          <em class="health-top" data-bind="css: {okColor: true, dangerColor: false}">40</em><em class="health-bottom">/50</em>
+          <p>estimated stories</p>
+          <span class="glyphicon glyphicon-ok-circle analysis-glyphicon okColor" data-bind="visible: false"></span>
+          <span class="glyphicon glyphicon-fire analysis-glyphicon dangerColor" data-bind="visible: true"></span>
         </div>
       </div>
+
       <div id="code" class="panel panel-default col-lg-5 col-md-5">
         <h2 class="panel-heading">Code</h2>
         <div class="panel-body">
