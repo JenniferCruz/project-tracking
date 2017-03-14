@@ -67,10 +67,10 @@
         <h2 class="panel-heading">Analysis Board</h2>
         <div class="panel-body analysis-content">
           <h3>Backlog health:</h3>
-          <em class="health-top" data-bind="css: {okColor: true, dangerColor: false}">40</em><em class="health-bottom">/50</em>
+          <em class="health-number" data-bind="text: analysis.health(), css: {okColor: !analysis.failed(), dangerColor: analysis.failed()}">40</em>
           <p>estimated stories</p>
-          <span class="glyphicon glyphicon-ok-circle analysis-glyphicon okColor" data-bind="visible: false"></span>
-          <span class="glyphicon glyphicon-fire analysis-glyphicon dangerColor" data-bind="visible: true"></span>
+          <span class="glyphicon glyphicon-ok-circle analysis-glyphicon okColor" data-bind="visible: !analysis.failed()"></span>
+          <span class="glyphicon glyphicon-fire analysis-glyphicon dangerColor" data-bind="visible: analysis.failed()"></span>
         </div>
       </div>
 

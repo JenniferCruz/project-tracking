@@ -54,14 +54,9 @@ header {
   background-image: url("../img/fork-lightning.jpg");
 }
 
-.health-top {
+.health-number {
   font-size: 30px;
   color: green;
-  font-weight: bold;
-}
-
-.health-bottom {
-  font-size: 20px;
   font-weight: bold;
 }
 

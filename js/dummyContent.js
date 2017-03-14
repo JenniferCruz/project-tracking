@@ -26,7 +26,7 @@ var jsonSprint = '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Rea
 
 
 // http://localhost:8090/jenkins
-var jsonJenkins = {"health":60,"failed":false};
+var jsonJenkins = '{ "health": 60, "failed": false}';
 
 // http://localhost:8090/sonar
 var jsonSonar = {"coverage":96.7,"criticals":1,"majors":0};
