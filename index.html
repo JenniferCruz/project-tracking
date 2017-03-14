@@ -80,18 +80,18 @@
             <dl class="dl-horizontal">
                 <dt>Code Coverage: </dt>
                 <dd data-bind="text: code.coverage,
-                       css: {codeIsIdeal: code.isCoverageIdeal(), codeIsOk: code.isCoverageOk(),
-                               codeIsBad: code.isCoverageBad(), codeIsInDanger: code.isCoverageInDanger()}"></dd>
+                       css: {codeIsIdeal: code.isIdeal('coverage'), codeIsOk: code.isOk('coverage'),
+                               codeIsBad: code.isBad('coverage'), codeIsInDanger: code.isInDanger('coverage')}"></dd>
 
                 <dt>Critic Bugs: </dt>
                 <dd data-bind="text: code.criticBugs,
-                       css: {codeIsIdeal: code.isCriticBugsIdeal(), codeIsOk: code.isCriticBugsOk(),
-                               codeIsBad: code.isCriticBugsBad(), codeIsInDanger: code.isCriticBugsInDanger()}"></dd>
+                       css: {codeIsIdeal: code.isIdeal('critic'), codeIsOk: code.isOk('critic'),
+                               codeIsBad: code.isBad('critic'), codeIsInDanger: code.isInDanger('critic')}"></dd>
 
                 <dt>Major Bugs: </dt>
                 <dd data-bind="text: code.majorBugs,
-                       css: {codeIsIdeal: code.isCriticBugsIdeal(), codeIsOk: code.isCriticBugsOk(),
-                               codeIsBad: code.isCriticBugsBad(), codeIsInDanger: code.isCriticBugsInDanger()}" class=""></dd>
+                       css: {codeIsIdeal: code.isIdeal('major'), codeIsOk: code.isOk('major'),
+                               codeIsBad: code.isBad('major'), codeIsInDanger: code.isInDanger('major')}" class=""></dd>
 
             </dl>
         </div>

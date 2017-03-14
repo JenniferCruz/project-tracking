@@ -169,40 +169,48 @@ function Code() {
     };
 
     // Communicate coverage status
-    self.isCoverageIdeal = function () {
-        return self.coverage() >= 95;
+    self.isIdeal = function (metric) {
+        if (metric === 'coverage')
+            return self.coverage() >= 95;
+        if (metric === 'critic')
+            return self.criticBugs() === 0;
+        if (metric === 'major')
+            return self.majorBugs() === 0;
+        return false;
     };
 
-    self.isCoverageOk = function () {
-        return self.coverage() >= 90 && self.coverage() < 95;
+    self.isOk = function (metric) {
+        if (metric === 'coverage')
+            return self.coverage() >= 90 && self.coverage() < 95;
+        if (metric === 'critic')
+            return self.criticBugs() > 0 && self.criticBugs() <= 4;
+        if (metric === 'major')
+            return self.majorBugs() > 0 && self.majorBugs() <= 8;
+        return false;
     };
 
-    self.isCoverageBad = function () {
-        return self.coverage() >= 86 && self.coverage() < 90;
-    };
-
-    self.isCoverageInDanger = function () {
-        return self.coverage() < 86;
-    };
-
-    // Communicate Critic Bugs status
-    self.isCriticBugsIdeal = function () {
-        return self.criticBugs() == 0;
-    };
-
-    self.isCriticBugsOk = function () {
-        return self.criticBugs() > 0 && self.criticBugs() <= 4;
-    };
-
-    self.isCriticBugsBad = function () {
-        return self.criticBugs() > 4 && self.criticBugs() <= 9;
-    };
-
-    self.isCriticBugsInDanger = function () {
-        return self.criticBugs() > 9;
+    self.isBad = function (metric) {
+        if (metric === 'coverage')
+            return self.coverage() >= 86 && self.coverage() < 90;
+        if (metric === 'critic')
+            return self.criticBugs() > 4 && self.criticBugs() <= 9;
+        if (metric === 'major')
+            return self.majorBugs() > 8 && self.majorBugs() <= 18;
+        return false;
     };
 
 
+    self.isInDanger = function (metric) {
+        if (metric === 'coverage')
+            return self.coverage() < 86;
+        if (metric === 'critic')
+            return self.criticBugs() > 9;
+        if (metric === 'major')
+            return self.majorBugs() > 18;
+        return false;
+    };
+
+    return self;
 }
 
 
@@ -212,6 +220,7 @@ var LocationsViewModel = function() {
   this.sprint = new Sprint();
   this.analysis = new Analysis();
   this.code = new Code();
+  // TODO: refactor code isOk... etc, so that param is not passed from UI?
 };
 
 var viewModel = new LocationsViewModel();
