@@ -54,30 +54,46 @@ header {
   background-image: url("../img/fork-lightning.jpg");
 }
 
-.health-number {
-  font-size: 30px;
-  color: green;
-  font-weight: bold;
-}
-
-.idealProgress {
-  background-color: green;
-}
-
-.okProgress {
-  background-color: blue;
-}
-
-.badProgress {
-  background-color: yellow;
-}
-
-.dangerProgress {
-  background-color: red;
-}
 
 .panel {
   margin: 10px;
+}
+
+.metric {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.textInDanger {
+    color: #CC0000;
+}
+
+.textBad {
+    color: #FF8800;
+}
+
+.textOk {
+    color: #0099CC;
+}
+
+.textIdeal {
+    color: #007E33;
+}
+
+.idealProgress {
+    background-color: #007E33;
+}
+
+.okProgress {
+    background-color: #0099CC;
+}
+
+.badProgress {
+    background-color: #FF8800;
+}
+
+.dangerProgress {
+    background-color: #CC0000;
 }
 
 
@@ -144,28 +160,3 @@ header {
   font-size: 4em;
 }
 
-.okColor {
-  color: #2e8b57;
-}
-
-.dangerColor {
-  color: #ac2925;
-}
-
-/* Color code board statements */
-/* TODO: Simplify colors to be more widely useds */
-.codeIsIdeal {
-  color: #1b6d85;
-}
-
-.codeIsOk {
-  color: #3c763d;
-}
-
-.codeIsBad {
-  color: #d58512;
-}
-
-.codeIsInDanger {
-  color: #ac2925;
-}

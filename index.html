@@ -42,7 +42,7 @@
                 <!-- KO template to show a description list -->
                 <dl class="dl-horizontal" data-bind="foreach: sprint.stages">
                   <dt data-bind="text: $data.label"></dt>
-                  <dd data-bind="text: $data.complexityPoints"></dd>
+                  <dd data-bind="text: $data.complexityPoints" class="metric"></dd>
                 </dl>
 
                 <div class="progress">
@@ -67,10 +67,10 @@
         <h2 class="panel-heading">Analysis Board</h2>
         <div class="panel-body analysis-content">
           <h3>Backlog health:</h3>
-          <em class="health-number" data-bind="text: analysis.health(), css: {okColor: !analysis.failed(), dangerColor: analysis.failed()}">40</em>
+          <em class="metric" data-bind="text: analysis.health(), css: {textIdeal: !analysis.failed(), textInDanger: analysis.failed()}">40</em>
           <p>estimated stories</p>
-          <span class="glyphicon glyphicon-ok-circle analysis-glyphicon okColor" data-bind="visible: !analysis.failed()"></span>
-          <span class="glyphicon glyphicon-fire analysis-glyphicon dangerColor" data-bind="visible: analysis.failed()"></span>
+          <span class="glyphicon glyphicon-ok-circle analysis-glyphicon textIdeal" data-bind="visible: !analysis.failed()"></span>
+          <span class="glyphicon glyphicon-fire analysis-glyphicon textInDanger" data-bind="visible: analysis.failed()"></span>
         </div>
       </div>
 
@@ -78,20 +78,21 @@
         <h2 class="panel-heading">Code</h2>
         <div class="panel-body">
             <dl class="dl-horizontal">
+                <!--TODO: Add icons and standard colors and sizes to details -->
                 <dt>Code Coverage: </dt>
-                <dd data-bind="text: code.coverage,
-                       css: {codeIsIdeal: code.isIdeal('coverage'), codeIsOk: code.isOk('coverage'),
-                               codeIsBad: code.isBad('coverage'), codeIsInDanger: code.isInDanger('coverage')}"></dd>
+                <dd class="metric" data-bind="text: code.coverage,
+                       css: {textIdeal: code.isIdeal('coverage'), textOk: code.isOk('coverage'),
+                               textBad: code.isBad('coverage'), textInDanger: code.isInDanger('coverage')}"></dd>
 
                 <dt>Critic Bugs: </dt>
-                <dd data-bind="text: code.criticBugs,
-                       css: {codeIsIdeal: code.isIdeal('critic'), codeIsOk: code.isOk('critic'),
-                               codeIsBad: code.isBad('critic'), codeIsInDanger: code.isInDanger('critic')}"></dd>
+                <dd class="metric" data-bind="text: code.criticBugs,
+                       css: {textIdeal: code.isIdeal('critic'), textOk: code.isOk('critic'),
+                               textBad: code.isBad('critic'), textInDanger: code.isInDanger('critic')}"></dd>
 
                 <dt>Major Bugs: </dt>
-                <dd data-bind="text: code.majorBugs,
-                       css: {codeIsIdeal: code.isIdeal('major'), codeIsOk: code.isOk('major'),
-                               codeIsBad: code.isBad('major'), codeIsInDanger: code.isInDanger('major')}" class=""></dd>
+                <dd class="metric" data-bind="text: code.majorBugs,
+                       css: {textIdeal: code.isIdeal('major'), textOk: code.isOk('major'),
+                               textBad: code.isBad('major'), textInDanger: code.isInDanger('major')}" class=""></dd>
 
             </dl>
         </div>
