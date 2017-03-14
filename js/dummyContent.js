@@ -12,8 +12,10 @@ var jsonSprint = '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Rea
                    '"pointsPerState":{"Ready for QA":0,"To Do":0,"Done":0,"Ready for Sign Off":0,"In Dev":13,"Code Review":15,"In QA":0,"Desk Check":0},'+
                    '"committedPoints":28,'+
                    '"currentSprint":9,'+
-                   '"startDate":1488261600000,'+
-                   '"endDate":1489467600000,'+
+                   '"startDate":1489458639309,'+
+                   // '"startDate":1488261600000,'+
+                   // '"endDate":1489467600000,'+
+                   '"endDate":1493614800000,'+
                    '"stories":[{"summary":"[QMO] - APU - Incorrect Log format in Service Alert Logs","status":"Done","complexity":0,"type":"Defect"},'+
                               '{"summary":"Parts Transfer - Login and Logout","status":"In Dev","complexity":8,"type":"Story"},'+
                               '{"summary":"Parts Transfer - Expiration Session ","status":"Code Review","complexity":5,"type":"Story"},'+

@@ -5,19 +5,18 @@ function Sprint() {
   // DATA
   self.stages = ko.observableArray([]);;
   self.daysLeft = ko.observable();
-// sprint status:
+  // sprint status:
     //  0: is too early to tell
     //  1: sprint is in danger
     //  2: sprint is progressing at slower pace than expected
     //  3: sprint is at an acceptable progress
     //  4: sprint progresses as expected or better
-    // The status is updated according to current date, sprint duration, and sprint progress
     // This status will be the base to determine progress bar colors
   self.status = 0;
   self._calendar;
 
-  // returns a value from 0 to 100, representing the progress status of the Sprint
   self.progress = ko.computed(function() {
+    // returns a value from 0 to 100, representing the progress status of the Sprint
     var progress = 0;
     var totalPoints = 0;
     for (var i=0; i<self.stages().length; i++) {
@@ -25,9 +24,7 @@ function Sprint() {
       progress += s.complexityPoints() * s.weight;
       totalPoints += s.complexityPoints();
     }
-    // TODO: limit number of decimals
-    var result = totalPoints != 0 ? progress/totalPoints : 0;
-    return result;
+    return totalPoints != 0 ? (progress/totalPoints).toFixed(1) : 0;
   });
 
   // BEHAVIOR
@@ -36,11 +33,12 @@ function Sprint() {
     if (!self._calendar)
       self._calendar = new Calendar(obj.startDate, obj.endDate);
     self._createStages(obj.allStatus);
-    self._updateDaysLeft(obj.endDate);
+    self.daysLeft(self._calendar.getDaysLeft());
     self._updateComplexityPointsInStages(obj.pointsPerState);
     self._updateStatus();
   };
 
+  // Functions used by UI's prgress bar for styles
   self.isExpectedProgress = ko.computed(function() {
     return self.status == 4;
   });
@@ -64,14 +62,6 @@ function Sprint() {
                           weight: self._getStageInfluence(i+1)});
   };
 
-  self._updateDaysLeft = function(dueDate) {
-    if (!dueDate) {
-      self.daysLeft(0); // TODO: Is this default ok?
-      return;
-    }
-    self.daysLeft(self._calendar.getDaysBetween(self._calendar._start, self._calendar._end));
-  };
-
   self._updateComplexityPointsInStages = function(pointsPerState) {
     for (var i = 0; i < self.stages().length; i++) {
       var stage = self.stages()[i];
@@ -86,6 +76,7 @@ function Sprint() {
   };
 
   self._updateStatus = function(){
+      // The status is updated according to current date, sprint duration, and sprint progress
       if(self._calendar.isNotTooEarly()) {
           var expected = self._calendar.progress();
           self._changeStatus(self.progress() - expected);
@@ -116,6 +107,13 @@ function Calendar(from, to) {
   self._start = from;
   self._end = to;
 
+  self.getSprintLength = function () {
+  };
+
+  self.getDaysLeft = function () {
+      return self.getDaysBetween(Date.now(), self._end);
+  };
+
   self.getDaysBetween = function(fromDate, toDate) {
         // TODO: Do you wanna have 'decimal' days?
         var miliSecMinDaysProduct = (1000 * 60 * 60 * 24);
@@ -144,8 +142,6 @@ function Calendar(from, to) {
 var LocationsViewModel = function() {
   // DATA OBJECTS
   this.sprint = new Sprint();
-
-
 };
 
 var viewModel = new LocationsViewModel();
