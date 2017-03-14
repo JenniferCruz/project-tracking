@@ -19,51 +19,59 @@
   <section class="container">
     <div class="row">
 
-      <div id="sprint-back" class="panel panel-default col-lg-6 col-md-6">
+      <div id="" class="panel panel-default col-lg-5 col-md-5">
         <h2 class="panel-heading">Sprint</h2>
-        <div class="panel-body">
+        <!--TODO: Fix: front and back occupy only half the width each -->
+        <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+          <div class="panel-body">
+            <div class="flipper">
 
-          <!-- KO template to show a description list -->
-          <dl class="dl-horizontal" data-bind="foreach: sprint.stages">
-            <dt data-bind="text: $data.label"></dt>
-            <dd data-bind="text: $data.complexityPoints"></dd>
-          </dl>
-        </div>
+              <div class="front">
+                <div class="progress progress-big">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                             data-bind="text: sprint.progress() + '% completed',
+                                        style: { minWidth: sprint.progress() + '%' },
+                                        css: {progressBarBig: true, idealProgress: sprint.isExpectedProgress(), okProgress: sprint.isOKProgress(),
+                                        badProgress: sprint.isBadProgress(), dangerProgress: sprint.isInDangerProgress()}">
+                  </div>
+                </div>
+                <div class="days-left" data-bind="text: sprint.daysLeft() + ' days left'"></div>
+              </div>
 
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" aria-valuenow="100"
-            aria-valuemin="0" aria-valuemax="100"
-              data-bind="text: sprint.progress() + '%', style: { minWidth: sprint.progress() + '%' }">
-            <!-- 100% -->
+
+              <div class="back">
+                <!-- KO template to show a description list -->
+                <dl class="dl-horizontal" data-bind="foreach: sprint.stages">
+                  <dt data-bind="text: $data.label"></dt>
+                  <dd data-bind="text: $data.complexityPoints"></dd>
+                </dl>
+
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                       data-bind="text: sprint.progress() + '%', style: { minWidth: sprint.progress() + '%' }">
+                    <!-- 100% -->
+                  </div>
+                </div>
+              </div>
+
           </div>
         </div>
       </div>
+    </div>
 
-      <div id="sprint-front" class="panel panel-default col-lg-6 col-md-6">
-        <h2 class="panel-heading">Sprint</h2>
-        <div class="panel-body">
-          <div class="progress progress-big">
-            <div class="progress-bar" role="progressbar" aria-valuenow="100"
-              aria-valuemin="0" aria-valuemax="100"
-                data-bind="text: sprint.progress() + '% completed',
-                  style: { minWidth: sprint.progress() + '%' },
-                  css: {progressBarBig: true, idealProgress: sprint.isExpectedProgress(), okProgress: sprint.isOKProgress(),
-                    badProgress: sprint.isBadProgress(), dangerProgress: sprint.isInDangerProgress()}">
-            </div>
-          </div>
-          <div class="days-left" data-bind="text: sprint.daysLeft() + ' days left'"></div>
-        </div>
 
-      </div>
 
-      <div id="release" class="panel panel-default col-lg-6 col-md-6">
+
+
+
+      <div id="release" class="panel panel-default col-lg-5 col-md-5">
         <h2 class="panel-heading">Release</h2>
         <div class="panel-body">
           <h3>Backlog health:</h3>
           <p> <em class="health-top">40</em><em class="health-bottom">/50</em> estimated stories</p>
         </div>
       </div>
-      <div id="code" class="panel panel-default col-lg-6 col-md-6">
+      <div id="code" class="panel panel-default col-lg-5 col-md-5">
         <h2 class="panel-heading">Code</h2>
         <div class="panel-body">
           <p>A</p>

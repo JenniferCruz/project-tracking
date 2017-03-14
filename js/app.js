@@ -155,13 +155,4 @@ viewModel.sprint.update(jsonSprint);
  // }, 100); // TODO: Increase time to reasonable production value
 
 // TODO: Implement 'snapshots'
-// TODO: Implement 'short view' of sprint. It should consist of:
-         // NOT STARTED: 10 complexityPoints - (show if > 0)
-         // DONE: 0 - (includes RSO and Done)
-         // Almost there: 8 - (includes RQA and IQA)
-         // Out of / TOTAL: 22
-         // Progress bar
-         // OR
-         // SPRING COMPLETION: 45%
-         // DAYS LEFT: 4e
 // TODO: Background imag should be displayed according to an avrg of all boards, not just sprint's
