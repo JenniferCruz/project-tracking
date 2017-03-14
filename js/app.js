@@ -138,16 +138,33 @@ function Calendar(from, to) {
 }
 
 
+function Analysis() {
+    var self = this;
+
+    self.health = ko.observable();
+    self.failed = ko.observable();
+
+    self.update = function(jsonStr) {
+        var obj = JSON.parse(jsonStr);
+        self.health(obj.health);
+        self.failed(obj.failed);
+    };
+
+}
+
 // KNOCKOUT VIEW MODEL
 var LocationsViewModel = function() {
   // DATA OBJECTS
   this.sprint = new Sprint();
+  this.analysis = new Analysis();
 };
 
 var viewModel = new LocationsViewModel();
 ko.applyBindings(viewModel);
 
 viewModel.sprint.update(jsonSprint);
+viewModel.analysis.update(jsonJenkins);
+
  // setInterval(function(){
 //    $.get('...', function(){...});
  //   console.log(theJsonFile);
