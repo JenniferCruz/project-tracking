@@ -152,11 +152,66 @@ function Analysis() {
 
 }
 
+function Code() {
+    var self = this;
+
+    self.coverage = ko.observable();
+    self.criticBugs = ko.observable();
+    self.majorBugs = ko.observable();
+
+    // TODO: What about 'Bill is broken'|| 'Bill is ok'?
+
+    self.update = function (jsonStr) {
+        var obj = JSON.parse(jsonStr);
+        self.coverage(obj.coverage);
+        self.criticBugs(obj.criticals);
+        self.majorBugs(obj.majors);
+    };
+
+    // Communicate coverage status
+    self.isCoverageIdeal = function () {
+        return self.coverage() >= 95;
+    };
+
+    self.isCoverageOk = function () {
+        return self.coverage() >= 90 && self.coverage() < 95;
+    };
+
+    self.isCoverageBad = function () {
+        return self.coverage() >= 86 && self.coverage() < 90;
+    };
+
+    self.isCoverageInDanger = function () {
+        return self.coverage() < 86;
+    };
+
+    // Communicate Critic Bugs status
+    self.isCriticBugsIdeal = function () {
+        return self.criticBugs() == 0;
+    };
+
+    self.isCriticBugsOk = function () {
+        return self.criticBugs() > 0 && self.criticBugs() <= 4;
+    };
+
+    self.isCriticBugsBad = function () {
+        return self.criticBugs() > 4 && self.criticBugs() <= 9;
+    };
+
+    self.isCriticBugsInDanger = function () {
+        return self.criticBugs() > 9;
+    };
+
+
+}
+
+
 // KNOCKOUT VIEW MODEL
 var LocationsViewModel = function() {
   // DATA OBJECTS
   this.sprint = new Sprint();
   this.analysis = new Analysis();
+  this.code = new Code();
 };
 
 var viewModel = new LocationsViewModel();

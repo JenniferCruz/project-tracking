@@ -29,4 +29,4 @@ var jsonSprint = '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Rea
 var jsonJenkins = '{ "health": 60, "failed": false}';
 
 // http://localhost:8090/sonar
-var jsonSonar = {"coverage":96.7,"criticals":1,"majors":0};
+var jsonSonar = '{"coverage":96.7,"criticals":1,"majors":0}';
