@@ -77,9 +77,23 @@
       <div id="code" class="panel panel-default col-lg-5 col-md-5">
         <h2 class="panel-heading">Code</h2>
         <div class="panel-body">
-          <p>A</p>
-          <p>B</p>
-          <p>C</p>
+            <dl class="dl-horizontal">
+                <dt>Code Coverage: </dt>
+                <dd data-bind="text: code.coverage,
+                       css: {codeIsIdeal: code.isCoverageIdeal(), codeIsOk: code.isCoverageOk(),
+                               codeIsBad: code.isCoverageBad(), codeIsInDanger: code.isCoverageInDanger()}"></dd>
+
+                <dt>Critic Bugs: </dt>
+                <dd data-bind="text: code.criticBugs,
+                       css: {codeIsIdeal: code.isCriticBugsIdeal(), codeIsOk: code.isCriticBugsOk(),
+                               codeIsBad: code.isCriticBugsBad(), codeIsInDanger: code.isCriticBugsInDanger()}"></dd>
+
+                <dt>Major Bugs: </dt>
+                <dd data-bind="text: code.majorBugs,
+                       css: {codeIsIdeal: code.isCriticBugsIdeal(), codeIsOk: code.isCriticBugsOk(),
+                               codeIsBad: code.isCriticBugsBad(), codeIsInDanger: code.isCriticBugsInDanger()}" class=""></dd>
+
+            </dl>
         </div>
       </div>
     </div>

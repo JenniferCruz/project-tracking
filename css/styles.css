@@ -151,3 +151,21 @@ header {
 .dangerColor {
   color: #ac2925;
 }
+
+/* Color code board statements */
+/* TODO: Simplify colors to be more widely useds */
+.codeIsIdeal {
+  color: #1b6d85;
+}
+
+.codeIsOk {
+  color: #3c763d;
+}
+
+.codeIsBad {
+  color: #d58512;
+}
+
+.codeIsInDanger {
+  color: #ac2925;
+}

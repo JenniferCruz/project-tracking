@@ -30,3 +30,6 @@ var jsonJenkins = '{ "health": 60, "failed": false}';
 
 // http://localhost:8090/sonar
 var jsonSonar = '{"coverage":96.7,"criticals":1,"majors":0}';
+// var jsonSonar = '{"coverage":92,"criticals":1,"majors":0}';
+// var jsonSonar = '{"coverage":87.7,"criticals":1,"majors":0}';
+// var jsonSonar = '{"coverage":70.7,"criticals":1,"majors":0}';
