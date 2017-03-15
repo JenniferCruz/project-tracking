@@ -1,3 +1,7 @@
+body {
+    font-size: 2em;
+}
+
 .logo {
   width: 100px;
 }
@@ -15,7 +19,7 @@ header {
 
 .days-left {
   text-align: center;
-  font-size: 30px;
+  /*font-size: 30px;*/
 }
 
 .progress-big {
@@ -25,7 +29,7 @@ header {
 
 .progressBarBig {
   padding-top: 25px;
-  font-size: 25px;
+  /*font-size: 25px;*/
   color: black;
   padding-left: 10px;
   /*background-color: #0099CC;*/
@@ -58,7 +62,7 @@ header {
 }
 
 .metric {
-    font-size: 1.5em;
+    /*font-size: 1.5em;*/
     font-weight: bold;
 }
 
@@ -155,6 +159,6 @@ header {
 }
 
 .analysis-glyphicon {
-  font-size: 4em;
+  /*font-size: 4em;*/
 }
 

@@ -39,11 +39,14 @@
 
 
               <div class="back">
-                <!-- KO template to show a description list -->
-                <dl class="dl-horizontal" data-bind="foreach: sprint.stages">
-                  <dt data-bind="text: $data.label"></dt>
-                  <dd data-bind="text: $data.complexityPoints" class="metric"></dd>
-                </dl>
+                  <!-- KO template to show a description list -->
+                  <table class="dl-horizontal" data-bind="foreach: sprint.stages">
+                      <tr>
+                          <td data-bind="text: $data.label"></td>
+                          <td data-bind="text: $data.complexityPoints" class="metric"></td>
+                      </tr>
+                  </table>
+
 
               </div>
 
