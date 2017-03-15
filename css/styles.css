@@ -172,3 +172,17 @@ table td {
   /*font-size: 4em;*/
 }
 
+/* styles to apply when 'IN DANGER' */
+.boardInDanger {
+    background-color: #c77270;
+    border: 3px solid #b94e4c;
+    color: white;
+}
+
+.boardHeaderInDanger {
+    background-color: #cb8e8d;
+    padding: 10px 15px;
+    border-bottom: 1px solid #b94e4c;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
