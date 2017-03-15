@@ -186,3 +186,19 @@ table td {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
+
+/* styles to apply when 'DOING BAD' */
+.boardBad {
+    background-color: #f3e28a;
+    border: 3px solid #ddbd17;
+    /*color: white;*/
+}
+
+.boardHeaderBad {
+    background-color: #f6ebae;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddbd17;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
