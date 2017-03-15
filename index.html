@@ -20,6 +20,7 @@
   <section class="container">
     <div class="row">
 
+      <!-- SRINT PANEL -->
       <div id="" class="panel panel-default col-lg-5 col-md-5"
            data-bind="css: {'board-success': sprint.isExpectedProgress(), 'board-ok': sprint.isOKProgress(),
                                         'board-bad': sprint.isBadProgress(), 'board-in-danger': sprint.isInDangerProgress()}">
@@ -61,12 +62,8 @@
       </div>
     </div>
 
-
-
-
-
-
-      <div id="analysis" class="panel panel-default col-lg-5 col-md-5"
+        <!-- ANALYSIS PANEL -->
+        <div id="analysis" class="panel panel-default col-lg-5 col-md-5"
            data-bind="css: {'board-success': !analysis.failed(), 'board-in-danger': analysis.failed()}">
           <div data-bind="css: {'board-header-success': !analysis.failed(), 'board-header-in-danger': analysis.failed()}">
               <h2>Analysis Board</h2>
@@ -80,7 +77,8 @@
         </div>
       </div>
 
-      <div id="code" class="panel panel-default col-lg-5 col-md-5"
+        <!-- CODE PANEL -->
+        <div id="code" class="panel panel-default col-lg-5 col-md-5"
            data-bind="css: {'board-success': code.isIdeal(), 'board-ok': code.isOk(),
                                         'board-bad': code.isBad(), 'board-in-danger': code.isInDanger()}">
           <div data-bind="css: {'board-header-success': code.isIdeal(), 'board-header-ok': code.isOk(),
@@ -111,6 +109,24 @@
             </dl>
         </div>
       </div>
+
+        <!-- TEAM PANEL -->
+        <div id="team" class="panel panel-default col-lg-5 col-md-5"
+             data-bind="css: {'board-success': code.isIdeal() && !analysis.failed() && sprint.isExpectedProgress(),
+                              'board-ok': code.isOk() && !analysis.failed() && sprint.isOKProgress(),
+                              'board-bad': code.isBad() || analysis.failed() || sprint.isBadProgress(),
+                              'board-in-danger': code.isInDanger() || analysis.failed() || sprint.isInDangerProgress()}">
+            <!--<div data-bind="css: {'board-header-success': code.isIdeal() && !analysis.failed() && sprint.isExpectedProgress(), -->
+                                  <!--'board-header-ok': code.isOk() && !analysis.failed() && sprint.isOKProgress(),-->
+                                  <!--'board-header-bad': code.isBad() || analysis.failed() || sprint.isBadProgress(), -->
+                                  <!--'board-header-in-danger': code.isInDanger() || analysis.failed() || sprint.isInDangerProgress()}">-->
+                <!--<h2></h2>-->
+            <!--</div>-->
+            <div class="panel-body">
+                <!--TODO: Add team img -->
+            </div>
+        </div>
+
     </div>
   </section>
 
