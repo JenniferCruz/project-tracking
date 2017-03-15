@@ -28,6 +28,7 @@
                                         'board-header-bad': sprint.isBadProgress(), 'board-header-in-danger': sprint.isInDangerProgress(),
                                         'panel-heading': sprint.isTooEarly()}">
             <h2>Sprint Board</h2>
+            <i class="panel-heading-icon glyphicon glyphicon-repeat"></i>
         </div>
         <div class="panel-body">
           <div id="flip" class="flip-container">
@@ -67,6 +68,7 @@
            data-bind="css: {'board-success': !analysis.failed(), 'board-in-danger': analysis.failed()}">
           <div data-bind="css: {'board-header-success': !analysis.failed(), 'board-header-in-danger': analysis.failed()}">
               <h2>Analysis Board</h2>
+              <i class="panel-heading-icon glyphicon glyphicon-eye-open"></i>
           </div>
         <div class="panel-body analysis-content">
           <h3>Backlog health:</h3>
@@ -84,6 +86,7 @@
           <div data-bind="css: {'board-header-success': code.isIdeal(), 'board-header-ok': code.isOk(),
                                         'board-header-bad': code.isBad(), 'board-header-in-danger': code.isInDanger()}">
               <h2>Code</h2>
+              <i class="panel-heading-icon glyphicon glyphicon-console"></i>
           </div>
         <div class="panel-body">
             <dl class="dl-horizontal">
