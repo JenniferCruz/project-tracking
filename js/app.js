@@ -52,6 +52,9 @@ function Sprint() {
   self.isInDangerProgress = ko.computed(function() {
     return self.status() === 1;
   });
+  self.isTooEarly = ko.computed(function() {
+      return self.status() === 0;
+  });
 
 
   self._createStages = function(status) {
