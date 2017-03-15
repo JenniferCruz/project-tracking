@@ -90,6 +90,11 @@ dt {
     margin-bottom: 8px;
 }
 
+.team-panel {
+     text-align: center;
+    margin: 20px;
+}
+
 /* Flipping through CSS adapted from:
     https://davidwalsh.name/css-flip
     https://codepen.io/darkwing/pen/bCali*/
@@ -240,7 +245,7 @@ dt {
 }
 
 /* Set up background as per general status */
-.sprint-status {
+.general-status {
     background-repeat: no-repeat;
     background-size: cover;
 }

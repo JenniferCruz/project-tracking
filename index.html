@@ -5,18 +5,15 @@
     <meta charset="UTF-8">
     <title>Team Board</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--TODO: Should we download it? -->
     <link href="https://fonts.googleapis.com/css?family=Patua+One" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <!--TODO: Background should change according to all boards, not just Sprint's-->
-<body class="sprint-status" data-bind="css: {failed: sprint.progress() < 25, danger: sprint.progress() < 50,
-  ok: sprint.progress() <= 75, success: sprint.progress() > 75 }">
+<body class="general-status" data-bind="css: {failed: isCritical(), danger: isBad(), ok: isOk(), success: isIdeal()}">
   <header class="container">
     <img src="img/logo.png" alt="Southwest" class="logo header-content">
-    <!-- TODO: add team name to 'Team Board' -->
     <h2 class="header-content">Team Board</h2>
   </header>
 
@@ -133,8 +130,9 @@
                                   <!--'board-header-in-danger': code.isInDanger() || analysis.failed() || sprint.isInDangerProgress()}">-->
                 <!--<h2></h2>-->
             <!--</div>-->
-            <div class="panel-body">
+            <div class="panel-body team-panel">
                 <!--TODO: Add team img -->
+                <img src="http://lorempixel.com/300/300/">
             </div>
         </div>
 
