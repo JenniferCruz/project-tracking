@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var flip = document.getElementById('flip');
     setInterval(function () {
         flip.classList.toggle('flipping');
-    }, 8000); // TODO: Is this timing good?
+    }, 10000); // TODO: Is this timing good?
 });
 // TODO: Implement 'snapshots'
 // TODO: Background imag should be displayed according to an avrg of all boards, not just sprint's

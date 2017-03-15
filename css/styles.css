@@ -17,6 +17,7 @@ header {
   font-weight: bold;
 }
 
+
 .days-left {
   text-align: center;
   /*font-size: 30px;*/
@@ -24,6 +25,10 @@ header {
 
 .progress-big {
   height: 80px;
+}
+
+.table {
+    margin-bottom: 0; /*remove Bootstrap's */
 }
 
 
@@ -59,6 +64,7 @@ header {
 
 .panel {
   margin: 10px;
+  padding: 0;
 }
 
 .metric {
