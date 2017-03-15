@@ -80,8 +80,11 @@
         </div>
       </div>
 
-      <div id="code" class="panel panel-default col-lg-5 col-md-5">
-          <div class="panel-heading">
+      <div id="code" class="panel panel-default col-lg-5 col-md-5"
+           data-bind="css: {'board-success': code.isIdeal(), 'board-ok': code.isOk(),
+                                        'board-bad': code.isBad(), 'board-in-danger': code.isInDanger()}">
+          <div data-bind="css: {'board-header-success': code.isIdeal(), 'board-header-ok': code.isOk(),
+                                        'board-header-bad': code.isBad(), 'board-header-in-danger': code.isInDanger()}">
               <h2>Code</h2>
           </div>
         <div class="panel-body">

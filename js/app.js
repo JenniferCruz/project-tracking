@@ -180,7 +180,8 @@ function Code() {
             return self.criticBugs() === 0;
         if (metric === 'major')
             return self.majorBugs() === 0;
-        return false;
+        // else, all metrics must be ideal to report code as ideal
+        return self.isIdeal('coverage') && self.isIdeal('critic') && self.isIdeal('major');
     };
 
     self.isOk = function (metric) {
@@ -190,7 +191,8 @@ function Code() {
             return self.criticBugs() > 0 && self.criticBugs() <= 4;
         if (metric === 'major')
             return self.majorBugs() > 0 && self.majorBugs() <= 8;
-        return false;
+        // else, all metrics must be ok to report code as ok
+        return self.isOk('coverage') && self.isOk('critic') && self.isOk('major');
     };
 
     self.isBad = function (metric) {
@@ -200,7 +202,8 @@ function Code() {
             return self.criticBugs() > 4 && self.criticBugs() <= 9;
         if (metric === 'major')
             return self.majorBugs() > 8 && self.majorBugs() <= 18;
-        return false;
+        // else, if any metric is bad, code is reported as bad
+        return self.isBad('coverage') || self.isBad('critic') || self.isBad('major');
     };
 
 
@@ -211,7 +214,8 @@ function Code() {
             return self.criticBugs() > 9;
         if (metric === 'major')
             return self.majorBugs() > 18;
-        return false;
+        // else, if any metric is in danger, code is reported as in danger
+        return self.isInDanger('coverage') || self.isInDanger('critic') || self.isInDanger('major');
     };
 
     return self;
