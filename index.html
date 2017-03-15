@@ -74,13 +74,17 @@
               <i class="panel-heading-icon glyphicon glyphicon-eye-open"></i>
           </div>
         <div class="panel-body analysis-content">
-          <h3>Backlog health:</h3>
-          <em class="metric" data-bind="text: analysis.health(),
-            css: {'text-ideal': !analysis.failed(), 'text-in-danger': analysis.failed()}"></em>
-          <em data-bind="text: ' / ' + analysis.healthBase, style: {color: 'gray', fontSize: '0.75em'}"></em>
-          <p>estimated stories</p>
-          <span class="glyphicon glyphicon-ok-circle analysis-glyphicon textIdeal" data-bind="visible: !analysis.failed()"></span>
-          <span class="glyphicon glyphicon-fire analysis-glyphicon textInDanger" data-bind="visible: analysis.failed()"></span>
+            <div class="analysis-status-icon">
+                <span class="glyphicon glyphicon-ok-circle analysis-glyphicon text-ideal" data-bind="visible: !analysis.failed()"></span>
+                <span class="glyphicon glyphicon-fire analysis-glyphicon text-in-danger" data-bind="visible: analysis.failed()"></span>
+            </div>
+            <div class="analysis-data">
+                <h3>Backlog health:</h3>
+                <em class="metric" data-bind="text: analysis.health(),
+                    css: {'text-ideal': !analysis.failed(), 'text-in-danger': analysis.failed()}"></em>
+                <em data-bind="text: ' / ' + analysis.healthBase, style: {color: 'darkgray', fontSize: '0.75em'}"></em>
+                <p>estimated stories</p>
+            </div>
         </div>
       </div>
 

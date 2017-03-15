@@ -63,6 +63,25 @@ table td {
     text-shadow: 0px 0px 3px rgba(255, 255, 255, 1);
 }
 
+
+.analysis-content {
+    display: flex;
+    align-items: baseline;
+}
+
+.analysis-status-icon {
+    font-size: 4em;
+    margin-right: 0.5em;
+}
+
+.analysis-glyphicon {
+    top: 20px;
+}
+
+.glyphicon-fire {
+    text-shadow: 2px -1px 6px rgba(89, 58, 0, 1);
+}
+
 /* Flipping through CSS adapted from:
     https://davidwalsh.name/css-flip
     https://codepen.io/darkwing/pen/bCali*/
@@ -118,13 +137,6 @@ table td {
   position: absolute;
 }
 
-.analysis-content {
-  text-align: center;
-}
-
-.analysis-glyphicon {
-  /*font-size: 4em;*/
-}
 
 /* styles for boards when 'IN DANGER' */
 .board-in-danger {
