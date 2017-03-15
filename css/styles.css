@@ -172,7 +172,7 @@ table td {
   /*font-size: 4em;*/
 }
 
-/* styles to apply when 'IN DANGER' */
+/* styles for boards when 'IN DANGER' */
 .boardInDanger {
     background-color: #c77270;
     border: 3px solid #b94e4c;
@@ -187,7 +187,7 @@ table td {
     border-top-right-radius: 3px;
 }
 
-/* styles to apply when 'DOING BAD' */
+/* styles for boards when 'DOING BAD' */
 .boardBad {
     background-color: #f3e28a;
     border: 3px solid #ddbd17;
@@ -198,6 +198,20 @@ table td {
     background-color: #f6ebae;
     padding: 10px 15px;
     border-bottom: 1px solid #ddbd17;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+/* styles for boards when 'DOING OK' */
+.boardOk {
+    background-color: #bce8f1;
+    border: 3px solid #31708f;
+}
+
+.boardHeaderOk {
+    background-color: #d9edf7;
+    padding: 10px 15px;
+    border-bottom: 1px solid #31708f;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
