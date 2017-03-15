@@ -12,7 +12,7 @@ function Sprint() {
     //  3: sprint is at an acceptable progress
     //  4: sprint progresses as expected or better
     // This status will be the base to determine progress bar colors
-  self.status = 0;
+  self.status = ko.observable(0);
   self._calendar;
 
   self.progress = ko.computed(function() {
@@ -32,6 +32,7 @@ function Sprint() {
     var obj = JSON.parse(jsonStr);
     if (!self._calendar)
       self._calendar = new Calendar(obj.startDate, obj.endDate);
+
     self._createStages(obj.allStatus);
     self.daysLeft(self._calendar.getDaysLeft());
     self._updateComplexityPointsInStages(obj.pointsPerState);
@@ -40,16 +41,16 @@ function Sprint() {
 
   // Functions used by UI's prgress bar for styles
   self.isExpectedProgress = ko.computed(function() {
-    return self.status == 4;
+    return self.status() === 4;
   });
   self.isOKProgress = ko.computed(function() {
-    return self.status == 3;
+    return self.status() === 3;
   });
   self.isBadProgress = ko.computed(function() {
-    return self.status == 2;
+    return self.status() === 2;
   });
   self.isInDangerProgress = ko.computed(function() {
-    return self.status == 1;
+    return self.status() === 1;
   });
 
 
@@ -85,16 +86,16 @@ function Sprint() {
 
   self._changeStatus = function(progressDiff){
       if (progressDiff >= 0) {
-          self.status = 4;
+          self.status(4);
       } else {
           // TODO: Is this convention convenient for project management?
           progressDiff = Math.abs(progressDiff);
           if (progressDiff < 10)
-              self.status = 3;
+              self.status(3);
           else if (progressDiff < 25)
-              self.status = 2;
+              self.status(2);
           else
-              this.status = 1;
+              self.status(1);
       }
   };
 
@@ -229,6 +230,7 @@ ko.applyBindings(viewModel);
 viewModel.sprint.update(jsonSprint);
 viewModel.analysis.update(jsonJenkins);
 viewModel.code.update(jsonSonar);
+
 
  // setInterval(function(){
 //    $.get('...', function(){...});

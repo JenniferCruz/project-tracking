@@ -27,10 +27,10 @@
             <div class="flipper">
               <div class="front">
                 <div class="progress progress-big">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                  <div class="progress-bar progressBarBig" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
                              data-bind="text: sprint.progress() + '% completed',
                                         style: { minWidth: sprint.progress() + '%' },
-                                        css: {progressBarBig: true, idealProgress: sprint.isExpectedProgress(), okProgress: sprint.isOKProgress(),
+                                        css: {idealProgress: sprint.isExpectedProgress(), okProgress: sprint.isOKProgress(),
                                         badProgress: sprint.isBadProgress(), dangerProgress: sprint.isInDangerProgress()}">
                   </div>
                 </div>
@@ -45,12 +45,6 @@
                   <dd data-bind="text: $data.complexityPoints" class="metric"></dd>
                 </dl>
 
-                <div class="progress">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
-                       data-bind="text: sprint.progress() + '%', style: { minWidth: sprint.progress() + '%' }">
-                    <!-- 100% -->
-                  </div>
-                </div>
               </div>
 
           </div>
@@ -82,7 +76,10 @@
                 <dt>Code Coverage: </dt>
                 <dd class="metric" data-bind="text: code.coverage,
                        css: {textIdeal: code.isIdeal('coverage'), textOk: code.isOk('coverage'),
-                               textBad: code.isBad('coverage'), textInDanger: code.isInDanger('coverage')}"></dd>
+                               textBad: code.isBad('coverage'), textInDanger: code.isInDanger('coverage')}">
+
+                    <a class="glyphicon glyphicon-ok-circle"></a>
+                </dd>
 
                 <dt>Critic Bugs: </dt>
                 <dd class="metric" data-bind="text: code.criticBugs,
