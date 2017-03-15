@@ -192,8 +192,11 @@ function Code() {
             return self.criticBugs() > 0 && self.criticBugs() <= 4;
         if (metric === 'major')
             return self.majorBugs() > 0 && self.majorBugs() <= 8;
-        // else, all metrics must be ok to report code as ok
-        return self.isOk('coverage') && self.isOk('critic') && self.isOk('major');
+        // else, all metrics must be ok or better to report code as ok
+        return (self.isOk('coverage') || self.isIdeal('coverage'))
+            && (self.isOk('critic') || self.isIdeal('critic'))
+            && (self.isOk('major') || self.isIdeal('major'))
+            && !self.isBad() && !self.isInDanger();
     };
 
     self.isBad = function (metric) {
