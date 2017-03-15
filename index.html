@@ -21,10 +21,10 @@
     <div class="row">
 
       <div id="" class="panel panel-default col-lg-5 col-md-5"
-           data-bind="css: {boardSuccess: sprint.isExpectedProgress(), boardOk: sprint.isOKProgress(),
-                                        boardBad: sprint.isBadProgress(), boardInDanger: sprint.isInDangerProgress()}">
-        <div data-bind="css: {boardHeaderSuccess: sprint.isExpectedProgress(), boardHeaderOk: sprint.isOKProgress(),
-                                        boardHeaderBad: sprint.isBadProgress(), boardHeaderInDanger: sprint.isInDangerProgress(),
+           data-bind="css: {'board-success': sprint.isExpectedProgress(), 'board-ok': sprint.isOKProgress(),
+                                        'board-bad': sprint.isBadProgress(), 'board-in-danger': sprint.isInDangerProgress()}">
+        <div data-bind="css: {'board-header-success': sprint.isExpectedProgress(), 'board-header-ok': sprint.isOKProgress(),
+                                        'board-header-bad': sprint.isBadProgress(), 'board-header-in-danger': sprint.isInDangerProgress(),
                                         'panel-heading': sprint.isTooEarly()}">
             <h2>Sprint Board</h2>
         </div>
@@ -33,11 +33,11 @@
             <div class="flipper">
               <div class="front">
                 <div class="progress progress-big">
-                  <div class="progress-bar progressBarBig" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                      <div class="progress-bar progress-bar-big" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
                              data-bind="text: sprint.progress() + '% completed',
                                         style: { minWidth: sprint.progress() + '%' },
-                                        css: {idealProgress: sprint.isExpectedProgress(), okProgress: sprint.isOKProgress(),
-                                        badProgress: sprint.isBadProgress(), dangerProgress: sprint.isInDangerProgress()}">
+                                        css: {'ideal-progress': sprint.isExpectedProgress(), 'ok-progress': sprint.isOKProgress(),
+                                        'bad-progress': sprint.isBadProgress(), 'danger-progress': sprint.isInDangerProgress()}">
                   </div>
                 </div>
                 <div class="days-left" data-bind="text: sprint.daysLeft() + ' days left'"></div>
@@ -72,7 +72,7 @@
           </div>
         <div class="panel-body analysis-content">
           <h3>Backlog health:</h3>
-          <em class="metric" data-bind="text: analysis.health(), css: {textIdeal: !analysis.failed(), textInDanger: analysis.failed()}">40</em>
+          <em class="metric" data-bind="text: analysis.health(), css: {'text-ideal': !analysis.failed(), 'text-in-danger': analysis.failed()}">40</em>
           <p>estimated stories</p>
           <span class="glyphicon glyphicon-ok-circle analysis-glyphicon textIdeal" data-bind="visible: !analysis.failed()"></span>
           <span class="glyphicon glyphicon-fire analysis-glyphicon textInDanger" data-bind="visible: analysis.failed()"></span>
@@ -88,21 +88,21 @@
                 <!--TODO: Add icons and standard colors and sizes to details -->
                 <dt>Code Coverage: </dt>
                 <dd class="metric" data-bind="text: code.coverage,
-                       css: {textIdeal: code.isIdeal('coverage'), textOk: code.isOk('coverage'),
-                               textBad: code.isBad('coverage'), textInDanger: code.isInDanger('coverage')}">
+                       css: {'text-ideal': code.isIdeal('coverage'), 'text-ok': code.isOk('coverage'),
+                               'text-bad': code.isBad('coverage'), 'text-in-danger': code.isInDanger('coverage')}">
 
                     <a class="glyphicon glyphicon-ok-circle"></a>
                 </dd>
 
                 <dt>Critic Bugs: </dt>
                 <dd class="metric" data-bind="text: code.criticBugs,
-                       css: {textIdeal: code.isIdeal('critic'), textOk: code.isOk('critic'),
-                               textBad: code.isBad('critic'), textInDanger: code.isInDanger('critic')}"></dd>
+                       css: {'text-ideal': code.isIdeal('critic'), 'text-ok': code.isOk('critic'),
+                               'text-bad': code.isBad('critic'), 'text-in-danger': code.isInDanger('critic')}"></dd>
 
                 <dt>Major Bugs: </dt>
                 <dd class="metric" data-bind="text: code.majorBugs,
-                       css: {textIdeal: code.isIdeal('major'), textOk: code.isOk('major'),
-                               textBad: code.isBad('major'), textInDanger: code.isInDanger('major')}" class=""></dd>
+                       css: {'text-ideal': code.isIdeal('major'), 'text-ok': code.isOk('major'),
+                               'text-bad': code.isBad('major'), 'text-in-danger': code.isInDanger('major')}" class=""></dd>
 
             </dl>
         </div>

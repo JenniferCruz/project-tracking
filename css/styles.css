@@ -31,7 +31,7 @@ header {
 }
 
 
-.progressBarBig {
+.progress-bar-big {
   padding-top: 25px;
   color: black;
   padding-left: 10px;
@@ -76,35 +76,35 @@ table td {
     font-weight: bold;
 }
 
-.textInDanger {
+.text-in-danger {
     color: #CC0000;
 }
 
-.textBad {
+.text-bad {
     color: #FF8800;
 }
 
-.textOk {
+.text-ok {
     color: #0099CC;
 }
 
-.textIdeal {
+.text-ideal {
     color: #007E33;
 }
 
-.idealProgress {
+.ideal-progress {
     background-color: #007E33;
 }
 
-.okProgress {
+.ok-progress {
     background-color: #0099CC;
 }
 
-.badProgress {
+.bad-progress {
     background-color: #FF8800;
 }
 
-.dangerProgress {
+.danger-progress {
     background-color: #CC0000;
 }
 
@@ -173,13 +173,13 @@ table td {
 }
 
 /* styles for boards when 'IN DANGER' */
-.boardInDanger {
+.board-in-danger {
     background-color: #c77270;
     border: 3px solid #b94e4c;
     color: white;
 }
 
-.boardHeaderInDanger {
+.board-header-in-danger {
     background-color: #cb8e8d;
     padding: 10px 15px;
     border-bottom: 1px solid #b94e4c;
@@ -188,13 +188,13 @@ table td {
 }
 
 /* styles for boards when 'DOING BAD' */
-.boardBad {
+.board-bad {
     background-color: #f3e28a;
     border: 3px solid #ddbd17;
     /*color: white;*/
 }
 
-.boardHeaderBad {
+.board-header-bad {
     background-color: #f6ebae;
     padding: 10px 15px;
     border-bottom: 1px solid #ddbd17;
@@ -203,12 +203,12 @@ table td {
 }
 
 /* styles for boards when 'DOING OK' */
-.boardOk {
+.board-ok {
     background-color: #bce8f1;
     border: 3px solid #31708f;
 }
 
-.boardHeaderOk {
+.board-header-ok {
     background-color: #d9edf7;
     padding: 10px 15px;
     border-bottom: 1px solid #31708f;
@@ -217,12 +217,12 @@ table td {
 }
 
 /* styles for boards when 'DOING IDEAL' */
-.boardSuccess {
+.board-success {
     background-color: #d6e9c6;
     border: 3px solid #3c763d;
 }
 
-.boardHeaderSuccess {
+.board-header-success {
     background-color: #dff0d8;
     padding: 10px 15px;
     border-bottom: 1px solid #3c763d;
