@@ -66,8 +66,9 @@
 
 
 
-      <div id="analysis" class="panel panel-default col-lg-5 col-md-5">
-          <div class="panel-heading">
+      <div id="analysis" class="panel panel-default col-lg-5 col-md-5"
+           data-bind="css: {'board-success': !analysis.failed(), 'board-in-danger': analysis.failed()}">
+          <div data-bind="css: {'board-header-success': !analysis.failed(), 'board-header-in-danger': analysis.failed()}">
               <h2>Analysis Board</h2>
           </div>
         <div class="panel-body analysis-content">
