@@ -91,7 +91,7 @@ function Sprint() {
       if (progressDiff >= 0) {
           self.status(4);
       } else {
-          // TODO: Is this convention convenient for project management?
+          // TODO: * This is how you want to decide the status?
           progressDiff = Math.abs(progressDiff);
           if (progressDiff < 10)
               self.status(3);
@@ -119,7 +119,7 @@ function Calendar(from, to) {
   };
 
   self.getDaysBetween = function(fromDate, toDate) {
-        // TODO: Do you wanna have 'decimal' days?
+        // TODO: * Do you wanna have 'decimal' days?
         var miliSecMinDaysProduct = (1000 * 60 * 60 * 24);
         toDate = toDate? toDate: to;
         fromDate = fromDate ? fromDate : fromDate;
@@ -146,7 +146,7 @@ function Analysis() {
     var self = this;
 
     self.health = ko.observable();
-    self.healthBase = 40; // TODO: What's the real base
+    self.healthBase = 40; // TODO: * Supply the real base
     self.failed = ko.observable();
 
     self.update = function(jsonStr) {
@@ -164,7 +164,7 @@ function Code() {
     self.criticBugs = ko.observable();
     self.majorBugs = ko.observable();
 
-    // TODO: What about 'Bill is broken'|| 'Bill is ok'?
+    // TODO: * What about 'Bill is broken'|| 'Bill is ok'?
 
     self.update = function (jsonStr) {
         var obj = JSON.parse(jsonStr);
@@ -232,15 +232,15 @@ var LocationsViewModel = function() {
   this.sprint = new Sprint();
   this.analysis = new Analysis();
   this.code = new Code();
-  // TODO: refactor code isOk... etc, so that param is not passed from UI?
 
-  // TODO: give better names... like 'sprintIsOk' but more generic
+  // TODO: * give better names... like 'sprintIsOk' but more generic
   this.isIdeal = function () {
       return !this.analysis.failed() && (this.sprint.isExpectedProgress() || this.sprint.isTooEarly()) && this.code.isIdeal();
   };
 
   this.isOk = function () {
-      // TODO: When is too early... how should be categorize: ok or ideal?
+      // TODO: * When is too early... how should be categorize: ok or ideal?
+      // TODO: * Shoould we also have a isTooEarly ('white default') for the other boards as for Sprint?
       return !this.analysis.failed() &&
           (this.sprint.isExpectedProgress() || this.sprint.isOKProgress() || this.sprint.isTooEarly()) &&
           (this.code.isIdeal() || this.code.isOk());
@@ -260,21 +260,35 @@ var LocationsViewModel = function() {
 var viewModel = new LocationsViewModel();
 ko.applyBindings(viewModel);
 
+// TODO: remove these when ready
 viewModel.sprint.update(jsonSprint);
 viewModel.analysis.update(jsonJenkins);
 viewModel.code.update(jsonSonar);
 
- // setInterval(function(){
-//    $.get('...', function(){...});
- //   console.log(theJsonFile);
- //   viewModel.updateSprintIndicators(theJsonFile);
- // }, 100); // TODO: Increase time to reasonable production value
+// setInterval(function(){
+//      // TODO: * What are the request URLs?
+//    $.get('...', function(data){
+//        // ....
+//        viewModel.sprint.update(data);
+//    });
+//
+//    $.get('...', function(data){
+//        // ....
+//        viewModel.analysis.update(data);
+//    });
+//
+//    $.get('...', function(data){
+//        // ....
+//        viewModel.code.update(data);
+//    });
+//
+//  }, 100); // TODO: * what should be a good timing?
 
 document.addEventListener('DOMContentLoaded', function() {
     var flip = document.getElementById('flip');
     setInterval(function () {
         flip.classList.toggle('flipping');
-    }, 10000); // TODO: Is this timing good?
+    }, 8000); // TODO: * Is this timing good?
 });
-// TODO: Implement 'snapshots'
-// TODO: Background imag should be displayed according to an avrg of all boards, not just sprint's
+
+// TODO: ! Implement 'snapshots'
