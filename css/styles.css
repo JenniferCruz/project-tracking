@@ -73,42 +73,9 @@ table td {
 }
 
 .metric {
-    /*font-size: 1.5em;*/
     font-weight: bold;
+    text-shadow: 0px 0px 3px rgba(255, 255, 255, 1);
 }
-
-.text-in-danger {
-    color: #CC0000;
-}
-
-.text-bad {
-    color: #FF8800;
-}
-
-.text-ok {
-    color: #0099CC;
-}
-
-.text-ideal {
-    color: #007E33;
-}
-
-.ideal-progress {
-    background-color: #007E33;
-}
-
-.ok-progress {
-    background-color: #0099CC;
-}
-
-.bad-progress {
-    background-color: #FF8800;
-}
-
-.danger-progress {
-    background-color: #CC0000;
-}
-
 
 /* Flipping through CSS adapted from:
     https://davidwalsh.name/css-flip
@@ -230,3 +197,41 @@ table td {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
+
+/* style for sprint progress bar as per sprint status */
+
+.ideal-progress {
+    background-color: #007E33;
+}
+
+.ok-progress {
+    background-color: #0099CC;
+}
+
+.bad-progress {
+    background-color: #FF8800;
+}
+
+.danger-progress {
+    background-color: #CC0000;
+}
+
+/* style to color code metrics as per their status */
+.text-in-danger {
+    color: #CC0000;
+}
+
+.text-bad {
+    color: #FF8800;
+}
+
+.text-ok {
+    color: #0099CC;
+}
+
+.text-ideal {
+    color: #007E33;
+}
+
+
+
