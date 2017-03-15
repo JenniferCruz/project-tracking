@@ -47,28 +47,6 @@ header {
   font-size: 1.1em;
 }
 
-.sprint-status {
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.success {
-  background-image: url("../img/clouds-and-corn.jpg");
-}
-
-.ok {
-  background-image: url("../img/cloudy-sky.jpg");
-}
-
-.danger {
-  background-image: url("../img/storm-clouds.jpg");
-}
-
-.failed {
-  background-image: url("../img/fork-lightning.jpg");
-}
-
-
 .panel {
   margin: 10px;
   padding: 0;
@@ -239,6 +217,28 @@ table td {
 
 .text-ideal {
     color: #007E33;
+}
+
+/* Set up background as per general status */
+.sprint-status {
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.success {
+    background-image: url("../img/clouds-and-corn.jpg");
+}
+
+.ok {
+    background-image: url("../img/cloudy-sky.jpg");
+}
+
+.danger {
+    background-image: url("../img/storm-clouds.jpg");
+}
+
+.failed {
+    background-image: url("../img/fork-lightning.jpg");
 }
 
 

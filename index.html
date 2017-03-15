@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
+<!--TODO: Background should change according to all boards, not just Sprint's-->
 <body class="sprint-status" data-bind="css: {failed: sprint.progress() < 25, danger: sprint.progress() < 50,
   ok: sprint.progress() <= 75, success: sprint.progress() > 75 }">
   <header class="container">
@@ -74,7 +75,9 @@
           </div>
         <div class="panel-body analysis-content">
           <h3>Backlog health:</h3>
-          <em class="metric" data-bind="text: analysis.health(), css: {'text-ideal': !analysis.failed(), 'text-in-danger': analysis.failed()}">40</em>
+          <em class="metric" data-bind="text: analysis.health(),
+            css: {'text-ideal': !analysis.failed(), 'text-in-danger': analysis.failed()}"></em>
+          <em data-bind="text: ' / ' + analysis.healthBase, style: {color: 'gray', fontSize: '0.75em'}"></em>
           <p>estimated stories</p>
           <span class="glyphicon glyphicon-ok-circle analysis-glyphicon textIdeal" data-bind="visible: !analysis.failed()"></span>
           <span class="glyphicon glyphicon-fire analysis-glyphicon textInDanger" data-bind="visible: analysis.failed()"></span>

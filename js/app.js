@@ -146,6 +146,7 @@ function Analysis() {
     var self = this;
 
     self.health = ko.observable();
+    self.healthBase = 40; // TODO: What's the real base
     self.failed = ko.observable();
 
     self.update = function(jsonStr) {
