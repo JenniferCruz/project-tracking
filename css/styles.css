@@ -67,6 +67,11 @@ header {
   padding: 0;
 }
 
+
+table td {
+    padding: 0.1em;
+}
+
 .metric {
     /*font-size: 1.5em;*/
     font-weight: bold;
