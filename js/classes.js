@@ -116,6 +116,8 @@ function Calendar(from, to) {
      * until the end of this calendar object
      * */
     self.getDaysLeft = function () {
+        if ((self._end - Date.now()) < 0) // if _end has already passed
+            return 0;
         return self._getDaysBetween(Date.now(), self._end);
     };
 
@@ -149,8 +151,6 @@ function Calendar(from, to) {
      * the percentage of days passed so far in the sprint
      * */
     self.progress = function () {
-        // returns a number in the range [0, 100], indicating
-        // percentage of days covered so far
         var sprintLength = self._getDaysBetween(self._start, self._end);
         var remainingDays = self._getDaysBetween(Date.now(), self._end);
         return ((sprintLength - remainingDays) / sprintLength) * 100;
