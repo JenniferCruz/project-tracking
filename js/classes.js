@@ -152,6 +152,10 @@ function Calendar(from, to) {
     self.progress = function () {
         var sprintLength = self._getDaysBetween(self._start, self._end);
         var remainingDays = self._getDaysBetween(Date.now(), self._end);
+        if (remainingDays > sprintLength)
+            return 0; // sprint hasn't yet started
+        if (self._end < Date.now())
+            return 100; // sprint is already over
         return ((sprintLength - remainingDays) / sprintLength) * 100;
     };
 

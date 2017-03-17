@@ -44,7 +44,6 @@ QUnit.test("Test Calendar: getDaysLeft() returns some days left", function (asse
     assert.ok(result == 10, "Result was " + result);
 });
 
-
 // TESTS ON CALENDAR's getDaysBetween()
 QUnit.test("Test Calendar: getDaysBetween() returns 0 | start and end are the same day", function (assert) {
     var cal = new Calendar(Date.now(), Date.now());
@@ -90,6 +89,94 @@ QUnit.test("Test Calendar: getDaysBetween() returns some days", function (assert
 });
 
 
+// TESTS ON CALENDAR's isTooEarly()
+QUnit.test("Test Calendar: isTooEarly() returns true | start day hasnt passed", function (assert) {
+    var start = Date.now() + (milisecondsInADay * 2);
+    var end = Date.now() + (milisecondsInADay * 10);
+    var cal = new Calendar(start, end);
+    var result = cal.isTooEarly();
+    assert.ok(result, "Result was " + result);
+});
+
+QUnit.test("Test Calendar: isTooEarly() returns true | end day is far", function (assert) {
+    var start = Date.now() + (milisecondsInADay * 2);
+    var end = Date.now() + (milisecondsInADay * 20);
+    var cal = new Calendar(start, end);
+    var result = cal.isTooEarly();
+    assert.ok(result, "Result was " + result);
+});
+
+QUnit.test("Test Calendar: isTooEarly() returns false | end day has passed", function (assert) {
+    var start = Date.now() - (milisecondsInADay * 20);
+    var end = Date.now() - (milisecondsInADay * 2);
+    var cal = new Calendar(start, end);
+    var result = cal.isTooEarly();
+    assert.ok(!result, "Result was " + result);
+});
+
+QUnit.test("Test Calendar: isTooEarly() returns false | is almost done", function (assert) {
+    var start = Date.now() - (milisecondsInADay * 20);
+    var end = Date.now() + (milisecondsInADay * 2);
+    var cal = new Calendar(start, end);
+    var result = cal.isTooEarly();
+    assert.ok(!result, "Result was " + result);
+});
+
+
+// TESTS ON CALENDAR's progress()
+QUnit.test("Test Calendar: progress() returns 0 | start date hasn't yet passed", function (assert) {
+    var start = Date.now() + (milisecondsInADay * 2);
+    var end = Date.now() + (milisecondsInADay * 10);
+    var cal = new Calendar(start, end);
+    var result = cal.progress();
+    assert.ok(result === 0, "Result was " + result);
+});
+
+QUnit.test("Test Calendar: progress() returns 0 | start day is today", function (assert) {
+    var end = Date.now() + (milisecondsInADay * 10);
+    var cal = new Calendar(Date.now(), end);
+    var result = cal.progress();
+    assert.ok(result === 0, "Result was " + result);
+});
+
+QUnit.test("Test Calendar: progress() returns 100 | end date has passed", function (assert) {
+    var start = Date.now() - (milisecondsInADay * 20);
+    var end = Date.now() - (milisecondsInADay * 2);
+    var cal = new Calendar(start, end);
+    var result = cal.progress();
+    assert.ok(result === 100, "Result was " + result);
+});
+
+QUnit.test("Test Calendar: progress() returns 100 | end date is today", function (assert) {
+    var start = Date.now() - (milisecondsInADay * 20);
+    var cal = new Calendar(start, Date.now());
+    var result = cal.progress();
+    assert.ok(result === 100, "Result was " + result);
+});
+
+QUnit.test("Test Calendar: progress() returns 25 | ", function (assert) {
+    var start = Date.now() - (milisecondsInADay * 3);
+    var end = Date.now() + (milisecondsInADay * 9);
+    var cal = new Calendar(start, end);
+    var result = cal.progress();
+    assert.ok(result === 25, "Result was " + result);
+});
+
+QUnit.test("Test Calendar: progress() returns 50 | ", function (assert) {
+    var start = Date.now() - (milisecondsInADay * 3);
+    var end = Date.now() + (milisecondsInADay * 3);
+    var cal = new Calendar(start, end);
+    var result = cal.progress();
+    assert.ok(result === 50, "Result was " + result);
+});
+
+QUnit.test("Test Calendar: progress() returns 75 | ", function (assert) {
+    var start = Date.now() - (milisecondsInADay * 9);
+    var end = Date.now() + (milisecondsInADay * 3);
+    var cal = new Calendar(start, end);
+    var result = cal.progress();
+    assert.ok(result === 75, "Result was " + result);
+});
 
 
 
