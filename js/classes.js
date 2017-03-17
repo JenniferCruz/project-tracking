@@ -129,7 +129,6 @@ function Calendar(from, to) {
         // receives timestamp objects
         // TODO: * Do you wanna have 'decimal' days?
         var miliSecMinDaysProduct = (1000 * 60 * 60 * 24);
-        toDate = toDate? toDate: to;
         return Math.round(Math.abs((toDate - fromDate) / miliSecMinDaysProduct));
     };
 
