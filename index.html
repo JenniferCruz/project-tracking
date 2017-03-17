@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<!--TODO: * Do you want to handle this differently? -->
 <body class="general-status" data-bind="css: {failed: projectStats.isCritical(), danger: projectStats.isBad(), ok: projectStats.isOk(), success: projectStats.isIdeal()}">
   <header class="container">
     <img src="img/logo.png" alt="Southwest" class="logo header-content">
@@ -28,7 +27,7 @@
                                         'board-header-bad': sprint.isBadProgress(), 'board-header-in-danger': sprint.isInDangerProgress(),
                                         'panel-heading': sprint.isTooEarly()}">
             <h2>Sprint Board</h2>
-            <i class="panel-heading-icon glyphicon glyphicon-repeat"></i>
+            <i class="panel-heading-icon glyphicon glyphicon-calendar"></i>
         </div>
         <div class="panel-body">
           <div id="flip" class="flip-container">
@@ -67,8 +66,8 @@
         <div id="analysis" class="panel panel-default col-lg-5 col-md-5"
            data-bind="css: {'board-success': !analysis.failed(), 'board-in-danger': analysis.failed()}">
           <div data-bind="css: {'board-header-success': !analysis.failed(), 'board-header-in-danger': analysis.failed()}">
-              <h2>Analysis Board</h2>
-              <i class="panel-heading-icon glyphicon glyphicon-eye-open"></i>
+              <h2>Backlog Health</h2>
+              <i class="panel-heading-icon glyphicon glyphicon-align-right"></i>
           </div>
         <div class="panel-body analysis-content">
             <div class="analysis-status-icon">
@@ -76,7 +75,7 @@
                 <span class="glyphicon glyphicon-fire analysis-glyphicon text-in-danger" data-bind="visible: analysis.failed()"></span>
             </div>
             <div class="analysis-data">
-                <h3>Backlog health:</h3>
+                <!--TODO: Make 60/40 a huge number and give 40 a number that contrast better with red, maybe just transparency-->
                 <em class="metric" data-bind="text: analysis.health(),
                     css: {'text-ideal': !analysis.failed(), 'text-in-danger': analysis.failed()}"></em>
                 <em data-bind="text: ' / ' + analysis.healthBase, style: {color: 'darkgray', fontSize: '0.75em'}"></em>

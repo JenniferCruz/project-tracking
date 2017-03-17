@@ -19,8 +19,8 @@ var jsonSprint = '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Rea
     // allPointsAreWellDistributed +
     '"committedPoints":28,' +
     '"currentSprint":9,' +
-    // '"startDate":' + today + ',"endDate":'+ twoWeeksFromNow + ','+ // sprint starts today
-    '"startDate":' + aWeekAgo + ',"endDate":' + aWeekFromNow + ',' + // sprint is half way through
+    '"startDate":' + today + ',"endDate":'+ twoWeeksFromNow + ','+ // sprint starts today
+    // '"startDate":' + aWeekAgo + ',"endDate":' + aWeekFromNow + ',' + // sprint is half way through
     '"stories":[{"summary":"[QMO] - APU - Incorrect Log format in Service Alert Logs","status":"Done","complexity":0,"type":"Defect"},' +
     '{"summary":"Parts Transfer - Login and Logout","status":"In Dev","complexity":8,"type":"Story"},' +
     '{"summary":"Parts Transfer - Expiration Session ","status":"Code Review","complexity":5,"type":"Story"},' +
@@ -29,9 +29,15 @@ var jsonSprint = '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Rea
     '{"summary":"Parts Transfer - Remove the soft lock in Wizard when a part can\'t be transferred to MTX","status":"Code Review","complexity":5,"type":"Story"}],' +
     '"pointsReadyToDev":43}'
 
+// TODO: pointsReadyToDev in Sprint is the actual backlog health. Choose status and fire or other icon according to its relationship to the base.
+
+
 
 // http://localhost:8090/jenkins
-var jsonJenkins = '{ "health": 60, "failed": false}';
+// var jsonJenkins = '{ "health": 60, "failed": false}';
+var jsonJenkins = '{ "health": 60, "failed": true}';
+// TODO: jenkins is also for code, not backlog health. Include fields for health and billIsBroken.
+// HEALTH: Que tan estable es tu build del 1 al 100. FAILED is bill is broken.
 
 // http://localhost:8090/sonar
 var jsonSonar = '{"coverage":96.7,"criticals":1,"majors":0}';

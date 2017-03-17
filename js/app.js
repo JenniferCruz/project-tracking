@@ -5,13 +5,14 @@ var LocationsViewModel = function () {
     self.sprint = new Sprint();
     self.analysis = new Analysis();
     self.code = new Code();
+
+    // TODO: Refactor these functions to worth with 'grades' instead of if/else
     self.projectStats = {
         isIdeal: ko.computed(function () {
             return !self.analysis.failed() && (self.sprint.isExpectedProgress() || self.sprint.isTooEarly()) && self.code.isIdeal();
         }),
         isOk: ko.computed(function () {
-            // TODO: * When is too early... how should be categorize: ok or ideal?
-            // TODO: * Should we also have a isTooEarly ('white default') for the other boards as for Sprint?
+            // TODO: * When is too early... how should be categorize: ok or ideal? >> IDEAL
             return !self.analysis.failed() &&
                 (self.sprint.isExpectedProgress() || self.sprint.isOKProgress() || self.sprint.isTooEarly()) &&
                 (self.code.isIdeal() || self.code.isOk());
@@ -36,7 +37,7 @@ viewModel.analysis.update(jsonJenkins);
 viewModel.code.update(jsonSonar);
 
 // setInterval(function(){
-//      // TODO: * What are the request URLs?
+//      // TODO: Add proper request URLs
 //    $.get('...', function(data){
 //        // ....
 //        viewModel.sprint.update(data);
@@ -52,13 +53,13 @@ viewModel.code.update(jsonSonar);
 //        viewModel.code.update(data);
 //    });
 //
-//  }, 100); // TODO: * what should be a good timing?
+//  }, 100); // TODO: Add a proper timing?
 
 document.addEventListener('DOMContentLoaded', function () {
     var flip = document.getElementById('flip');
     setInterval(function () {
         flip.classList.toggle('flipping');
-    }, 8000); // TODO: * Is this timing good?
+    }, 8000);
 });
 
 // TODO: ! Implement 'snapshots'

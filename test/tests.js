@@ -1,8 +1,3 @@
-QUnit.test("hello test", function (assert) {
-    assert.ok(1 == "1", "Passed!");
-});
-
-
 // TESTS ON CALENDAR's getDaysLeft()
 QUnit.test("Test Calendar: getDaysLeft() returns 0 | end date has passed", function (assert) {
     var start = Date.now() - (milisecondsInADay * 10);

@@ -3,7 +3,7 @@ function Sprint() {
     var self = this;
     // DATA
     self.stages = ko.observableArray([]);
-    ;
+
     self.daysLeft = ko.observable();
     // sprint status:
     //  0: is too early to tell
@@ -93,7 +93,6 @@ function Sprint() {
         if (progressDiff >= 0) {
             self.status(4);
         } else {
-            // TODO: * This is how you want to decide the status?
             progressDiff = Math.abs(progressDiff);
             if (progressDiff < 10)
                 self.status(3);
@@ -187,8 +186,6 @@ function Code() {
     self.coverage = ko.observable();
     self.criticBugs = ko.observable();
     self.majorBugs = ko.observable();
-
-    // TODO: * What about 'Bill is broken'|| 'Bill is ok'?
 
     self.update = function (jsonStr) {
         var obj = JSON.parse(jsonStr);
