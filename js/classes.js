@@ -80,7 +80,7 @@ function Sprint() {
 
     self._updateStatus = function(){
         // The status is updated according to current date, sprint duration, and sprint progress
-        if(self._calendar.isNotTooEarly()) {
+        if(!self._calendar.isTooEarly()) {
             var expected = self._calendar.progress();
             self._changeStatus(self.progress() - expected);
         }
@@ -118,14 +118,15 @@ function Calendar(from, to) {
         // TODO: * Do you wanna have 'decimal' days?
         var miliSecMinDaysProduct = (1000 * 60 * 60 * 24);
         toDate = toDate? toDate: to;
-        fromDate = fromDate ? fromDate : fromDate;
         return Math.round(Math.abs((toDate - fromDate) / miliSecMinDaysProduct));
     };
 
-    self.isNotTooEarly = function() {
+    self.isTooEarly = function() {
         var sprintLength = self.getDaysBetween(self._start, self._end);
+        if(Date.now() - self._start < 0)
+            return false;
         var daysPassed = self.getDaysBetween(self._start, Date.now());
-        return (daysPassed/sprintLength) > 0.25;
+        return (daysPassed/sprintLength) < 0.25;
     };
 
     self.progress = function () {

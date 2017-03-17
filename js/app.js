@@ -1,3 +1,5 @@
+// TODO: TEST CALENDAR FUNCTIONS
+
 // KNOCKOUT VIEW MODEL
 var LocationsViewModel = function() {
   // DATA OBJECTS
