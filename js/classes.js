@@ -2,7 +2,8 @@
 function Sprint() {
     var self = this;
     // DATA
-    self.stages = ko.observableArray([]);;
+    self.stages = ko.observableArray([]);
+    ;
     self.daysLeft = ko.observable();
     // sprint status:
     //  0: is too early to tell
@@ -14,20 +15,20 @@ function Sprint() {
     self.status = ko.observable(0);
     self._calendar;
 
-    self.progress = ko.computed(function() {
+    self.progress = ko.computed(function () {
         // returns a value from 0 to 100, representing the progress status of the Sprint
         var progress = 0;
         var totalPoints = 0;
-        for (var i=0; i<self.stages().length; i++) {
+        for (var i = 0; i < self.stages().length; i++) {
             var s = self.stages()[i];
             progress += s.complexityPoints() * s.weight;
             totalPoints += s.complexityPoints();
         }
-        return totalPoints != 0 ? (progress/totalPoints).toFixed(1) : 0;
+        return totalPoints != 0 ? (progress / totalPoints).toFixed(1) : 0;
     });
 
     // BEHAVIOR
-    self.update = function(jsonStr) {
+    self.update = function (jsonStr) {
         var obj = JSON.parse(jsonStr);
         if (!self._calendar)
             self._calendar = new Calendar(obj.startDate, obj.endDate);
@@ -39,33 +40,35 @@ function Sprint() {
     };
 
     // Functions used by UI's prgress bar for styles
-    self.isExpectedProgress = ko.computed(function() {
+    self.isExpectedProgress = ko.computed(function () {
         return self.status() === 4;
     });
-    self.isOKProgress = ko.computed(function() {
+    self.isOKProgress = ko.computed(function () {
         return self.status() === 3;
     });
-    self.isBadProgress = ko.computed(function() {
+    self.isBadProgress = ko.computed(function () {
         return self.status() === 2;
     });
-    self.isInDangerProgress = ko.computed(function() {
+    self.isInDangerProgress = ko.computed(function () {
         return self.status() === 1;
     });
-    self.isTooEarly = ko.computed(function() {
+    self.isTooEarly = ko.computed(function () {
         return self.status() === 0;
     });
 
 
-    self._createStages = function(status) {
+    self._createStages = function (status) {
         // assumes status list comes in chronological order
         if (self.stages().length == 0)
             for (var i = 0; i < status.length; i++)
-                self.stages.push({label: status[i],
+                self.stages.push({
+                    label: status[i],
                     complexityPoints: ko.observable(),
-                    weight: self._getStageInfluence(i+1)});
+                    weight: self._getStageInfluence(i + 1)
+                });
     };
 
-    self._updateComplexityPointsInStages = function(pointsPerState) {
+    self._updateComplexityPointsInStages = function (pointsPerState) {
         for (var i = 0; i < self.stages().length; i++) {
             var stage = self.stages()[i];
             var newValue = pointsPerState[stage.label];
@@ -73,20 +76,20 @@ function Sprint() {
         }
     };
 
-    self._getStageInfluence = function(factor){
+    self._getStageInfluence = function (factor) {
         var stagesNumber = 8;
-        return ((100/stagesNumber)*factor);
+        return ((100 / stagesNumber) * factor);
     };
 
-    self._updateStatus = function(){
+    self._updateStatus = function () {
         // The status is updated according to current date, sprint duration, and sprint progress
-        if(!self._calendar.isTooEarly()) {
+        if (!self._calendar.isTooEarly()) {
             var expected = self._calendar.progress();
             self._changeStatus(self.progress() - expected);
         }
     };
 
-    self._changeStatus = function(progressDiff){
+    self._changeStatus = function (progressDiff) {
         if (progressDiff >= 0) {
             self.status(4);
         } else {
@@ -125,7 +128,7 @@ function Calendar(from, to) {
      * receives 2 timestamps: toDate must be larger than fromDate
      * returns an integer number: the number of days between fromDate and toDate
      * */
-    self._getDaysBetween = function(fromDate, toDate) {
+    self._getDaysBetween = function (fromDate, toDate) {
         // receives timestamp objects
         // TODO: * Do you wanna have 'decimal' days?
         var miliSecMinDaysProduct = (1000 * 60 * 60 * 24);
@@ -137,12 +140,12 @@ function Calendar(from, to) {
      * until today, represent less than 25% the length of this calendar object
      * returns false otherwise
      * */
-    self.isTooEarly = function() {
+    self.isTooEarly = function () {
         var sprintLength = self._getDaysBetween(self._start, self._end);
-        if(Date.now() - self._start < 0)
+        if (Date.now() - self._start < 0)
             return true;
         var daysPassed = self._getDaysBetween(self._start, Date.now());
-        return (daysPassed/sprintLength) < 0.25;
+        return (daysPassed / sprintLength) < 0.25;
     };
 
     /**
@@ -170,7 +173,7 @@ function Analysis() {
     self.healthBase = 40; // TODO: * Supply the real base
     self.failed = ko.observable();
 
-    self.update = function(jsonStr) {
+    self.update = function (jsonStr) {
         var obj = JSON.parse(jsonStr);
         self.health(obj.health);
         self.failed(obj.failed);

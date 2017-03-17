@@ -1,5 +1,5 @@
-QUnit.test( "hello test", function( assert ) {
-  assert.ok( 1 == "1", "Passed!" );
+QUnit.test("hello test", function (assert) {
+    assert.ok(1 == "1", "Passed!");
 });
 
 
@@ -177,8 +177,6 @@ QUnit.test("Test Calendar: progress() returns 75 | ", function (assert) {
     var result = cal.progress();
     assert.ok(result === 75, "Result was " + result);
 });
-
-
 
 
 // QUnit.test( "Test Code Class communicates Ideal Coverage Succesfuly", function( assert ) {
