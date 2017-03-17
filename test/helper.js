@@ -1,4 +1,8 @@
 
+var secondsInADay = 86400;
+var milisecondsInADay = secondsInADay * 1000;
+
+
 function getInitialTimestamp() {
     // returns a timestamp corresponding to current date
     return new Date(Date.now()).getTime();

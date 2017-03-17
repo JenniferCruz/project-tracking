@@ -110,28 +110,49 @@ function Calendar(from, to) {
     self._start = from;
     self._end = to;
 
+    /**
+     * returns an integer number:
+     * the number of days left from today
+     * until the end of this calendar object
+     * */
     self.getDaysLeft = function () {
-        return self.getDaysBetween(Date.now(), self._end);
+        return self._getDaysBetween(Date.now(), self._end);
     };
 
-    self.getDaysBetween = function(fromDate, toDate) {
+    /**
+     * receives 2 timestamps: toDate must be larger than fromDate
+     * returns an integer number: the number of days between fromDate and toDate
+     * */
+    self._getDaysBetween = function(fromDate, toDate) {
+        // receives timestamp objects
         // TODO: * Do you wanna have 'decimal' days?
         var miliSecMinDaysProduct = (1000 * 60 * 60 * 24);
         toDate = toDate? toDate: to;
         return Math.round(Math.abs((toDate - fromDate) / miliSecMinDaysProduct));
     };
 
+    /**
+     * returns true if days from the beginning of this calendar object
+     * until today, represent less than 25% the length of this calendar object
+     * returns false otherwise
+     * */
     self.isTooEarly = function() {
-        var sprintLength = self.getDaysBetween(self._start, self._end);
+        var sprintLength = self._getDaysBetween(self._start, self._end);
         if(Date.now() - self._start < 0)
-            return false;
-        var daysPassed = self.getDaysBetween(self._start, Date.now());
+            return true;
+        var daysPassed = self._getDaysBetween(self._start, Date.now());
         return (daysPassed/sprintLength) < 0.25;
     };
 
+    /**
+     * returns a decimal number between 0 and 100:
+     * the percentage of days passed so far in the sprint
+     * */
     self.progress = function () {
-        var sprintLength = self.getDaysBetween(self._start, self._end);
-        var remainingDays = self.getDaysBetween(Date.now(), self._end);
+        // returns a number in the range [0, 100], indicating
+        // percentage of days covered so far
+        var sprintLength = self._getDaysBetween(self._start, self._end);
+        var remainingDays = self._getDaysBetween(Date.now(), self._end);
         return ((sprintLength - remainingDays) / sprintLength) * 100;
     };
 
