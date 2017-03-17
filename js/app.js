@@ -1,31 +1,27 @@
-// TODO: TEST CALENDAR FUNCTIONS
-
 // KNOCKOUT VIEW MODEL
 var LocationsViewModel = function() {
   // DATA OBJECTS
-  this.sprint = new Sprint();
-  this.analysis = new Analysis();
-  this.code = new Code();
-
-  // TODO: * give better names... like 'sprintIsOk' but more generic
-  this.isIdeal = function () {
-      return !this.analysis.failed() && (this.sprint.isExpectedProgress() || this.sprint.isTooEarly()) && this.code.isIdeal();
-  };
-
-  this.isOk = function () {
-      // TODO: * When is too early... how should be categorize: ok or ideal?
-      // TODO: * Shoould we also have a isTooEarly ('white default') for the other boards as for Sprint?
-      return !this.analysis.failed() &&
-          (this.sprint.isExpectedProgress() || this.sprint.isOKProgress() || this.sprint.isTooEarly()) &&
-          (this.code.isIdeal() || this.code.isOk());
-  };
-
-  this.isBad = function () {
-      return this.analysis.failed() || this.sprint.isBadProgress() || this.code.isBad();
-  };
-
-  this.isCritical = function () {
-      return this.analysis.failed() || this.sprint.isInDangerProgress() || this.code.isInDanger();
+  var self = this;
+  self.sprint = new Sprint();
+  self.analysis = new Analysis();
+  self.code = new Code();
+    self.projectStats = {
+      isIdeal: ko.computed(function () {
+          return !self.analysis.failed() && (self.sprint.isExpectedProgress() || self.sprint.isTooEarly()) && self.code.isIdeal();
+      }),
+      isOk: ko.computed(function () {
+          // TODO: * When is too early... how should be categorize: ok or ideal?
+          // TODO: * Should we also have a isTooEarly ('white default') for the other boards as for Sprint?
+          return !self.analysis.failed() &&
+              (self.sprint.isExpectedProgress() || self.sprint.isOKProgress() || self.sprint.isTooEarly()) &&
+              (self.code.isIdeal() || self.code.isOk());
+      }),
+      isBad: ko.computed(function () {
+          return self.analysis.failed() || self.sprint.isBadProgress() || self.code.isBad();
+      }),
+      isCritical: ko.computed(function () {
+          return self.analysis.failed() || self.sprint.isInDangerProgress() || self.code.isInDanger();
+      })
   };
 
 

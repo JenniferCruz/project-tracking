@@ -11,7 +11,7 @@
 </head>
 
 <!--TODO: * Do you want to handle this differently? -->
-<body class="general-status" data-bind="css: {failed: isCritical(), danger: isBad(), ok: isOk(), success: isIdeal()}">
+<body class="general-status" data-bind="css: {failed: projectStats.isCritical(), danger: projectStats.isBad(), ok: projectStats.isOk(), success: projectStats.isIdeal()}">
   <header class="container">
     <img src="img/logo.png" alt="Southwest" class="logo header-content">
     <h2 class="header-content">Team Board</h2>
