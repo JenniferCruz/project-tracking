@@ -15,77 +15,90 @@ var in5Days = today + (milisecondsInADay * 5);
 var in10Days = today + (milisecondsInADay * 10);
 var in2Weeks = today + (milisecondsInADay * 14);
 
-var jsonSprintIdeal = '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Ready for QA","In QA","Ready for Sign Off","Done"],' +
-    '"pointsPerState":{"Ready for QA":0,"To Do":0,"Done":0,"Ready for Sign Off":0,"In Dev":0,"Code Review":15,"In QA":13,"Desk Check":0},' +
-    '"committedPoints":28,' +
-    '"currentSprint":9,' +
-    '"startDate":' + daysAgo5 + ',"endDate":'+ in10Days + ','+ // sprint starts today
-    '"stories":[{"summary":"[QMO] - APU - Incorrect Log format in Service Alert Logs","status":"Done","complexity":0,"type":"Defect"},' +
-    '{"summary":"Parts Transfer - Login and Logout","status":"In Dev","complexity":8,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Expiration Session ","status":"Code Review","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Required Fields to Transfer a Part to MTX - Validations","status":"Code Review","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Transfer a Wizard part to MTX - Mapping","status":"In Dev","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Remove the soft lock in Wizard when a part can\'t be transferred to MTX","status":"Code Review","complexity":5,"type":"Story"}],' +
-    '"pointsReadyToDev":100}';
+
+// JENKIN
 var jsonJenkinsIdeal = '{ "health": 100, "failed": false}';
-var jsonJenkinsBad = '{ "health": 30, "failed": false}';
+var jsonJenkinsBad = '{ "health": 40, "failed": false}';
 var jsonJenkinsDanger = '{ "health": 10, "failed": true}';
-var jsonSonarIdeal = '{"coverage":97,"criticals":0,"majors":0}';
 
-var jsonSonarBad = '{"coverage":82,"criticals":2,"majors":0}';
-var jsonSonarDanger = '{"coverage":70,"criticals":10,"majors":3}';
+// SONAR
+var jsonSonarIdeal  = '{"coverage":99, "criticals":0, "majors":0}';
+var jsonSonarBad    = '{"coverage":87, "criticals":6, "majors":0}';
+var jsonSonarDanger = '{"coverage":70, "criticals":10,"majors":20}';
 
+// SPRINT
+// The actual progress of the Sprint is measured by how many points are in each state,
+// vs. what's expected at the current time.
 
-//---
-
+// the Sprint is 'too early' to evaluate, if the current time is less than 25% through the Sprint's length
 var jsonSprintEarly = '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Ready for QA","In QA","Ready for Sign Off","Done"],' +
     '"pointsPerState":{"Ready for QA":0,"To Do":0,"Done":0,"Ready for Sign Off":0,"In Dev":0,"Code Review":15,"In QA":13,"Desk Check":0},' +
     '"committedPoints":28,' +
     '"currentSprint":9,' +
-    '"startDate":' + today + ',"endDate":'+ in2Weeks + ','+ // sprint starts today
-    '"stories":[{"summary":"[QMO] - APU - Incorrect Log format in Service Alert Logs","status":"Done","complexity":0,"type":"Defect"},' +
-    '{"summary":"Parts Transfer - Login and Logout","status":"In Dev","complexity":8,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Expiration Session ","status":"Code Review","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Required Fields to Transfer a Part to MTX - Validations","status":"Code Review","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Transfer a Wizard part to MTX - Mapping","status":"In Dev","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Remove the soft lock in Wizard when a part can\'t be transferred to MTX","status":"Code Review","complexity":5,"type":"Story"}],' +
+    '"startDate":' + today + ',"endDate":'+ in2Weeks + ','+
     '"pointsReadyToDev":100}';
 
-var jsonSprintOk =  '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Ready for QA","In QA","Ready for Sign Off","Done"],' +
-    '"pointsPerState":{"Ready for QA":0,"To Do":0,"Done":11,"Ready for Sign Off":5,"In Dev":0,"Code Review":4,"In QA":8,"Desk Check":0},' +
+// the Sprint is 'ideal' if its actual progress is the same or above expected
+var jsonSprintIdeal = '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Ready for QA","In QA","Ready for Sign Off","Done"],' +
+    '"pointsPerState":{"Ready for QA":0,"To Do":0,"Done":0,"Ready for Sign Off":0,"In Dev":0,"Code Review":15,"In QA":13,"Desk Check":0},' +
     '"committedPoints":28,' +
     '"currentSprint":9,' +
-    '"startDate":' + daysAgo10 + ',"endDate":'+ in5Days + ','+ // sprint starts today
-    '"stories":[{"summary":"[QMO] - APU - Incorrect Log format in Service Alert Logs","status":"Done","complexity":0,"type":"Defect"},' +
-    '{"summary":"Parts Transfer - Login and Logout","status":"In Dev","complexity":8,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Expiration Session ","status":"Code Review","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Required Fields to Transfer a Part to MTX - Validations","status":"Code Review","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Transfer a Wizard part to MTX - Mapping","status":"In Dev","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Remove the soft lock in Wizard when a part can\'t be transferred to MTX","status":"Code Review","complexity":5,"type":"Story"}],' +
+    '"startDate":' + daysAgo5 + ',"endDate":'+ in10Days + ','+
     '"pointsReadyToDev":100}';
 
+// the Sprint is 'ok' if its actual progress differs in no more than 10% from what's expected
+var jsonSprintOk =  '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Ready for QA","In QA","Ready for Sign Off","Done"],' +
+    '"pointsPerState":{"Ready for QA":0,"To Do":2,"Done":4,"Ready for Sign Off":5,"In Dev":5,"Code Review":4,"In QA":8,"Desk Check":0},' +
+    '"committedPoints":28,' +
+    '"currentSprint":9,' +
+    '"startDate":' + daysAgo10 + ',"endDate":'+ in5Days + ','+
+    '"pointsReadyToDev":80}';
+
+// the Sprint is 'bad' if its actual progress deviates no more than 25% from what's expected
 var jsonSprintBad =  '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Ready for QA","In QA","Ready for Sign Off","Done"],' +
     '"pointsPerState":{"Ready for QA":0,"To Do":0,"Done":0,"Ready for Sign Off":0,"In Dev":0,"Code Review":15,"In QA":13,"Desk Check":0},' +
     '"committedPoints":28,' +
     '"currentSprint":9,' +
-    '"startDate":' + daysAgo10 + ',"endDate":'+ in5Days + ','+ // sprint starts today
-    '"stories":[{"summary":"[QMO] - APU - Incorrect Log format in Service Alert Logs","status":"Done","complexity":0,"type":"Defect"},' +
-    '{"summary":"Parts Transfer - Login and Logout","status":"In Dev","complexity":8,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Expiration Session ","status":"Code Review","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Required Fields to Transfer a Part to MTX - Validations","status":"Code Review","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Transfer a Wizard part to MTX - Mapping","status":"In Dev","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Remove the soft lock in Wizard when a part can\'t be transferred to MTX","status":"Code Review","complexity":5,"type":"Story"}],' +
-    '"pointsReadyToDev":100}';
+    '"startDate":' + daysAgo10 + ',"endDate":'+ in5Days + ','+
+    '"pointsReadyToDev":40}';
 
+// the Sprint is 'inDanger' if its actual progress deviates more than 25% from what's expected
 var jsonSprintDanger = '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Ready for QA","In QA","Ready for Sign Off","Done"],' +
     '"pointsPerState":{"Ready for QA":0,"To Do":10,"Done":0,"Ready for Sign Off":0,"In Dev":15,"Code Review":0,"In QA":3,"Desk Check":0},' +
     '"committedPoints":28,' +
     '"currentSprint":9,' +
-    '"startDate":' + daysAgo10 + ',"endDate":'+ in5Days + ','+ // sprint starts today
-    '"stories":[{"summary":"[QMO] - APU - Incorrect Log format in Service Alert Logs","status":"Done","complexity":0,"type":"Defect"},' +
-    '{"summary":"Parts Transfer - Login and Logout","status":"In Dev","complexity":8,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Expiration Session ","status":"Code Review","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Required Fields to Transfer a Part to MTX - Validations","status":"Code Review","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Transfer a Wizard part to MTX - Mapping","status":"In Dev","complexity":5,"type":"Story"},' +
-    '{"summary":"Parts Transfer - Remove the soft lock in Wizard when a part can\'t be transferred to MTX","status":"Code Review","complexity":5,"type":"Story"}],' +
-    '"pointsReadyToDev":100}';
+    '"startDate":' + daysAgo10 + ',"endDate":'+ in5Days + ','+
+    '"pointsReadyToDev":10}';
+
+
+
+// console.log("HELPER");
+// console.log("________");
+// console.log("Early");
+// var sprEarly = new Sprint();
+// sprEarly.update(jsonSprintEarly);
+// console.log("progress: " + sprEarly.progress() + "; status: " + sprEarly.status());
+// console.log("________");
+// console.log("Ideal");
+// var sprIdeal = new Sprint();
+// sprIdeal.update(jsonSprintIdeal);
+// console.log("progress: " + sprIdeal.progress() + "; status: " + sprIdeal.status());
+// console.log("________");
+// console.log("ok");
+//
+// var sprOk = new Sprint();
+// sprOk.update(jsonSprintOk);
+// console.log("progress: " + sprOk.progress() + "; status: " + sprOk.status());
+// console.log("________");
+// console.log("Bad");
+//
+// var sprBad = new Sprint();
+// sprBad.update(jsonSprintBad);
+// console.log("progress: " + sprBad.progress() + "; status: " + sprBad.status());
+// console.log("________");
+// console.log("danger");
+//
+// var sprInDanger = new Sprint();
+// sprInDanger.update(jsonSprintDanger);
+// console.log("progress: " + sprInDanger.progress() + "; status: " + sprInDanger.status());
+// console.log("________");
