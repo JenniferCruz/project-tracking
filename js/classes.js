@@ -1,4 +1,5 @@
 // CLASSES
+// TODO: Implement an status/grade method on each class, to work with propject stats
 function Sprint() {
     var self = this;
     // DATA
@@ -177,7 +178,15 @@ function Analysis() {
     };
 
     self.failed = ko.computed(function() {
-        return self.pointsReadyToDev() > self.healthBase; // TODO: when is it really failed?
+        return self.pointsReadyToDev() < self.healthBase; // TODO: when is it really failed?
+    });
+
+    self.status = ko.computed(function () {
+        if (self.failed())
+            return 1;
+        if (self.pointsReadyToDev() === self.healthBase)
+            return 3;
+        return 4;
     });
 
 }
@@ -252,6 +261,16 @@ function Code() {
         // else, if any metric is in danger, code is reported as in danger
         return self.isInDanger('coverage') || self.isInDanger('critic') || self.isInDanger('major');
     };
+
+    self.status = ko.computed(function () {
+        if (self.isIdeal())
+            return 4;
+        if (self.isOk())
+            return 3;
+        if (self.isBad())
+            return 2;
+        return 1;
+    });
 
     return self;
 }
