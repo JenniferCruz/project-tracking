@@ -1,4 +1,40 @@
-// TESTS ON APP's status
+QUnit.module("Sprint", function(hooks) {
+    var sprint;
+
+    hooks.beforeEach(function () {
+        sprint = new Sprint();
+    });
+
+    QUnit.module("'s grade()", function (assert) {
+        // TODO: Are those values relevant?
+        QUnit.test("is 1 when Sprint's early.", function () {
+            sprint.update(jsonSprintEarly);
+            assert.equal(sprint.grade(), 1, "Sprint's grade must be 1. Was " + sprint.grade());
+        });
+
+        QUnit.test("is 1 when Sprint's ideal", function () {
+            sprint.update(jsonSprintIdeal);
+            assert.equal(sprint.grade(), 1, "Sprint's grade must be 1. Was " + sprint.grade());
+        });
+
+        QUnit.test("is >= 0.8 when Sprint's ok", function () {
+            sprint.update(jsonSprintOk);
+            assert.ok(sprint.grade() >= 0.8 && sprint.grade() < 1, "Sprint's grade must be >= 0.8. Was " + sprint.grade());
+        });
+
+        QUnit.test("is >= 0.6 when Sprint's bad", function () {
+            sprint.update(jsonSprintBad);
+            assert.ok(sprint.grade() >= 0.6 && sprint.grade() < 0.8, "Sprint's grade must be >= 0.6. Was " + sprint.grade());
+        });
+
+        QUnit.test("is < 0.6 when Sprint's in Danger", function () {
+            sprint.update(jsonSprintDanger);
+            assert.ok(sprint.grade() < 0.6, "Sprint's grade must be < 0.6. Was " + sprint.grade());
+        });
+
+    });
+});
+
 QUnit.module("App", function(hooks) {
 
     var vModel;
