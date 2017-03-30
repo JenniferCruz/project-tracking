@@ -59,6 +59,13 @@ function Sprint() {
 
     self.grade = ko.computed(function () {
         // returns a number in the range [0,1]
+        console.log("in sprint.grade()");
+        console.log(self.isTooEarly());
+        console.log(self.progress());
+        if (self._calendar)
+            console.log(self._calendar.progress());
+        console.log("_____________");
+
         if (self.isTooEarly() || self.progress() > self._calendar.progress())
             return 1;
         return self.progress() / self._calendar.progress();

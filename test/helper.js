@@ -10,10 +10,10 @@ var milisecondsInADay = secondsInADay * 1000;
 // total_grade< 0
 var today = Date.now();
 var daysAgo10 = today - (milisecondsInADay * 10);
-var daysAgo5 = today - (milisecondsInADay * 5);
-var in5Days = today + (milisecondsInADay * 5);
-var in10Days = today + (milisecondsInADay * 10);
-var in2Weeks = today + (milisecondsInADay * 14);
+var daysAgo5  = today - (milisecondsInADay * 5);
+var in5Days   = today + (milisecondsInADay * 5);
+var in10Days  = today + (milisecondsInADay * 10);
+var in2Weeks  = today + (milisecondsInADay * 14);
 
 
 // JENKIN

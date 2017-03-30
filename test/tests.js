@@ -5,6 +5,26 @@ QUnit.module("Sprint", function(hooks) {
         sprint = new Sprint();
     });
 
+    QUnit.module("'s calendar", function () {
+        QUnit.test("is defined when sprint.update(...) is called.", function (assert) {
+            sprint.update(jsonSprintEarly);
+            assert.ok(sprint._calendar, "sprint's calendar object must be defined. Was " + sprint._calendar);
+        });
+    });
+
+    QUnit.module("'s isTooEarly()", function () {
+        QUnit.test("is true when Sprint is starting today and end date is at least 4 days apart", function (assert) {
+            sprint.update(jsonSprintEarly);
+            assert.ok(sprint.isTooEarly(), "must return true. Returned " + sprint.isTooEarly());
+        })
+
+        QUnit.test("is false when Sprint started already and end date ..............", function (assert) {
+            sprint.update(jsonSprintDanger);
+            assert.notOk(sprint.isTooEarly(), "must return false. Returned " + sprint.isTooEarly());
+        })
+
+    });
+
     QUnit.module("'s grade()", function () {
         // TODO: Are those values relevant?
         QUnit.test("is 1 when Sprint's early.", function (assert) {
@@ -28,6 +48,7 @@ QUnit.module("Sprint", function(hooks) {
         });
 
         QUnit.test("is < 0.6 when Sprint's in Danger", function (assert) {
+            console.log("testing sprint in danger!");
             sprint.update(jsonSprintDanger);
             assert.ok(sprint.grade() < 0.6, "Sprint's grade must be < 0.6. Was " + sprint.grade());
         });
