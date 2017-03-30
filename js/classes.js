@@ -57,6 +57,12 @@ function Sprint() {
         return self._calendar ? self._calendar.isTooEarly() : true;
     });
 
+    self.grade = ko.computed(function () {
+        // returns a number in the range [0,1]
+        if (self.isTooEarly() || self.progress() > self._calendar.progress())
+            return 1;
+        return self.progress() / self._calendar.progress();
+    });
 
     self._createStages = function (status) {
         // assumes status list comes in chronological order
