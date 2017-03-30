@@ -27,7 +27,7 @@ var jsonSprint = '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Rea
     '{"summary":"Parts Transfer - Required Fields to Transfer a Part to MTX - Validations","status":"Code Review","complexity":5,"type":"Story"},' +
     '{"summary":"Parts Transfer - Transfer a Wizard part to MTX - Mapping","status":"In Dev","complexity":5,"type":"Story"},' +
     '{"summary":"Parts Transfer - Remove the soft lock in Wizard when a part can\'t be transferred to MTX","status":"Code Review","complexity":5,"type":"Story"}],' +
-    '"pointsReadyToDev":43}'
+    '"pointsReadyToDev":43}';
 
 // TODO: pointsReadyToDev in Sprint is the actual backlog health. Choose status and fire or other icon according to its relationship to the base.
 

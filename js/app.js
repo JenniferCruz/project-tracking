@@ -33,7 +33,7 @@ ko.applyBindings(viewModel);
 
 // TODO: remove these when ready
 viewModel.sprint.update(jsonSprint);
-viewModel.analysis.update(jsonJenkins);
+viewModel.code.update(jsonJenkins);
 viewModel.code.update(jsonSonar);
 
 // setInterval(function(){

@@ -186,12 +186,20 @@ function Code() {
     self.coverage = ko.observable();
     self.criticBugs = ko.observable();
     self.majorBugs = ko.observable();
+    self.health = ko.observable();
+    self.failed = ko.observable();
 
     self.update = function (jsonStr) {
         var obj = JSON.parse(jsonStr);
-        self.coverage(obj.coverage);
-        self.criticBugs(obj.criticals);
-        self.majorBugs(obj.majors);
+        if (obj.coverage) { // then the json came from Sonar
+            self.coverage(obj.coverage);
+            self.criticBugs(obj.criticals);
+            self.majorBugs(obj.majors);
+        }
+        if (obj.health) { // then the json came from jenkins
+            self.health(obj.health);
+            self.failed(obj.failed);
+        }
     };
 
     // Communicate coverage status
