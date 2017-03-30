@@ -76,7 +76,7 @@
             </div>
             <div class="analysis-data">
                 <!--TODO: Make 60/40 a huge number and give 40 a number that contrast better with red, maybe just transparency-->
-                <em class="metric" data-bind="text: analysis.health(),
+                <em class="metric" data-bind="text: analysis.pointsReadyToDev,
                     css: {'text-ideal': !analysis.failed(), 'text-in-danger': analysis.failed()}"></em>
                 <em data-bind="text: ' / ' + analysis.healthBase, style: {color: 'darkgray', fontSize: '0.75em'}"></em>
                 <p>estimated stories</p>

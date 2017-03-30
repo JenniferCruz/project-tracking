@@ -29,15 +29,9 @@ var jsonSprint = '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Rea
     '{"summary":"Parts Transfer - Remove the soft lock in Wizard when a part can\'t be transferred to MTX","status":"Code Review","complexity":5,"type":"Story"}],' +
     '"pointsReadyToDev":43}';
 
-// TODO: pointsReadyToDev in Sprint is the actual backlog health. Choose status and fire or other icon according to its relationship to the base.
-
-
-
 // http://localhost:8090/jenkins
 // var jsonJenkins = '{ "health": 60, "failed": false}';
 var jsonJenkins = '{ "health": 60, "failed": true}';
-// TODO: jenkins is also for code, not backlog health. Include fields for health and billIsBroken.
-// HEALTH: Que tan estable es tu build del 1 al 100. FAILED is bill is broken.
 
 // http://localhost:8090/sonar
 var jsonSonar = '{"coverage":96.7,"criticals":1,"majors":0}';

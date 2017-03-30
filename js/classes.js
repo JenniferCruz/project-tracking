@@ -168,15 +168,17 @@ function Calendar(from, to) {
 function Analysis() {
     var self = this;
 
-    self.health = ko.observable();
+    self.pointsReadyToDev = ko.observable();
     self.healthBase = 40; // TODO: * Supply the real base
-    self.failed = ko.observable();
 
     self.update = function (jsonStr) {
         var obj = JSON.parse(jsonStr);
-        self.health(obj.health);
-        self.failed(obj.failed);
+        self.pointsReadyToDev(obj.pointsReadyToDev);
     };
+
+    self.failed = ko.computed(function() {
+        return self.pointsReadyToDev() > self.healthBase; // TODO: when is it really failed?
+    });
 
 }
 
