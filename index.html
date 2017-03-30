@@ -113,7 +113,21 @@
                        css: {'text-ideal': code.isIdeal('major'), 'text-ok': code.isOk('major'),
                                'text-bad': code.isBad('major'), 'text-in-danger': code.isInDanger('major')}" class=""></dd>
 
+                <dt>Health: </dt>
+                <dd class="metric" data-bind="text: code.health,
+                       css: {'text-ideal': code.isIdeal('major'), 'text-ok': code.isOk('major'),
+                               'text-bad': code.isBad('major'), 'text-in-danger': code.isInDanger('major')}" class=""></dd>
+
             </dl>
+            <div class="bill-is-broken">
+                <p class="metric" data-bind="visible: code.failed(),
+                       css: {'text-ideal': !code.failed(), 'text-in-danger': code.failed()}" class="">Bill is broken!</p>
+            </div>
+            <div class="status-icon">
+                <span class="glyphicon glyphicon-ok-circle code-glyphicon text-ideal" data-bind="visible: !code.failed()"></span>
+                <span class="glyphicon glyphicon-fire code-glyphicon text-in-danger" data-bind="visible: code.failed()"></span>
+            </div>
+
         </div>
       </div>
 

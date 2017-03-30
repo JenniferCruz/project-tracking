@@ -78,12 +78,18 @@ table td {
     top: 20px;
 }
 
+.code-glyphicon {
+    font-size: 4em;
+    position: absolute;
+    top: 235px;
+}
+
 .glyphicon-fire {
     text-shadow: 2px -1px 6px rgba(89, 58, 0, 1);
 }
 
 dl {
-    margin: 30px 50px 50px;
+    margin: 30px 50px 10px;
 }
 
 dt {
@@ -91,8 +97,12 @@ dt {
 }
 
 .team-panel {
-     text-align: center;
+    text-align: center;
     margin: 20px;
+}
+
+.bill-is-broken {
+    text-align: center;
 }
 
 /* Flipping through CSS adapted from:
