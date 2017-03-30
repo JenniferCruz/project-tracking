@@ -15,7 +15,6 @@ var LocationsViewModel = function () {
             return self.statusAvr() === 4;
         }),
         isOk: ko.computed(function () {
-            // TODO: * When is too early... how should be categorize: ok or ideal? >> IDEAL
             return self.statusAvr() >= 3 && self.statusAvr() < 4;
         }),
         isBad: ko.computed(function () {

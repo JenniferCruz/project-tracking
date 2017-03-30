@@ -13,7 +13,7 @@ function Sprint() {
     //  3: sprint is at an acceptable progress
     //  4: sprint progresses as expected or better
     // This status will be the base to determine progress bar colors
-    self.status = ko.observable(0);
+    self.status = ko.observable(4); // default is ideal when the Sprint begins
     self._calendar;
 
     self.progress = ko.computed(function () {
@@ -54,7 +54,7 @@ function Sprint() {
         return self.status() === 1;
     });
     self.isTooEarly = ko.computed(function () {
-        return self.status() === 0;
+        return self._calendar.isTooEarly();
     });
 
 
