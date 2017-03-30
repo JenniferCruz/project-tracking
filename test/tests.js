@@ -1,8 +1,14 @@
 // TESTS ON APP's status
 QUnit.module("App", function() {
-    QUnit.test("App's status is 4 when code, analysis and sprint are in ideal status", function (assert) {
-        var viewModel = new LocationsViewModel();
 
+    QUnit.test("App's status is 4 when code, analysis and sprint are in ideal status", function (assert) {
+        var vModel = new LocationsViewModel();
+        vModel.sprint.update(jsonSprintIdeal);
+        vModel.analysis.update(jsonSprintIdeal);
+        vModel.code.update(jsonJenkinsIdeal);
+        vModel.code.update(jsonSonarIdeal);
+
+        assert.equal(vModel.statusAvr(), 4, "Status average must be 4. Was " + vModel.statusAvr());
     });
 
     QUnit.test("App's status is 4 when code and analysis are in ideal status, and sprint at early stage", function (assert) {
@@ -22,122 +28,118 @@ QUnit.module("App", function() {
     });
 });
 
-QUnit.module("Calendar", function () {
+QUnit.module("Calendar", function (hooks) {
+    var daysAgo20;
+    var daysAgo10;
+    var daysAgo2;
+    var in2Days;
+    var in10Days;
+    var today;
+
     // TESTS ON CALENDAR's getDaysLeft()
+    hooks.beforeEach( function( assert ) {
+        today = Date.now();
+        daysAgo20 = today - (milisecondsInADay * 20);
+        daysAgo10 = today - (milisecondsInADay * 10);
+        daysAgo2  = today - (milisecondsInADay * 2);
+        in2Days   = today + (milisecondsInADay * 2);
+        in10Days  = today + (milisecondsInADay * 10);
+    } );
+
     QUnit.test("Test Calendar: getDaysLeft() returns 0 | end date has passed", function (assert) {
-        var start = Date.now() - (milisecondsInADay * 10);
-        var end = Date.now() - (milisecondsInADay * 2);
-        var cal = new Calendar(start, end);
+        var cal = new Calendar(daysAgo10, daysAgo2);
         var result = cal.getDaysLeft();
         assert.ok(result == 0, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: getDaysLeft() returns 0 | end date is today", function (assert) {
-        var start = Date.now() - (milisecondsInADay * 10);
-        var end = Date.now();
-        var cal = new Calendar(start, end);
+        var cal = new Calendar(daysAgo10, today);
         var result = cal.getDaysLeft();
         assert.ok(result == 0, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: getDaysLeft() returns all days left | start date hasn't passed ", function (assert) {
-        var start = Date.now() + (milisecondsInADay * 2);
-        var end = Date.now() + (milisecondsInADay * 10);
-        var cal = new Calendar(start, end);
+        var cal = new Calendar(in2Days, in10Days);
         var result = cal.getDaysLeft();
         assert.ok(result == 10, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: getDaysLeft() returns all days left | start date is today", function (assert) {
-        var start = Date.now();
-        var end = Date.now() + (milisecondsInADay * 10);
-        var cal = new Calendar(start, end);
+        var cal = new Calendar(today, in10Days);
         var result = cal.getDaysLeft();
         assert.ok(result == 10, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: getDaysLeft() returns some days left", function (assert) {
-        var start = Date.now() - (milisecondsInADay * 2);
-        var end = Date.now() + (milisecondsInADay * 10);
-        var cal = new Calendar(start, end);
+        var cal = new Calendar(daysAgo2, in10Days);
         var result = cal.getDaysLeft();
         assert.ok(result == 10, "Result was " + result);
     });
 
     // TESTS ON CALENDAR's getDaysBetween()
     QUnit.test("Test Calendar: getDaysBetween() returns 0 | start and end are the same day", function (assert) {
-        var cal = new Calendar(Date.now(), Date.now());
-        var result = cal._getDaysBetween(Date.now(), Date.now());
+        var cal = new Calendar(today, today);
+        var result = cal._getDaysBetween(today, today);
         assert.ok(result == 0, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: getDaysBetween() returns 0 | start and end are less than 1 day apart", function (assert) {
-        var end = Date.now() + (milisecondsInADay * 0.2);
-        var cal = new Calendar(Date.now(), end);
+        var end = today + (milisecondsInADay * 0.2);
+        var cal = new Calendar(today, end);
         var result = cal._getDaysBetween(Date.now(), end);
         assert.ok(result == 0, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: getDaysBetween() returns 1 | ", function (assert) {
-        var end = Date.now() + milisecondsInADay;
-        var cal = new Calendar(Date.now(), end);
+        var end = today + milisecondsInADay;
+        var cal = new Calendar(today, end);
         var result = cal._getDaysBetween(Date.now(), end);
         assert.ok(result == 1, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: getDaysBetween() returns all days | start date hasn't yet passed", function (assert) {
-        var start = Date.now() + (milisecondsInADay * 10);
-        var end = Date.now() + (milisecondsInADay * 20);
-        var cal = new Calendar(start, end);
-        var result = cal._getDaysBetween(start, end);
+        var end = today + (milisecondsInADay * 20);
+        var cal = new Calendar(in10Days, end);
+        var result = cal._getDaysBetween(in10Days, end);
         assert.ok(result == 10, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: getDaysBetween() returns all days | start date is today", function (assert) {
-        var end = Date.now() + (milisecondsInADay * 2);
-        var cal = new Calendar(Date.now(), end);
-        var result = cal._getDaysBetween(Date.now(), end);
+        var end = today + (milisecondsInADay * 2);
+        var cal = new Calendar(today, end);
+        var result = cal._getDaysBetween(today, end);
         assert.ok(result == 2, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: getDaysBetween() returns some days", function (assert) {
-        var start = Date.now() - (milisecondsInADay * 2);
-        var end = Date.now() + (milisecondsInADay * 2);
-        var cal = new Calendar(start, end);
-        var result = cal._getDaysBetween(Date.now(), end);
+        var cal = new Calendar(daysAgo2, in2Days);
+        var result = cal._getDaysBetween(Date.now(), in2Days);
         assert.ok(result == 2, "Result was " + result);
     });
 
 
     // TESTS ON CALENDAR's isTooEarly()
     QUnit.test("Test Calendar: isTooEarly() returns true | start day hasnt passed", function (assert) {
-        var start = Date.now() + (milisecondsInADay * 2);
-        var end = Date.now() + (milisecondsInADay * 10);
-        var cal = new Calendar(start, end);
+        var cal = new Calendar(in2Days, in10Days);
         var result = cal.isTooEarly();
         assert.ok(result, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: isTooEarly() returns true | end day is far", function (assert) {
-        var start = Date.now() + (milisecondsInADay * 2);
-        var end = Date.now() + (milisecondsInADay * 20);
-        var cal = new Calendar(start, end);
+        var end = today + (milisecondsInADay * 20);
+        var cal = new Calendar(in2Days, end);
         var result = cal.isTooEarly();
         assert.ok(result, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: isTooEarly() returns false | end day has passed", function (assert) {
-        var start = Date.now() - (milisecondsInADay * 20);
-        var end = Date.now() - (milisecondsInADay * 2);
-        var cal = new Calendar(start, end);
+        var cal = new Calendar(daysAgo20, daysAgo2);
         var result = cal.isTooEarly();
         assert.ok(!result, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: isTooEarly() returns false | is almost done", function (assert) {
-        var start = Date.now() - (milisecondsInADay * 20);
-        var end = Date.now() + (milisecondsInADay * 2);
-        var cal = new Calendar(start, end);
+        var cal = new Calendar(daysAgo20, in2Days);
         var result = cal.isTooEarly();
         assert.ok(!result, "Result was " + result);
     });
@@ -145,31 +147,25 @@ QUnit.module("Calendar", function () {
 
     // TESTS ON CALENDAR's progress()
     QUnit.test("Test Calendar: progress() returns 0 | start date hasn't yet passed", function (assert) {
-        var start = Date.now() + (milisecondsInADay * 2);
-        var end = Date.now() + (milisecondsInADay * 10);
-        var cal = new Calendar(start, end);
+        var cal = new Calendar(in2Days, in10Days);
         var result = cal.progress();
         assert.ok(result === 0, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: progress() returns 0 | start day is today", function (assert) {
-        var end = Date.now() + (milisecondsInADay * 10);
-        var cal = new Calendar(Date.now(), end);
+        var cal = new Calendar(Date.now(), in10Days);
         var result = cal.progress();
         assert.ok(result === 0, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: progress() returns 100 | end date has passed", function (assert) {
-        var start = Date.now() - (milisecondsInADay * 20);
-        var end = Date.now() - (milisecondsInADay * 2);
-        var cal = new Calendar(start, end);
+        var cal = new Calendar(daysAgo20, daysAgo2);
         var result = cal.progress();
         assert.ok(result === 100, "Result was " + result);
     });
 
     QUnit.test("Test Calendar: progress() returns 100 | end date is today", function (assert) {
-        var start = Date.now() - (milisecondsInADay * 20);
-        var cal = new Calendar(start, Date.now());
+        var cal = new Calendar(daysAgo20, Date.now());
         var result = cal.progress();
         assert.ok(result === 100, "Result was " + result);
     });

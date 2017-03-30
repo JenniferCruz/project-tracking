@@ -33,10 +33,10 @@ var viewModel = new LocationsViewModel();
 ko.applyBindings(viewModel);
 
 // TODO: remove these when ready
-viewModel.sprint.update(jsonSprint);
-viewModel.analysis.update(jsonSprint);
-viewModel.code.update(jsonJenkins);
-viewModel.code.update(jsonSonar);
+// viewModel.sprint.update(jsonSprint);
+// viewModel.analysis.update(jsonSprint);
+// viewModel.code.update(jsonJenkins);
+// viewModel.code.update(jsonSonar);
 
 // setInterval(function(){
 //      // TODO: Add proper request URLs
@@ -57,11 +57,11 @@ viewModel.code.update(jsonSonar);
 //
 //  }, 100); // TODO: Add a proper timing?
 
-document.addEventListener('DOMContentLoaded', function () {
-    var flip = document.getElementById('flip');
-    setInterval(function () {
-        flip.classList.toggle('flipping');
-    }, 8000);
-});
+// document.addEventListener('DOMContentLoaded', function () {
+//     var flip = document.getElementById('flip');
+//     setInterval(function () {
+//         flip.classList.toggle('flipping');
+//     }, 8000);
+// });
 
 // TODO: ! Implement 'snapshots'
