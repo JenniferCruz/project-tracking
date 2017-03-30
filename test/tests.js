@@ -1,30 +1,50 @@
 // TESTS ON APP's status
-QUnit.module("App", function() {
+QUnit.module("App", function(hooks) {
+
+    var vModel;
+
+    hooks.beforeEach(function () {
+        vModel = new LocationsViewModel();
+    });
 
     QUnit.test("App's status is 4 when code, analysis and sprint are in ideal status", function (assert) {
-        var vModel = new LocationsViewModel();
         vModel.sprint.update(jsonSprintIdeal);
         vModel.analysis.update(jsonSprintIdeal);
         vModel.code.update(jsonJenkinsIdeal);
         vModel.code.update(jsonSonarIdeal);
-
         assert.equal(vModel.statusAvr(), 4, "Status average must be 4. Was " + vModel.statusAvr());
     });
 
     QUnit.test("App's status is 4 when code and analysis are in ideal status, and sprint at early stage", function (assert) {
-
+        vModel.sprint.update(jsonSprintEarly);
+        vModel.analysis.update(jsonSprintEarly);
+        vModel.code.update(jsonJenkinsIdeal);
+        vModel.code.update(jsonSonarIdeal);
+        assert.equal(vModel.statusAvr(), 4, "Status average must be 4. Was " + vModel.statusAvr());
     });
 
-    QUnit.test("App's status is 3", function (assert) {
-
+    QUnit.test("App's status is equal to or more than 3 and less than 4", function (assert) {
+        vModel.sprint.update(jsonSprintOk);
+        vModel.analysis.update(jsonSprintOk);
+        vModel.code.update(jsonJenkinsBad);
+        vModel.code.update(jsonSonarBad);
+        assert.ok((vModel.statusAvr() >= 3 && vModel.statusAvr() < 4), "Status average must be between 3 and 4. Was " + vModel.statusAvr());
     });
 
-    QUnit.test("App's status is 2", function (assert) {
-
+    QUnit.test("App's status is equal to or more than 2 and less than 3", function (assert) {
+        vModel.sprint.update(jsonSprintBad);
+        vModel.analysis.update(jsonSprintBad);
+        vModel.code.update(jsonJenkinsBad);
+        vModel.code.update(jsonSonarBad);
+        assert.ok((vModel.statusAvr() >= 2 && vModel.statusAvr() < 3), "Status average must be between 2 and 3. Was " + vModel.statusAvr());
     });
 
-    QUnit.test("App's status is 1", function (assert) {
-
+    QUnit.test("App's status is less than 2", function (assert) {
+        vModel.sprint.update(jsonSprintDanger);
+        vModel.analysis.update(jsonSprintDanger);
+        vModel.code.update(jsonJenkinsDanger);
+        vModel.code.update(jsonSonarDanger);
+        assert.ok((vModel.statusAvr() >= 1 && vModel.statusAvr() < 2), "Status average must be less than 2. Was " + vModel.statusAvr());
     });
 });
 
@@ -36,7 +56,7 @@ QUnit.module("Calendar", function (hooks) {
     var in10Days;
     var today;
 
-    hooks.beforeEach( function( assert ) {
+    hooks.beforeEach( function() {
         today = Date.now();
         daysAgo20 = today - (milisecondsInADay * 20);
         daysAgo10 = today - (milisecondsInADay * 10);
