@@ -54,7 +54,7 @@ function Sprint() {
         return self.status() === 1;
     });
     self.isTooEarly = ko.computed(function () {
-        return self._calendar.isTooEarly();
+        return self._calendar ? self._calendar.isTooEarly() : true;
     });
 
 
