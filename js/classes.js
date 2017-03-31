@@ -1,6 +1,6 @@
 // CLASSES
 // TODO: Implement an status/grade method on each class, to work with propject stats
-function Sprint() {
+function Sprint(jsonStr) {
     var self = this;
     // DATA
     self.stages = ko.observableArray([]);
@@ -29,17 +29,6 @@ function Sprint() {
     });
 
     // BEHAVIOR
-    self.update = function (jsonStr) {
-        var obj = JSON.parse(jsonStr);
-        if (!self._calendar)
-            self._calendar = new Calendar(obj.startDate, obj.endDate);
-
-        self._createStages(obj.allStatus);
-        self.daysLeft(self._calendar.getDaysLeft());
-        self._updateComplexityPointsInStages(obj.pointsPerState);
-        self._updateStatus();
-    };
-
     // Functions used by UI's prgress bar for styles
     self.isExpectedProgress = ko.computed(function () {
         return self.status() === 4;
@@ -59,13 +48,6 @@ function Sprint() {
 
     self.grade = ko.computed(function () {
         // returns a number in the range [0,1]
-        console.log("in sprint.grade()");
-        console.log(self.isTooEarly());
-        console.log(self.progress());
-        if (self._calendar)
-            console.log(self._calendar.progress());
-        console.log("_____________");
-
         if (self.isTooEarly() || self.progress() > self._calendar.progress())
             return 1;
         return self.progress() / self._calendar.progress();
@@ -116,6 +98,19 @@ function Sprint() {
                 self.status(1);
         }
     };
+
+
+    // self.update = function (jsonStr) {
+
+    var obj = jsonStr ? JSON.parse(jsonStr) : {startDate: null, endDate: null, allStatus: [], pointsPerState: {}}; // TODO: ?
+    self._calendar = new Calendar(obj.startDate, obj.endDate);
+    self._createStages(obj.allStatus);
+    self.daysLeft(self._calendar.getDaysLeft());
+    self._updateComplexityPointsInStages(obj.pointsPerState);
+    self._updateStatus();
+    // };
+
+
 
     return self;
 }

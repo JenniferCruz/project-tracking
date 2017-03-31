@@ -1,25 +1,25 @@
 QUnit.module("Sprint", function(hooks) {
     var sprint;
 
-    hooks.beforeEach(function () {
-        sprint = new Sprint();
-    });
+    // hooks.beforeEach(function () {
+        // sprint = new Sprint();
+    // });
 
     QUnit.module("'s calendar", function () {
         QUnit.test("is defined when sprint.update(...) is called.", function (assert) {
-            sprint.update(jsonSprintEarly);
+            sprint = new Sprint(jsonSprintEarly);
             assert.ok(sprint._calendar, "sprint's calendar object must be defined. Was " + sprint._calendar);
         });
     });
 
     QUnit.module("'s isTooEarly()", function () {
         QUnit.test("is true when Sprint is starting today and end date is at least 4 days apart", function (assert) {
-            sprint.update(jsonSprintEarly);
+            sprint = new Sprint(jsonSprintEarly);
             assert.ok(sprint.isTooEarly(), "must return true. Returned " + sprint.isTooEarly());
-        })
+        });
 
         QUnit.test("is false when Sprint started already and end date ..............", function (assert) {
-            sprint.update(jsonSprintDanger);
+            sprint = new Sprint(jsonSprintDanger);
             assert.notOk(sprint.isTooEarly(), "must return false. Returned " + sprint.isTooEarly());
         })
 
@@ -28,28 +28,27 @@ QUnit.module("Sprint", function(hooks) {
     QUnit.module("'s grade()", function () {
         // TODO: Are those values relevant?
         QUnit.test("is 1 when Sprint's early.", function (assert) {
-            sprint.update(jsonSprintEarly);
+            sprint = new Sprint(jsonSprintEarly);
             assert.equal(sprint.grade(), 1, "Sprint's grade must be 1. Was " + sprint.grade());
         });
 
         QUnit.test("is 1 when Sprint's ideal", function (assert) {
-            sprint.update(jsonSprintIdeal);
+            sprint = new Sprint(jsonSprintIdeal);
             assert.equal(sprint.grade(), 1, "Sprint's grade must be 1. Was " + sprint.grade());
         });
 
         QUnit.test("is >= 0.8 when Sprint's ok", function (assert) {
-            sprint.update(jsonSprintOk);
+            sprint = new Sprint(jsonSprintOk);
             assert.ok(sprint.grade() >= 0.8 && sprint.grade() < 1, "Sprint's grade must be >= 0.8. Was " + sprint.grade());
         });
 
         QUnit.test("is >= 0.6 when Sprint's bad", function (assert) {
-            sprint.update(jsonSprintBad);
+            sprint = new Sprint(jsonSprintBad);
             assert.ok(sprint.grade() >= 0.6 && sprint.grade() < 0.8, "Sprint's grade must be >= 0.6. Was " + sprint.grade());
         });
 
         QUnit.test("is < 0.6 when Sprint's in Danger", function (assert) {
-            console.log("testing sprint in danger!");
-            sprint.update(jsonSprintDanger);
+            sprint = new Sprint(jsonSprintDanger);
             assert.ok(sprint.grade() < 0.6, "Sprint's grade must be < 0.6. Was " + sprint.grade());
         });
 
@@ -65,7 +64,7 @@ QUnit.module("App", function(hooks) {
     });
 
     QUnit.test("'s status is 4 when code, analysis and sprint are in ideal status", function (assert) {
-        vModel.sprint.update(jsonSprintIdeal);
+        vModel.sprint = new Sprint(jsonSprintIdeal);
         vModel.analysis.update(jsonSprintIdeal);
         vModel.code.update(jsonJenkinsIdeal);
         vModel.code.update(jsonSonarIdeal);
@@ -73,7 +72,7 @@ QUnit.module("App", function(hooks) {
     });
 
     QUnit.test("'s status is 4 when code and analysis are in ideal status, and sprint at early stage", function (assert) {
-        vModel.sprint.update(jsonSprintEarly);
+        vModel.sprint = new Sprint(jsonSprintEarly);
         vModel.analysis.update(jsonSprintEarly);
         vModel.code.update(jsonJenkinsIdeal);
         vModel.code.update(jsonSonarIdeal);
@@ -81,7 +80,7 @@ QUnit.module("App", function(hooks) {
     });
 
     QUnit.test("'s status is equal to or more than 3 and less than 4", function (assert) {
-        vModel.sprint.update(jsonSprintOk);
+        vModel.sprint = new Sprint(jsonSprintOk);
         vModel.analysis.update(jsonSprintOk);
         vModel.code.update(jsonJenkinsBad);
         vModel.code.update(jsonSonarBad);
@@ -89,7 +88,7 @@ QUnit.module("App", function(hooks) {
     });
 
     QUnit.test("'s status is equal to or more than 2 and less than 3", function (assert) {
-        vModel.sprint.update(jsonSprintBad);
+        vModel.sprint = new Sprint(jsonSprintBad);
         vModel.analysis.update(jsonSprintBad);
         vModel.code.update(jsonJenkinsBad);
         vModel.code.update(jsonSonarBad);
@@ -97,7 +96,7 @@ QUnit.module("App", function(hooks) {
     });
 
     QUnit.test("'s status is less than 2", function (assert) {
-        vModel.sprint.update(jsonSprintDanger);
+        vModel.sprint = new Sprint(jsonSprintDanger);
         vModel.analysis.update(jsonSprintDanger);
         vModel.code.update(jsonJenkinsDanger);
         vModel.code.update(jsonSonarDanger);

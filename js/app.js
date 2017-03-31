@@ -30,9 +30,10 @@ var LocationsViewModel = function () {
 
 var viewModel = new LocationsViewModel();
 ko.applyBindings(viewModel);
+// viewModel.sprint.update(jsonSprint);
 
 // TODO: remove these when ready
-// viewModel.sprint.update(jsonSprint);
+// viewModel.sprint = new Sprint(jsonSprint);
 // viewModel.analysis.update(jsonSprint);
 // viewModel.code.update(jsonJenkins);
 // viewModel.code.update(jsonSonar);
