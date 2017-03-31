@@ -176,13 +176,7 @@ function Analysis(jsonStr) {
     self.pointsReadyToDev = ko.observable(obj.pointsReadyToDev);
     self.healthBase = 40; // TODO: * Supply the real base
 
-    self.failed = ko.computed(function() {
-        return self.pointsReadyToDev() < self.healthBase; // TODO: when is it really failed?
-    });
-
     self.status = ko.computed(function () {
-        if (self.failed())
-            return 1;
         if (self.pointsReadyToDev() === self.healthBase)
             return 3;
         return 4;
@@ -190,11 +184,11 @@ function Analysis(jsonStr) {
 
     self.grade = ko.computed(function () {
         // returns a decimal number in the range [0, 1]
-        if(!self.failed() && self.pointsReadyToDev() > self.healthBase)
-            return 1;
-        var failedQuota = self.failed() ? 0 : .5;
-        var pointsReadyToDevQuota = 0;
-        return failedQuota + pointsReadyToDevQuota;
+        // if(!self.failed() && self.pointsReadyToDev() > self.healthBase)
+        //     return 1;
+        // var failedQuota = self.failed() ? 0 : .5;
+        // var pointsReadyToDevQuota = 0;
+        // return failedQuota + pointsReadyToDevQuota;
     });
 
 }

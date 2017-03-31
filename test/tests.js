@@ -2,7 +2,7 @@ QUnit.module("Analysis", function () {
     var analysis;
 
     QUnit.module("grade()", function () {
-        QUnit.test("", function (assert) {
+        QUnit.test("returns 1 when Sprint is ", function (assert) {
             analysis = new Analysis(jsonSprintEarly);
             assert.ok(true);
         });

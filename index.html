@@ -64,20 +64,20 @@
 
         <!-- ANALYSIS PANEL -->
         <div id="analysis" class="panel panel-default col-lg-5 col-md-5"
-           data-bind="css: {'board-success': !analysis.failed(), 'board-in-danger': analysis.failed()}">
-          <div data-bind="css: {'board-header-success': !analysis.failed(), 'board-header-in-danger': analysis.failed()}">
+           data-bind="css: {'board-success': analysis.status() === 4, 'board-in-danger': analysis.status() === 3}"> <!-- TODO: change this css binding-->
+          <div data-bind="css: {'board-header-success': analysis.status() === 4, 'board-header-in-danger': analysis.status() === 3}">
               <h2>Backlog Health</h2>
               <i class="panel-heading-icon glyphicon glyphicon-align-right"></i>
           </div>
         <div class="panel-body analysis-content">
             <div class="analysis-status-icon">
-                <span class="glyphicon glyphicon-ok-circle analysis-glyphicon text-ideal" data-bind="visible: !analysis.failed()"></span>
-                <span class="glyphicon glyphicon-fire analysis-glyphicon text-in-danger" data-bind="visible: analysis.failed()"></span>
+                <span class="glyphicon glyphicon-ok-circle analysis-glyphicon text-ideal" data-bind="visible: analysis.status() === 4"></span> <!-- TODO: change icons and/or visibility crriteria -->
+                <span class="glyphicon glyphicon-fire analysis-glyphicon text-in-danger" data-bind="visible: analysis.status() === 3"></span>
             </div>
             <div class="analysis-data">
                 <!--TODO: Make 60/40 a huge number and give 40 a number that contrast better with red, maybe just transparency-->
                 <em class="metric" data-bind="text: analysis.pointsReadyToDev,
-                    css: {'text-ideal': !analysis.failed(), 'text-in-danger': analysis.failed()}"></em>
+                    css: {'text-ideal': analysis.status() === 4, 'text-in-danger': analysis.status() === 3}"></em> <!-- TODO: change bindings-->
                 <em data-bind="text: ' / ' + analysis.healthBase, style: {color: 'darkgray', fontSize: '0.75em'}"></em>
                 <p>estimated stories</p>
             </div>
@@ -132,11 +132,12 @@
       </div>
 
         <!-- TEAM PANEL -->
+        <!-- TODO: rethink analysis bindings -->
         <div id="team" class="panel panel-default col-lg-5 col-md-5"
-             data-bind="css: {'board-success': code.isIdeal() && !analysis.failed() && sprint.isExpectedProgress(),
-                              'board-ok': code.isOk() && !analysis.failed() && sprint.isOKProgress(),
-                              'board-bad': code.isBad() || analysis.failed() || sprint.isBadProgress(),
-                              'board-in-danger': code.isInDanger() || analysis.failed() || sprint.isInDangerProgress()}">
+             data-bind="css: {'board-success': code.isIdeal() && analysis.status() === 4 && sprint.isExpectedProgress(),
+                              'board-ok': code.isOk() &&  analysis.status() === 4 && sprint.isOKProgress(),
+                              'board-bad': code.isBad() ||  analysis.status() === 3 || sprint.isBadProgress(),
+                              'board-in-danger': code.isInDanger() ||  analysis.status() === 3 || sprint.isInDangerProgress()}">
             <!--<div data-bind="css: {'board-header-success': code.isIdeal() && !analysis.failed() && sprint.isExpectedProgress(), -->
                                   <!--'board-header-ok': code.isOk() && !analysis.failed() && sprint.isOKProgress(),-->
                                   <!--'board-header-bad': code.isBad() || analysis.failed() || sprint.isBadProgress(), -->
