@@ -53,7 +53,8 @@ function Sprint(jsonStr) {
         // returns a number in the range [0,1]
         if (self.isTooEarly() || self.progress() > self._calendar.progress())
             return 1;
-        return self.progress() / self._calendar.progress();
+        var balancingFactor = (self._calendar.progress() - self.progress())/100;
+        return (self.progress() / self._calendar.progress()) - balancingFactor;
     });
 
     self._createStages = function (status) {

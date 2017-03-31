@@ -72,7 +72,7 @@ var jsonSprintDanger = '{"allStatus":["To Do","In Dev","Code Review","Desk Check
 
 
 
-// console.log("HELPER");
+console.log("HELPER");
 // console.log("________");
 // console.log("Early");
 // var sprEarly = new Sprint();
@@ -92,9 +92,10 @@ var jsonSprintDanger = '{"allStatus":["To Do","In Dev","Code Review","Desk Check
 // console.log("________");
 // console.log("Bad");
 //
-// var sprBad = new Sprint();
-// sprBad.update(jsonSprintBad);
-// console.log("progress: " + sprBad.progress() + "; status: " + sprBad.status());
+// var sprBad = new Sprint(jsonSprintBad);
+// console.log("progress: " + sprBad.progress() + "; status: " + sprBad.status() + "; grade: " + sprBad.grade());
+// console.log("   sprBad.isTooEarly() -> " + sprBad.isTooEarly());
+// console.log("   sprBad._calendar.progress() -> " + sprBad._calendar.progress());
 // console.log("________");
 // console.log("danger");
 //
