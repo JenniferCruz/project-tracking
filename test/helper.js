@@ -72,7 +72,7 @@ var jsonSprintDanger = '{"allStatus":["To Do","In Dev","Code Review","Desk Check
 
 
 
-console.log("HELPER");
+// console.log("HELPER");
 // console.log("________");
 // console.log("Early");
 // var sprEarly = new Sprint();

@@ -1,4 +1,4 @@
-var sprintJsonTemplate = {startDate: Date.now(), endDate: Date.now(), allStatus: [], pointsPerState: []};
+var sprintJsonTemplate = {startDate: Date.now(), endDate: Date.now(), allStatus: [], pointsPerState: [], pointsReadyToDev: 0};
 
 // CLASSES
 // TODO: Implement an status/grade method on each class, to work with propject stats
@@ -169,16 +169,12 @@ function Calendar(from, to) {
 }
 
 
-function Analysis() {
+function Analysis(jsonStr) {
     var self = this;
+    var obj = jsonStr ? JSON.parse(jsonStr) : sprintJsonTemplate;
 
-    self.pointsReadyToDev = ko.observable();
+    self.pointsReadyToDev = ko.observable(obj.pointsReadyToDev);
     self.healthBase = 40; // TODO: * Supply the real base
-
-    self.update = function (jsonStr) {
-        var obj = JSON.parse(jsonStr);
-        self.pointsReadyToDev(obj.pointsReadyToDev);
-    };
 
     self.failed = ko.computed(function() {
         return self.pointsReadyToDev() < self.healthBase; // TODO: when is it really failed?
@@ -190,6 +186,15 @@ function Analysis() {
         if (self.pointsReadyToDev() === self.healthBase)
             return 3;
         return 4;
+    });
+
+    self.grade = ko.computed(function () {
+        // returns a decimal number in the range [0, 1]
+        if(!self.failed() && self.pointsReadyToDev() > self.healthBase)
+            return 1;
+        var failedQuota = self.failed() ? 0 : .5;
+        var pointsReadyToDevQuota = 0;
+        return failedQuota + pointsReadyToDevQuota;
     });
 
 }

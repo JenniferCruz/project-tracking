@@ -1,9 +1,32 @@
+QUnit.module("Analysis", function () {
+    var analysis;
+
+    QUnit.module("grade()", function () {
+        QUnit.test("", function (assert) {
+            analysis = new Analysis(jsonSprintEarly);
+            assert.ok(true);
+        });
+        QUnit.test("", function (assert) {
+            analysis = new Analysis(jsonSprintEarly);
+            assert.ok(true);
+        });
+        QUnit.test("", function (assert) {
+            analysis = new Analysis(jsonSprintEarly);
+            assert.ok(true);
+        });
+        QUnit.test("", function (assert) {
+            analysis = new Analysis(jsonSprintEarly);
+            assert.ok(true);
+        });
+        QUnit.test("", function (assert) {
+            analysis = new Analysis(jsonSprintEarly);
+            assert.ok(true);
+        });
+    });
+});
+
 QUnit.module("Sprint", function(hooks) {
     var sprint;
-
-    // hooks.beforeEach(function () {
-        // sprint = new Sprint();
-    // });
 
     QUnit.module("'s calendar", function () {
         QUnit.test("is defined when sprint.update(...) is called.", function (assert) {
@@ -65,7 +88,7 @@ QUnit.module("App", function(hooks) {
 
     QUnit.test("'s status is 4 when code, analysis and sprint are in ideal status", function (assert) {
         vModel.sprint = new Sprint(jsonSprintIdeal);
-        vModel.analysis.update(jsonSprintIdeal);
+        vModel.analysis =new Analysis(jsonSprintIdeal);
         vModel.code.update(jsonJenkinsIdeal);
         vModel.code.update(jsonSonarIdeal);
         assert.equal(vModel.statusAvr(), 4, "Status average must be 4. Was " + vModel.statusAvr());
@@ -73,7 +96,7 @@ QUnit.module("App", function(hooks) {
 
     QUnit.test("'s status is 4 when code and analysis are in ideal status, and sprint at early stage", function (assert) {
         vModel.sprint = new Sprint(jsonSprintEarly);
-        vModel.analysis.update(jsonSprintEarly);
+        vModel.analysis = new Analysis(jsonSprintEarly);
         vModel.code.update(jsonJenkinsIdeal);
         vModel.code.update(jsonSonarIdeal);
         assert.equal(vModel.statusAvr(), 4, "Status average must be 4. Was " + vModel.statusAvr());
@@ -81,7 +104,7 @@ QUnit.module("App", function(hooks) {
 
     QUnit.test("'s status is equal to or more than 3 and less than 4", function (assert) {
         vModel.sprint = new Sprint(jsonSprintOk);
-        vModel.analysis.update(jsonSprintOk);
+        vModel.analysis = new Analysis(jsonSprintOk);
         vModel.code.update(jsonJenkinsBad);
         vModel.code.update(jsonSonarBad);
         assert.ok((vModel.statusAvr() >= 3 && vModel.statusAvr() < 4), "Status average must be between 3 and 4. Was " + vModel.statusAvr());
@@ -89,7 +112,7 @@ QUnit.module("App", function(hooks) {
 
     QUnit.test("'s status is equal to or more than 2 and less than 3", function (assert) {
         vModel.sprint = new Sprint(jsonSprintBad);
-        vModel.analysis.update(jsonSprintBad);
+        vModel.analysis = new Analysis(jsonSprintBad);
         vModel.code.update(jsonJenkinsBad);
         vModel.code.update(jsonSonarBad);
         assert.ok((vModel.statusAvr() >= 2 && vModel.statusAvr() < 3), "Status average must be between 2 and 3. Was " + vModel.statusAvr());
@@ -97,7 +120,7 @@ QUnit.module("App", function(hooks) {
 
     QUnit.test("'s status is less than 2", function (assert) {
         vModel.sprint = new Sprint(jsonSprintDanger);
-        vModel.analysis.update(jsonSprintDanger);
+        vModel.analysis = new Analysis(jsonSprintDanger);
         vModel.code.update(jsonJenkinsDanger);
         vModel.code.update(jsonSonarDanger);
         assert.ok((vModel.statusAvr() >= 1 && vModel.statusAvr() < 2), "Status average must be less than 2. Was " + vModel.statusAvr());
