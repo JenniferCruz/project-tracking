@@ -1,3 +1,66 @@
+QUnit.module("Code", function () {
+    QUnit.module("grade()", function () {
+        var code;
+
+        QUnit.test("returns 1 when health is 100%, bill is not broken, coverage > 95% and there are no major or critical bugs", function (assert) {
+            code = new Code();
+            code.update('{ "health": 100, "failed": false}');
+            code.update('{"coverage":99, "majors":0, "criticals":0}');
+            var grade = code.grade();
+            assert.equal(grade, 1, "must be 1. Received " + grade);
+        });
+
+        QUnit.test("returns 0 when health is 0%", function (assert) {
+            code = new Code();
+            code.update('{ "health": 0, "failed": false}');
+            code.update('{"coverage":99, "majors":0, "criticals":0}');
+            var grade = code.grade();
+            assert.equal(grade, 0, "must be 0. Received " + grade);
+        });
+
+        QUnit.test("returns 0 when bill is broken (failed === true)", function (assert) {
+            code = new Code();
+            code.update('{ "health": 100, "failed": true}');
+            code.update('{"coverage":99, "majors":0, "criticals":0}');
+            var grade = code.grade();
+            assert.equal(grade, 0, "must be 0. Received " + grade);
+        });
+
+        QUnit.test("returns 0 when coverage is 0%", function (assert) {
+            code = new Code();
+            code.update('{ "health": 100, "failed": false}');
+            code.update('{"coverage":0, "majors":0, "criticals":0}');
+            var grade = code.grade();
+            assert.equal(grade, 0, "must be 0. Received " + grade);
+        });
+
+        QUnit.test("returns 0 when health is there are more than 10 critical bugs", function (assert) {
+            code = new Code();
+            code.update('{ "health": 100, "failed": false}');
+            code.update('{"coverage":99, "majors":0, "criticals":10}');
+            var grade = code.grade();
+            assert.equal(grade, 0, "must be 0. Received " + grade);
+        });
+
+        QUnit.test("returns < 0.5 when bill is not broken, health and coverage are low, major bugs is high and there's at least a critical bug", function (assert) {
+            code = new Code();
+            code.update('{ "health": 10, "failed": false}');
+            code.update('{"coverage":19, "majors":10, "criticals":2}');
+            var grade = code.grade();
+            assert.ok(grade < 0.5, "must be ?. Received " + grade);
+        });
+
+        QUnit.test("returns > 50 when bill is not broken, health and coverage are high, major bugs is low and there's  no critical bug", function (assert) {
+            code = new Code();
+            code.update('{ "health": 90, "failed": false}');
+            code.update('{"coverage":99, "majors":3, "criticals":0}');
+            var grade = code.grade();
+            assert.ok(grade > 0.5, "must be ?. Received " + grade);
+        });
+
+    });
+});
+
 QUnit.module("Analysis", function () {
     var analysis;
 

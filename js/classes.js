@@ -272,6 +272,11 @@ function Code() {
         return 1;
     });
 
+    self.grade = ko.computed(function () {
+        // TODO:
+        return 0;
+    });
+
     return self;
 }
 
