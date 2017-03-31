@@ -274,7 +274,14 @@ function Code() {
 
     self.grade = ko.computed(function () {
         // TODO:
-        return 0;
+        if (self.failed() || self.health() === 0 || self.coverage() === 0 || self.criticBugs() > 9)
+            return 0;
+        var mb = (self.majorBugs() * 10) / 100;
+        var cb = (self.criticBugs() * 10) / 100; // the lower the higher should be
+        var cvrg = self.coverage() / 100;
+        var hth = self.health() / 100;
+
+        return (mb + cb + cvrg + hth) /4;
     });
 
     return self;

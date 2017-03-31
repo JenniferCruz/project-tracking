@@ -47,15 +47,15 @@ QUnit.module("Code", function () {
             code.update('{ "health": 10, "failed": false}');
             code.update('{"coverage":19, "majors":10, "criticals":2}');
             var grade = code.grade();
-            assert.ok(grade < 0.5, "must be ?. Received " + grade);
+            assert.ok(grade < 0.5, "must be < 0.5. Received " + grade);
         });
 
-        QUnit.test("returns > 50 when bill is not broken, health and coverage are high, major bugs is low and there's  no critical bug", function (assert) {
+        QUnit.test("returns > 0.5 when bill is not broken, health and coverage are high, major bugs is low and there's  no critical bug", function (assert) {
             code = new Code();
             code.update('{ "health": 90, "failed": false}');
             code.update('{"coverage":99, "majors":3, "criticals":0}');
             var grade = code.grade();
-            assert.ok(grade > 0.5, "must be ?. Received " + grade);
+            assert.ok(grade > 0.5, "must be > 0.5. Received " + grade);
         });
 
     });

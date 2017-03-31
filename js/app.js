@@ -28,6 +28,15 @@ var LocationsViewModel = function () {
 
 };
 
+function mergeJSON(json1, json1) {
+    var result = {};
+    for(var key in json1)
+        result[key] = json1[key];
+    for(var key in json2)
+        result[key] = json2[key];
+    return result;
+}
+
 var viewModel = new LocationsViewModel();
 ko.applyBindings(viewModel);
 // viewModel.sprint.update(jsonSprint);
