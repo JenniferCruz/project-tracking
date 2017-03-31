@@ -36,7 +36,7 @@ var jsonSprintEarly = '{"allStatus":["To Do","In Dev","Code Review","Desk Check"
     '"committedPoints":28,' +
     '"currentSprint":9,' +
     '"startDate":' + today + ',"endDate":'+ in2Weeks + ','+
-    '"pointsReadyToDev":100}';
+    '"pointsReadyToDev":40}';
 
 // the Sprint is 'ideal' if its actual progress is the same or above expected
 var jsonSprintIdeal = '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Ready for QA","In QA","Ready for Sign Off","Done"],' +
@@ -52,7 +52,7 @@ var jsonSprintOk =  '{"allStatus":["To Do","In Dev","Code Review","Desk Check","
     '"committedPoints":28,' +
     '"currentSprint":9,' +
     '"startDate":' + daysAgo10 + ',"endDate":'+ in5Days + ','+
-    '"pointsReadyToDev":80}';
+    '"pointsReadyToDev":35}';
 
 // the Sprint is 'bad' if its actual progress deviates no more than 25% from what's expected
 var jsonSprintBad =  '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Ready for QA","In QA","Ready for Sign Off","Done"],' +
@@ -60,7 +60,7 @@ var jsonSprintBad =  '{"allStatus":["To Do","In Dev","Code Review","Desk Check",
     '"committedPoints":28,' +
     '"currentSprint":9,' +
     '"startDate":' + daysAgo10 + ',"endDate":'+ in5Days + ','+
-    '"pointsReadyToDev":40}';
+    '"pointsReadyToDev":20}';
 
 // the Sprint is 'inDanger' if its actual progress deviates more than 25% from what's expected
 var jsonSprintDanger = '{"allStatus":["To Do","In Dev","Code Review","Desk Check","Ready for QA","In QA","Ready for Sign Off","Done"],' +
@@ -68,8 +68,7 @@ var jsonSprintDanger = '{"allStatus":["To Do","In Dev","Code Review","Desk Check
     '"committedPoints":28,' +
     '"currentSprint":9,' +
     '"startDate":' + daysAgo10 + ',"endDate":'+ in5Days + ','+
-    '"pointsReadyToDev":10}';
-
+    '"pointsReadyToDev":12}';
 
 
 // console.log("HELPER");

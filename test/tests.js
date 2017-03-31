@@ -2,25 +2,35 @@ QUnit.module("Analysis", function () {
     var analysis;
 
     QUnit.module("grade()", function () {
-        QUnit.test("returns 1 when Sprint is ", function (assert) {
-            analysis = new Analysis(jsonSprintEarly);
-            assert.ok(true);
+        QUnit.test("returns 1 when there are more pointsReadyToDev than healthBase", function (assert) {
+            analysis = new Analysis('{"pointsReadyToDev":100}');
+            var grade = analysis.grade();
+            assert.equal(1, grade, "must receive 1. Received " + grade);
         });
-        QUnit.test("", function (assert) {
-            analysis = new Analysis(jsonSprintEarly);
-            assert.ok(true);
+        QUnit.test("returns 1 when there are as many pointsReadyToDev as healthBase", function (assert) {
+            analysis = new Analysis('{"pointsReadyToDev":40}');
+            var grade = analysis.grade();
+            assert.equal(1, grade, "must receive 1. Received " + grade);
         });
-        QUnit.test("", function (assert) {
-            analysis = new Analysis(jsonSprintEarly);
-            assert.ok(true);
+        QUnit.test("returns 0 when there are 0 pointsReadyToDev", function (assert) {
+            analysis = new Analysis('{"pointsReadyToDev":0}');
+            var grade = analysis.grade();
+            assert.equal(0, grade, "must receive 1. Received " + grade);
         });
-        QUnit.test("", function (assert) {
-            analysis = new Analysis(jsonSprintEarly);
-            assert.ok(true);
+        QUnit.test("returns 0.5 when there are half pointsReadyToDev than healthBase", function (assert) {
+            analysis = new Analysis('{"pointsReadyToDev":20}');
+            var grade = analysis.grade();
+            assert.equal(0.5, grade, "must receive 1. Received " + grade);
         });
-        QUnit.test("", function (assert) {
-            analysis = new Analysis(jsonSprintEarly);
-            assert.ok(true);
+        QUnit.test("returns a number in the range (0.5, 1) when pointsReadyToDev are more than half healthBase ", function (assert) {
+            analysis = new Analysis('{"pointsReadyToDev":35}');
+            var grade = analysis.grade();
+            assert.ok(grade > 0.5 && grade < 1, "must receive 1. Received " + grade);
+        });
+        QUnit.test("returns a number in the range (0, 0.5) when pointsReadyToDev are less than half healthBase ", function (assert) {
+            analysis = new Analysis('{"pointsReadyToDev":12}');
+            var grade = analysis.grade();
+            assert.ok(grade > 0 && grade < 0.5, "must receive 1. Received " + grade);
         });
     });
 });

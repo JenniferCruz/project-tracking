@@ -184,11 +184,9 @@ function Analysis(jsonStr) {
 
     self.grade = ko.computed(function () {
         // returns a decimal number in the range [0, 1]
-        // if(!self.failed() && self.pointsReadyToDev() > self.healthBase)
-        //     return 1;
-        // var failedQuota = self.failed() ? 0 : .5;
-        // var pointsReadyToDevQuota = 0;
-        // return failedQuota + pointsReadyToDevQuota;
+        if(self.pointsReadyToDev() > self.healthBase)
+            return 1;
+        return self.pointsReadyToDev() / self.healthBase;
     });
 
 }
