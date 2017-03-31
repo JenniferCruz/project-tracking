@@ -25,6 +25,48 @@ var LocationsViewModel = function () {
         })
     };
 
+    self.update = function () {
+        // DEV: setTimeOuts simulate ajax requests
+        setTimeout(function () {
+            self.sprint = new Sprint();
+        },50);
+        setTimeout(function () {
+            self.analysis = new Analysis();
+        },50);
+
+        Promise.all(
+            setTimeout(function () {return {a: 'placeholder content'};},50), setTimeout(function() {return {b: 'placeholder content too'}}, 50)
+        ).then(function (jenkinsData, sonnarData) {
+            var data = mergeJSON(jenkinsData, sonnarData);
+            self.code = new Code(data);
+        });
+
+        // PRODUCTION
+        // TODO: Add proper request URLs
+        //    $.get('...', function(data){
+        // ....
+        // viewModel.sprint.update(data);
+        // });
+        //
+        // $.get('...', function(data){
+        // ....
+        // viewModel.analysis.update(data);
+        // });
+        //    $.get('...', function(data){
+        // ....
+        // viewModel.code.update(data);
+        // });
+    };
+
+    self.updateCode = function(jsonSonar, jsonJenkins) {
+        Promise.all(
+            setTimeout(function () {return jsonSonar;},50), setTimeout(function() {return jsonJenkins}, 50)
+        ).then(function (jenkinsData, sonnarData) {
+            var data = mergeJSON(jenkinsData, sonnarData);
+            self.code = new Code(data);
+        });
+    }
+
 
 };
 
@@ -37,35 +79,13 @@ function mergeJSON(json1, json1) {
     return result;
 }
 
-var viewModel = new LocationsViewModel();
-ko.applyBindings(viewModel);
-// viewModel.sprint.update(jsonSprint);
-
-// TODO: remove these when ready
-// viewModel.sprint = new Sprint(jsonSprint);
-// viewModel.analysis.update(jsonSprint);
-// viewModel.code.update(jsonJenkins);
-// viewModel.code.update(jsonSonar);
-
+// COMMENT OUT FOR TESTING
+// var viewModel = new LocationsViewModel();
+// ko.applyBindings(viewModel);
+//
 // setInterval(function(){
-//      // TODO: Add proper request URLs
-//    $.get('...', function(data){
-//        // ....
-//        viewModel.sprint.update(data);
-//    });
-//
-//    $.get('...', function(data){
-//        // ....
-//        viewModel.analysis.update(data);
-//    });
-//
-//    $.get('...', function(data){
-//        // ....
-//        viewModel.code.update(data);
-//    });
-//
+//     viewModel.update();
 //  }, 100); // TODO: Add a proper timing?
-
 // document.addEventListener('DOMContentLoaded', function () {
 //     var flip = document.getElementById('flip');
 //     setInterval(function () {
