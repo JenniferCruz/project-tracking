@@ -1,11 +1,13 @@
+var sprintJsonTemplate = {startDate: Date.now(), endDate: Date.now(), allStatus: [], pointsPerState: []};
+
 // CLASSES
 // TODO: Implement an status/grade method on each class, to work with propject stats
 function Sprint(jsonStr) {
     var self = this;
+    var obj = jsonStr ? JSON.parse(jsonStr) : sprintJsonTemplate; // TODO: what do you think of this?
     // DATA
     self.stages = ko.observableArray([]);
 
-    self.daysLeft = ko.observable();
     // sprint status:
     //  0: is too early to tell
     //  1: sprint is in danger
@@ -14,7 +16,8 @@ function Sprint(jsonStr) {
     //  4: sprint progresses as expected or better
     // This status will be the base to determine progress bar colors
     self.status = ko.observable(4); // default is ideal when the Sprint begins
-    self._calendar;
+    self._calendar = new Calendar(obj.startDate, obj.endDate);
+    self.daysLeft = ko.observable(self._calendar.getDaysLeft());
 
     self.progress = ko.computed(function () {
         // returns a value from 0 to 100, representing the progress status of the Sprint
@@ -99,18 +102,9 @@ function Sprint(jsonStr) {
         }
     };
 
-
-    // self.update = function (jsonStr) {
-
-    var obj = jsonStr ? JSON.parse(jsonStr) : {startDate: null, endDate: null, allStatus: [], pointsPerState: {}}; // TODO: ?
-    self._calendar = new Calendar(obj.startDate, obj.endDate);
     self._createStages(obj.allStatus);
-    self.daysLeft(self._calendar.getDaysLeft());
     self._updateComplexityPointsInStages(obj.pointsPerState);
     self._updateStatus();
-    // };
-
-
 
     return self;
 }
