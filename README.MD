@@ -7,7 +7,7 @@ may undergo __intense refactoring__ in the coming weeks.
 
 The program should connect to an internal
  __Java REST service__ to show a _set of metrics_ 
- provided by tools such as __Gira__, __Jenkins__ and __Sonar__,
+ provided by tools such as __Jira__, __Jenkins__ and __Sonar__,
  for a __Software Development Team__. The backend program is 
  independent of it and is not available in this repository.
 
