@@ -1,5 +1,5 @@
 // CLASSES
-// TODO: Implement an status/grade method on each class, to work with propject stats
+// TODO: Implement an grade() method on each class, to work with app's project stats
 function Sprint() {
     var self = this;
     // DATA
